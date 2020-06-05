@@ -2,29 +2,9 @@
 
 namespace Portal\Validators;
 
-class NameValidator
+class NameValidator extends StringValidator
 {
-    public static function validateExistsAndLength(string $validateName, int $characterLength)
-    {
-        if (empty($validateName) == false && strlen($validateName) <= $characterLength) {
-            return $validateName;
-        } else {
-            throw new \Exception('An input string does not exist or is too long');
-        }
-    }
-
-    public static function validateLength(string $validateName, int $characterLength)
-    {
-        if ($validateName == '') {
-            return null;
-        } elseif (strlen($validateName) <= $characterLength) {
-            return $validateName;
-        } else {
-            throw new \Exception('An input string does not exist or is too long');
-        }
-    }
-
-    public static function sanitiseString($validateName)
+    public static function sanitiseString($validateData)
     {
         $clean = filter_var($validateData, FILTER_SANITIZE_STRING);
         $clean = trim($clean);
