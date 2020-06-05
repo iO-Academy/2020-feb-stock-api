@@ -12,4 +12,5 @@ return function (App $app) {
         return $renderer->render($response, "index.php", $args);
     });
 
+    $app->post('/products', 'AddProductController');
 };
