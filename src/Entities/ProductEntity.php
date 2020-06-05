@@ -15,6 +15,10 @@ class ProductEntity implements IProductEntity
 
     /**
      * ProductEntity constructor.
+     * @param $sku
+     * @param $name
+     * @param $price
+     * @param $stockLevel
      */
     public function __construct($sku, $name, $price, $stockLevel)
     {
