@@ -43,12 +43,6 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Method:**
 
    `PUT`
-   
-*  **URL Params**
- 
-   **Required:**
-  
-   `sku=[string]`
     
 * **Data Params**
 
@@ -107,12 +101,6 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Method:**
 
    `DELETE`
-   
-*  **URL Params**
- 
-   **Required:**
-  
-   `sku=[string]`
 
 * **Success Response:**
  
@@ -136,12 +124,6 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Method:**
 
    `GET`
-
-*  **URL Params**
- 
-   **Required:**
-  
-   `sku=[string]`
 
 * **Success Response:**
  
@@ -168,11 +150,6 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
    `PUT`
    
-*  **URL Params**
- 
-   **Required:**
-  
-   `sku=[string]`
     
 * **Data Params**
 
