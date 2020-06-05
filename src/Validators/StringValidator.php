@@ -14,7 +14,7 @@ abstract class StringValidator
      */
     public static function validateExistsAndLength(string $validateData, int $characterLength)
     {
-        if (empty($validateData) == false && strlen($validateData) <= $characterLength) {
+        if (!empty($validateData) == true && strlen($validateData) <= $characterLength) {
             return $validateData;
         } else {
             throw new \Exception('An input string does not exist or is too long');
