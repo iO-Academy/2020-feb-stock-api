@@ -1,38 +1,171 @@
-# Slim Framework 4 Skeleton Application
+# Warehouse API
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation along with the PHP-View template renderer. It also uses the Monolog logger.
+A warehouse house built by Mayden Academy students that would help employees keep tracking and maintain their stock.
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
-
-## Install the Application
-
-Create a new directory with your project name, e.g:
+[For information on how to set up this API for development click here!](setup.md)
 
 
-```bash
-mkdir academyProject
-```
+**Add a product**
+----
+  Add a product to in order to keep track of it.
 
-Once inside the new directory, clone this repo:
+* **URL**
 
-```bash
-git clone git@github.com:Mayden-Academy/slim4-skeleton.git .
-```
+  /products
 
-One cloned, you must install the slim components by running:
+* **Method:**
+ 
+   `POST`
+ 
+* **Data Params**
 
-```bash
-composer install
-```
+   **applicant** `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}`
 
-To run the application locally:
-```bash
-composer start
+* **Success Response:**
+ 
+  * **Code:** 200 <br />
+    **success:** true <br />
+ 
+* **Error Response:**
 
-```
-Run this command in the application directory to run the test suite
-```bash
-composer test
-```
+  * **Code:** 400 User Error <br />
+    **Content:** `{ error : "SKU provided already exists in Database" }`
 
-That's it! Now go build something cool.
+
+**Edit a product**
+----
+  Edit an existing product.
+
+* **URL**
+
+  /products/{sku}
+
+* **Method:**
+
+   `PUT`
+    
+* **Data Params**
+
+   **applicant** `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}`
+
+* **Success Response:**
+ 
+  * **Code:** 200 <br />
+    **success:** true <br />
+ 
+* **Error Response:**
+
+* **Code:** 400 UNAUTHORIZED <br />
+  **Content:** `{ error : "Cannot make stock level negative" }`
+    
+    or 
+    
+  **Code:** 500 Server Error <br />
+  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+  
+  
+**Get all products**
+----
+  Get all products in the database.
+
+* **URL**
+
+  /products
+
+* **Method:**
+
+   `GET`
+
+* **Success Response:**
+ 
+  * **Code:** 200 <br />
+    **success:** true <br />
+    **data:** `{products:[` <br />
+     `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"},` <br />
+    `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}]}`
+ 
+* **Error Response:**
+    
+  **Code:** 500 Server Error <br />
+  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+  
+  
+**Delete a product**
+----
+  Delete an existing product.
+
+* **URL**
+
+  /products/{sku}
+
+* **Method:**
+
+   `DELETE`
+
+* **Success Response:**
+ 
+  * **Code:** 200 <br />
+    **success:** true <br />
+ 
+* **Error Response:**
+    
+  **Code:** 500 Server Error <br />
+  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+
+
+**Get specified product**
+----
+  Get a product in the database.
+
+* **URL**
+
+  /products/{sku}
+
+* **Method:**
+
+   `GET`
+
+* **Success Response:**
+ 
+  * **Code:** 200 <br />
+    **success:** true <br />
+    **data:** `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}`
+
+* **Error Response:**
+    
+  **Code:** 500 Server Error <br />
+  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+  
+ 
+ 
+**Edit a product's stock level**
+----
+  Edit an existing product.
+
+* **URL**
+
+  /products/{sku}
+
+* **Method:**
+
+   `PUT`
+   
+    
+* **Data Params**
+
+   **applicant** `{sku: "UGG-BB-PNR-98", stockLevel: "8"}`
+
+* **Success Response:**
+ 
+  * **Code:** 200 <br />
+    **success:** true <br />
+ 
+* **Error Response:**
+
+* **Code:** 400 UNAUTHORIZED <br />
+  **Content:** `{ error : "Cannot make stock level negative" }`
+    
+    or 
+    
+  **Code:** 500 Server Error <br />
+  **Content:** `{ error : "An unexpected error occured, please try again later" }`
