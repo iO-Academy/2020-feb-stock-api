@@ -26,8 +26,6 @@ class NameValidator
 
     public static function sanitiseString($validateName)
     {
-        $clean = filter_var($validateData, FILTER_SANITIZE_STRING);
-        $clean = trim($clean);
-        return $clean;
+        return trim(filter_var($validateData, FILTER_SANITIZE_STRING));
     }
 }
