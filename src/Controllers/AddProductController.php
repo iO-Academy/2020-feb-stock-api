@@ -25,13 +25,38 @@ class AddProductController extends Controller
     public function __invoke(Request $request, Response $response, array $args)
     {
         $newProductData = $request->getParsedBody();
+        $responseData = [
+            'code' => 400,
+            'success' => false,
+            'msg' => '',
+            'data' => []
+        ];
 
-        $newProduct = new ProductEntity(
-            $newProductData['sku'],
-            $newProductData['name'],
-            $newProductData['price'],
-            $newProductData['stock']);
+        try {
+            $newProduct = new ProductEntity(
+                $newProductData['sku'],
+                $newProductData['name'],
+                $newProductData['price'],
+                $newProductData['stock']);
 
+            try {
+                $queryResponse = $this->productModel->addProduct($newProduct);
+
+                $responseData = [
+                    'code' => 200,
+                    'success' => $queryResponse,
+                    'msg' => 'Product successfully added.',
+                    'data' => []
+                ];
+
+            } catch(\Throwable $e) {
+                $responseData['msg'] = $e;
+            }
+
+        } catch (\Throwable $e) {
+            $responseData['msg'] = $e;
+        }
+        
         return $response;
     }
 }
