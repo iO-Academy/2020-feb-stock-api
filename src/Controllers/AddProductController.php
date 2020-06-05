@@ -50,13 +50,17 @@ class AddProductController extends Controller
                 ];
 
             } catch(\Throwable $e) {
+                $responseData['code'] = 500;
                 $responseData['msg'] = $e;
             }
 
         } catch (\Throwable $e) {
             $responseData['msg'] = $e;
         }
-        
-        return $response;
+
+        $response->getBody()->write(json_encode($responseData));
+
+        return $response->withHeader('Content-Type', 'application/json');
+
     }
 }
