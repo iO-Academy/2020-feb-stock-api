@@ -27,6 +27,8 @@ class ProductEntity implements ProductEntityInterface
         $this->name = $name;
         $this->price = $price;
         $this->stockLevel = $stockLevel;
+
+        $this->sanitiseDatas();
     }
 
     /**
