@@ -65,19 +65,15 @@ class ProductEntity implements ProductEntityInterface
 
     private function sanitiseDatas()
     {
-        $this->sku = StringValidator::sanitiseData($this->sku);
         $this->sku = StringValidator::validateExistsAndLength($this->sku, 50);
-        $this->sku = StringValidator::validateSku($this->sku);
+        $this->sku = SkuValidator::validateSku($this->sku);
 
         $this->name = StringValidator::sanitiseData($this->name);
         $this->name = StringValidator::validateExistsAndLength($this->name, 50);
 
-        $this->price = StringValidator::sanitiseData($this->price);
-        $this->price = StringValidator::validateExistsAndLength($this->price, 50);
-        $this->price = StringValidator::validatePrice($this->price);
+        $this->price = PriceValidator::validatePrice($this->price);
 
-        $this->stockLevel = StringValidator::sanitiseData($this->stockLevel);
         $this->stockLevel = StringValidator::validateExistsAndLength($this->stockLevel, 50);
-        $this->stockLevel = StringValidator::validateStockLevel($this->stockLevel);
+        $this->stockLevel = StockLevelValidator::validateStockLevel($this->stockLevel);
     }
 }
