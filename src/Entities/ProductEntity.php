@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Entities;
-
 
 use App\Interfaces\ProductEntityInterface;
 
@@ -15,6 +13,10 @@ class ProductEntity implements ProductEntityInterface
 
     /**
      * ProductEntity constructor.
+     * @param $sku
+     * @param $name
+     * @param $price
+     * @param $stockLevel
      */
     public function __construct($sku, $name, $price, $stockLevel)
     {
