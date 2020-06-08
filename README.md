@@ -150,7 +150,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 * **URL**
 
-  /products/{sku}
+  /products/stock/{sku}
 
 * **Method:**
 
