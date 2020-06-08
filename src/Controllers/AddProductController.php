@@ -40,21 +40,24 @@ class AddProductController extends Controller
                 $newProductData['stock']);
 
             try {
-                $productExists = $this->productModel->checkProductExists($newProduct);
+                $productExists = $this->productModel->checkProductExists($newProduct->getSku());
 
                 if($productExists) {
                     $responseData['code'] = 400;
-                    $responseData['msg'] = 'This product already exists in the database. 
-                    Either update the old product or use a new SKU.';
+                    $responseData['msg'] =
+                        'This product already exists in the database. Either update the old product or use a new SKU.';
 
                 } else {
-                    $queryResponse = $this->productModel->addProduct($newProduct);
+                    $responseData['success'] = $this->productModel->addProduct($newProduct);
 
-                    $responseData = [
-                        'code' => 200,
-                        'success' => $queryResponse,
-                        'msg' => 'Product successfully added.',
-                    ];
+                    if($responseData['success']) {
+                        $responseData['code'] = 200;
+                        $responseData['msg'] = 'Product successfully added.';
+
+                    } else {
+                        $responseData['code'] = 500;
+                        $responseData['msg'] = 'Could not add product please try again.';
+                    }
                 }
 
             } catch(\Throwable $e) {

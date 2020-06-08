@@ -33,12 +33,9 @@ class ProductModel implements ProductModelInterface
             "stockLevel"=>$productEntity->getStockLevel()
         ];
 
-        $query = $this->db->prepare("UPDATE `products`
-                                    SET `sku` = :sku
-                                        `name` = :name
-                                        `price` = :price
-                                        `stockLevel` = :stockLevel
-        ");
+        $query = $this->db->prepare("INSERT INTO `products`
+                                        (`sku`, `name`, `price`, `stockLevel`)
+                                            VALUES (:sku, :name, :price, :stockLevel)");
 
         return $query->execute($array);
     }
