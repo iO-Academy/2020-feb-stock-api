@@ -33,5 +33,7 @@ return function (ContainerBuilder $containerBuilder) {
         return $renderer;
     };
 
+    $container = DI\factory('\App\Controllers\updateProductController');
+
     $containerBuilder->addDefinitions($container);
 };

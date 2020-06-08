@@ -12,4 +12,5 @@ return function (App $app) {
         return $renderer->render($response, "index.php", $args);
     });
 
+    $app->put('products/:sku', 'UpdateProductController');
 };

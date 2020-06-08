@@ -8,12 +8,12 @@ use App\Abstracts\Controller;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class updateProductController extends Controller
+class UpdateProductController extends Controller
 {
     private $productModel;
 
     /**
-     * updateProductController constructor.
+     * UpdateProductController constructor.
      * @param $productModel
      */
     public function __construct($productModel)
@@ -23,11 +23,12 @@ class updateProductController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
+
         $productData = $request->getParsedBody()['product'];
 
         try {
             $product = new ProductEntity(
-                $productData['sku'],
+                $args['sku'],
                 $productData['name'],
                 $productData['price'],
                 $productData['stock']
