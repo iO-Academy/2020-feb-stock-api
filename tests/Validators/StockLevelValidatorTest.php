@@ -17,14 +17,14 @@ class StockLevelValidatorTest extends TestCase
     public function testValidateStockLevelFailure()
     {
         $stockLevel = 'ABCD';
-        $this->expectException(\Exception::class);     
-        $result = StockLevelValidator::validateStockLevel($stockLevel); 
+        $this->expectExceptionMessage('Invalid stock level');     
+        StockLevelValidator::validateStockLevel($stockLevel); 
     }
 
     public function testValidateStockLevelMalformed()
     {
         $stockLevel = ['4321'];
         $this->expectException(\TypeError::class);
-        $result = StockLevelValidator::validateStockLevel($stockLevel);
+        StockLevelValidator::validateStockLevel($stockLevel);
     }
 }

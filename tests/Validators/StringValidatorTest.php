@@ -15,12 +15,20 @@ class StringValidatorTest extends TestCase
         $this->assertEquals('Loads of stocks', $result);
     }
 
-    public function testValidateExistsAndLengthFailure()
+    public function testValidateExistsAndLengthErrorDoesNotExist()
     {
         $maxCharacterLength = 30;
         $name = '';
-        $this->expectException(\Exception::class);  
-        $result = StringValidator::validateExistsAndLength($name, $maxCharacterLength);    
+        $this->expectExceptionMessage('An input string does not exist or is too long');  
+        StringValidator::validateExistsAndLength($name, $maxCharacterLength);    
+    }
+
+    public function testValidateExistsAndLengthErrorTooLong()
+    {
+        $maxCharacterLength = 30;
+        $name = 'Best stocks from best stocks ever land of eternal stocks if you do not buy these i will hunt you down and make you to buy them';
+        $this->expectExceptionMessage('An input string does not exist or is too long');  
+        StringValidator::validateExistsAndLength($name, $maxCharacterLength);      
     }
 
     public function testValidateExistsAndLengthMalformed()
@@ -28,6 +36,6 @@ class StringValidatorTest extends TestCase
         $maxCharacterLength = 30;
         $name = [11, 22, 33];
         $this->expectException(\TypeError::class);  
-        $result = StringValidator::validateExistsAndLength($name, $maxCharacterLength);    
+        StringValidator::validateExistsAndLength($name, $maxCharacterLength);    
     }
 }

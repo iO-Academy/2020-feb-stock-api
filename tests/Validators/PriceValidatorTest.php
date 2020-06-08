@@ -17,14 +17,14 @@ class PriceValidatorTest extends TestCase
     public function testValidatePriceFailure()
     {
         $price = 'ABCD';
-        $this->expectException(\Exception::class);     
-        $result = PriceValidator::validatePrice($price); 
+        $this->expectExceptionMessage('Invalid price');     
+        PriceValidator::validatePrice($price); 
     }
 
     public function testValidatePriceMalformed()
     {
         $price = [12345];
         $this->expectException(\TypeError::class);
-        $result = PriceValidator::validatePrice($price);
+        PriceValidator::validatePrice($price);
     }
 }
