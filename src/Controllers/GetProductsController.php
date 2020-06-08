@@ -36,7 +36,7 @@ class GetProductsController extends Controller
 
         $data = ['success' => true,
             'message' => $message,
-            'data' => $products];
+            'data' => ['products' => $products]];
 
         return $this->respondWithJson($response, $data);
     }
