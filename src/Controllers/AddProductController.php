@@ -31,7 +31,7 @@ class AddProductController extends Controller
                 $newProductData['sku'],
                 $newProductData['name'],
                 $newProductData['price'],
-                $newProductData['stock']);
+                $newProductData['stockLevel']);
 
         } catch (\Throwable $e) {
             $responseData = [
