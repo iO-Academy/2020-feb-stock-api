@@ -22,22 +22,36 @@ class GetProductsController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $products = $this->productModel->getAllProducts();
+        try {
+            $products = $this->productModel->getAllProducts();
+            $message = 'All products returned';
 
-        if ($products) {
-            $data = ['success' => true, 'data' => $products];
+            if(!$products) {
+                $message = 'There are no products active in the database';
+            }
+
+            $data = ['success' => true,
+                'message' => $message,
+                'data' => $products];
             $payload = json_encode($data);
 
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
+
+        } catch (\Throwable $e){
+            $data = ['success' => false,
+                'message' => 'Something went wrong, please try again later',
+                'data' => []];
+            $payload = json_encode($data);
+
+            $response->getBody()->write($payload);
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(500);
         }
 
-        $data = ['success' => false, 'message' => 'Something went wrong, please try again later'];
-        $payload = json_encode($data);
 
-        $response->getBody()->write($payload);
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus(500);
+
+
     }
 }
