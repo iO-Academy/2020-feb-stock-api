@@ -73,7 +73,6 @@ class ProductEntity implements ProductEntityInterface
         $this->price = StringValidator::validateExistsAndLength($this->price, 255);
         $this->price = PriceValidator::validatePrice($this->price);
 
-        $this->stockLevel = StringValidator::validateExistsAndLength($this->stockLevel, 11);
         $this->stockLevel = StockLevelValidator::validateStockLevel($this->stockLevel);
     }
 }
