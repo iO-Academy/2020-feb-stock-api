@@ -7,7 +7,7 @@ class SkuValidator extends StringValidator
     private const SKU_REGEX = '/^[a-z0-9A-Z]{10,20}$/';
 
     /**
-     * Make sure the SKU is valid
+     * Make sure the SKU is valid 
      *
      * @param string $sku
      * @return string|null
