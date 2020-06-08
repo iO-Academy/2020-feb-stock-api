@@ -20,9 +20,9 @@ class ProductModel implements ProductModelInterface
 
     /**
      * Gets all products from Database
-     * @return array|false depending on successful query or not
+     * @return array contains all active products in DB
      */
-    public function getAllProducts()
+    public function getAllProducts(): array
     {
         $query = $this->db->query('SELECT `sku`, `name`, `price`, `stockLevel` 
                                                 FROM `products` 
