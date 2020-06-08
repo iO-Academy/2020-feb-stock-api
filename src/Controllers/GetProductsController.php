@@ -28,12 +28,8 @@ class GetProductsController extends Controller
             $data = ['success' => false,
                 'message' => 'Something went wrong, please try again later',
                 'data' => []];
-            $payload = json_encode($data);
 
-            $response->getBody()->write($payload);
-            return $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(500);
+            return $this->respondWithJson($response, $data, 500);
         }
 
         $message = $products ? 'All products returned' : 'There are no products in the database';
@@ -41,9 +37,7 @@ class GetProductsController extends Controller
         $data = ['success' => true,
             'message' => $message,
             'data' => $products];
-        $payload = json_encode($data);
 
-        $response->getBody()->write($payload);
-        return $response->withHeader('Content-Type', 'application/json');
+        return $this->respondWithJson($response, $data);
     }
 }
