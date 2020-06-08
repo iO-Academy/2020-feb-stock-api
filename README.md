@@ -59,12 +59,12 @@ A warehouse house built by Mayden Academy students that would help employees kee
  
 * **Error Response:**
 
-* **Code:** 400 UNAUTHORIZED <br />
+  * **Code:** 400 UNAUTHORIZED <br />
  **Content:** `{ success : false, message: "Invalid request", data: [] }`
     
     or 
     
-* **Code:** 500 Server Error <br />
+  * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
   
@@ -89,7 +89,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
  
 * **Error Response:**
     
-* **Code:** 500 Server Error <br />
+  * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
   
@@ -112,12 +112,12 @@ A warehouse house built by Mayden Academy students that would help employees kee
  
 * **Error Response:**
 
-* **Code:** 400 UNAUTHORIZED <br />
+  * **Code:** 400 UNAUTHORIZED <br />
  **Content:** `{ success : false, message: "Product does not exist", data: [] }`
  
  or
     
-* **Code:** 500 Server Error <br />
+  * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
 
@@ -140,7 +140,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 * **Error Response:**
     
-* **Code:** 500 Server Error <br />
+  * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
  
@@ -164,12 +164,12 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Success Response:**
  
   * **Code:** 200 <br />
- **Content:** `{ success : true, message: "Stock level successfully updated", data: [] }`
+  **Content:** `{ success : true, message: "Stock level successfully updated", data: [] }`
 
  
 * **Error Response:**
 
-* **Code:** 400 UNAUTHORIZED <br />
+  * **Code:** 400 UNAUTHORIZED <br />
   **Content:** `{ success : false, message: "Invalid Stock Level", data: [] }`
     
     or 
