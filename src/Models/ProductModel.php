@@ -34,6 +34,7 @@ class ProductModel implements ProductModelInterface
         }
 
     /**
+     * Adds a product to the Database
      * @param ProductEntityInterface $productEntity
      * @return bool if product has been added successfully to DB
      */
@@ -54,6 +55,7 @@ class ProductModel implements ProductModelInterface
     }
 
     /**
+     * Checks if product exists in Database
      * @param string $sku
      * @return bool whether the product was found in DB or not
      */
@@ -64,5 +66,13 @@ class ProductModel implements ProductModelInterface
         $result = $query->fetch();
 
         return $result > 0;
+    }
+
+    public function deleteProductBySku(string $sku): bool
+    {
+        $query = $this->db->prepare("DELETE FROM `products` WHERE `sku` = ?");
+        $query->execute([$sku]);
+
+        return $query ? "Product deleted successfully" : "Product could not be deleted, please try again later";
     }
 }
