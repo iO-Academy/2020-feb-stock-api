@@ -39,7 +39,7 @@ class GetProductsController extends Controller
         $message = 'All products returned';
 
         if (!$products) {
-            $message = 'There are no products active in the database';
+            $message = 'There are no products in the database';
         }
 
         $data = ['success' => true,
