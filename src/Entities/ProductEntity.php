@@ -3,6 +3,11 @@
 
 namespace App\Entities;
 
+use App\Validators\NameValidator;
+use App\Validators\PriceValidator;
+use App\Validators\SkuValidator;
+use App\Validators\StockLevelValidator;
+use App\Validators\StringValidator;
 
 use App\Interfaces\ProductEntityInterface;
 
@@ -22,6 +27,8 @@ class ProductEntity implements ProductEntityInterface
         $this->name = $name;
         $this->price = $price;
         $this->stockLevel = $stockLevel;
+
+        $this->sanitiseData();
     }
 
     /**
@@ -54,5 +61,19 @@ class ProductEntity implements ProductEntityInterface
     public function getStockLevel()
     {
         return $this->stockLevel;
+    }
+
+    private function sanitiseData()
+    {
+        $this->sku = SkuValidator::validateSku($this->sku);
+
+        $this->name = StringValidator::sanitiseString($this->name);
+        $this->name = StringValidator::validateExistsAndLength($this->name, 255);
+
+        $this->price = StringValidator::validateExistsAndLength($this->price, 255);
+        $this->price = PriceValidator::validatePrice($this->price);
+
+        $this->stockLevel = StringValidator::validateExistsAndLength($this->stockLevel, 11);
+        $this->stockLevel = StockLevelValidator::validateStockLevel($this->stockLevel);
     }
 }
