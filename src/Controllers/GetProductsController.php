@@ -36,11 +36,7 @@ class GetProductsController extends Controller
                 ->withStatus(500);
         }
 
-        $message = 'All products returned';
-
-        if (!$products) {
-            $message = 'There are no products in the database';
-        }
+        $message = $products ? 'All products returned' : 'There are no products in the database';
 
         $data = ['success' => true,
             'message' => $message,
