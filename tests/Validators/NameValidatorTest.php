@@ -7,5 +7,5 @@ use Tests\TestCase;
 
 class NameValidatorTest
 {
-    
+
 }
