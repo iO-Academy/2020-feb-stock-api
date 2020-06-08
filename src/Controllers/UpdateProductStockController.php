@@ -28,22 +28,21 @@ class UpdateProductStockController extends Controller
         $stockLevel = $request->getParsedBody()['product']['stockLevel'];
         $sku = $args['sku'];
 
+        $responseData = [
+            'success' => false,
+            'message' => '',
+            'data' => []
+        ];
+
         try {
             $productData = [
                 'sku' => SKUValidator::validateSKU($sku),
                 'stockLevel' => StockLevelValidator::validateStockLevel($stockLevel)
             ];
         } catch (\Throwable $e) {
-            $responseData = [
-                'success' => false,
-                'message' => $e->getMessage(),
-                'data' => []
-            ];
-            $response->getBody()->write(json_encode($responseData));
+            $responseData['message'] = $e->getMessage();
 
-            return $response
-                ->withHeader('Content-Type', 'application-json')
-                ->withStatus(400);
+            return $this->respondWithJson($response, $responseData, 400);
         }
 
         try {
@@ -53,50 +52,23 @@ class UpdateProductStockController extends Controller
                 $updatedProductStock = $this->productModel->updateProductStock($productData);
 
                 if($updatedProductStock) {
-                    $responseData = [
-                        'success' => true,
-                        'message' => 'Successfully updated product\'s stock level.',
-                        'data' => []
-                    ];
-                    $response->getBody()->write(json_encode($responseData));
+                    $responseData['success'] = true;
+                    $responseData['message'] = 'Successfully updated product\'s stock level.';
 
-                    return $response
-                        ->withHeader('Content-Type', 'application-json')
-                        ->withStatus(200);
+                    return $this->respondWithJson($response, $responseData, 200);
                 }
-                $responseData = [
-                    'success' => false,
-                    'message' => 'Could not update product\'s stock level. Please try again.',
-                    'data' => []
-                ];
-                $response->getBody()->write(json_encode($responseData));
+                $responseData['message']= 'Could not update product\'s stock level. Please try again.';
 
-                return $response
-                    ->withHeader('Content-Type', 'application-json')
-                    ->withStatus(500);
+                return $this->respondWithJson($response, $responseData, 500);
             }
-            $responseData = [
-                'success' => false,
-                'message' => 'The product does not exist in the database. Please add it as a new product.',
-                'data' => []
-            ];
-            $response->getBody()->write(json_encode($responseData));
+            $responseData['message']=
+                'The product does not exist in the database. Please add it as a new product.';
 
-            return $response
-                ->withHeader('Content-Type', 'application-json')
-                ->withStatus(400);
-
+            return $this->respondWithJson($response, $responseData, 400);
         } catch(\Throwable $e) {
-            $responseData = [
-                'success' => false,
-                'message' => 'Oops! Something went wrong; please try again later.',
-                'data' => []
-            ];
-            $response->getBody()->write(json_encode($responseData));
+            $responseData['message']= 'Oops! Something went wrong. Please try again later.';
 
-            return $response
-                ->withHeader('Content-Type', 'application-json')
-                ->withStatus(500);
+            return $this->respondWithJson($response, $responseData, 500);
         }
     }
 }
