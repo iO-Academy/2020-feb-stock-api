@@ -52,6 +52,19 @@ class ProductModel implements ProductModelInterface
     }
 
     /**
+     * @param ProductEntityInterface $productEntity
+     * @return bool if product stock level has been updated successfully in DB
+     */
+    public function updateProductStock(array $productData)
+    {
+        $query = $this->db->prepare("UPDATE `products` 
+                                        SET `stockLevel` = :stockLevel
+                                        WHERE `sku` = :sku");
+
+        return $query->execute($productData);
+    }
+
+    /**
      * @param string $sku
      * @return bool whether the product was found in DB or not
      */

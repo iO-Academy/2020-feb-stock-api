@@ -15,6 +15,8 @@ return function (App $app) {
     });
 
     $app->post('/products', 'AddProductController');
-
     $app->get('/products', 'GetProductsController');
+
+    $app->put('/products/stock/{sku}', 'UpdateProductStockController');
+
 };
