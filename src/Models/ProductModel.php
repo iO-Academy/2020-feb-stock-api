@@ -20,18 +20,16 @@ class ProductModel implements ProductModelInterface
 
     /**
      * Gets all products from Database
-     * @return array|false depending on successful query or not
+     * @return array contains all active products in DB
      */
-    public function getAllProducts()
+    public function getAllProducts(): array
     {
-        $query = $this->db->query('SELECT `sku`, `name`, `price`, `stockLevel` FROM `products`;');
+        $query = $this->db->query('SELECT `sku`, `name`, `price`, `stockLevel` 
+                                                FROM `products` 
+                                                WHERE `deleted` = 0;');
 
-        if ($query){
-            return $query->fetchAll();
-        }
-
-        return $query;
-        }
+        return $query->fetchAll();
+    }
 
     /**
      * Adds a product to the Database
@@ -55,7 +53,32 @@ class ProductModel implements ProductModelInterface
     }
 
     /**
+<<<<<<< HEAD
      * Checks if product exists in Database
+=======
+     * @param ProductEntityInterface $productEntity
+     * @return bool if product has been updated successfully in DB
+     */
+    public function updateProduct(ProductEntityInterface $productEntity): bool
+    {
+        $array = [
+            "sku"=>$productEntity->getSku(),
+            "name"=>$productEntity->getName(),
+            "price"=>$productEntity->getPrice(),
+            "stockLevel"=>$productEntity->getStockLevel()
+        ];
+
+        $query = $this->db->prepare("UPDATE `products`
+                                        SET `name` = :name,
+                                            `price` = :price,
+                                            `stockLevel` = :stockLevel
+                                        WHERE `sku` = :sku;");
+
+        return $query->execute($array);
+    }
+
+    /**
+>>>>>>> 55d3904b6b58e02cc47b947a0adfd4177a853da1
      * @param string $sku
      * @return bool whether the product was found in DB or not
      */

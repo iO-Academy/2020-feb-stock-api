@@ -19,17 +19,21 @@ A warehouse house built by Mayden Academy students that would help employees kee
  
 * **Data Params**
 
-   **applicant** `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}`
+   **product** `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}`
 
 * **Success Response:**
  
   * **Code:** 200 <br />
-    **success:** true <br />
+ **Content:** `{ success : true, message: "Product successfully added", data: [] }`
  
 * **Error Response:**
 
   * **Code:** 400 User Error <br />
-    **Content:** `{ error : "SKU provided already exists in Database" }`
+  **Content:** `{ success : false, message: "Invalid Product Information", data: [] }`
+  
+  or
+  * **Code:** 500 Internal Server Error <br />
+  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
 
 **Edit a product**
@@ -46,22 +50,22 @@ A warehouse house built by Mayden Academy students that would help employees kee
     
 * **Data Params**
 
-   **applicant** `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}`
+   **product** `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}`
 
 * **Success Response:**
  
   * **Code:** 200 <br />
-    **success:** true <br />
+ **Content:** `{ success : true, message: "Product successfully updated", data: [] }`
  
 * **Error Response:**
 
-* **Code:** 400 UNAUTHORIZED <br />
-  **Content:** `{ error : "Cannot make stock level negative" }`
+  * **Code:** 400 UNAUTHORIZED <br />
+ **Content:** `{ success : false, message: "Invalid request", data: [] }`
     
     or 
     
-  **Code:** 500 Server Error <br />
-  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+  * **Code:** 500 Server Error <br />
+  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
   
 **Get all products**
@@ -79,15 +83,14 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Success Response:**
  
   * **Code:** 200 <br />
-    **success:** true <br />
-    **data:** `{products:[` <br />
-     `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"},` <br />
-    `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}]}`
+ **Content:** `{ success : true, message: "All products returned", data: {products:[` <br />
+            `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"},` <br />
+            `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}]} }`
  
 * **Error Response:**
     
-  **Code:** 500 Server Error <br />
-  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+  * **Code:** 500 Server Error <br />
+  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
   
 **Delete a product**
@@ -105,12 +108,17 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Success Response:**
  
   * **Code:** 200 <br />
-    **success:** true <br />
+  **Content:** `{ success : true, message: "Product successfully deleted", data: [] }`
  
 * **Error Response:**
+
+  * **Code:** 400 UNAUTHORIZED <br />
+ **Content:** `{ success : false, message: "Product does not exist", data: [] }`
+ 
+ or
     
-  **Code:** 500 Server Error <br />
-  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+  * **Code:** 500 Server Error <br />
+  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
 
 **Get specified product**
@@ -128,15 +136,13 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Success Response:**
  
   * **Code:** 200 <br />
-    **success:** true <br />
-    **data:** `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}`
+  **Content:** `{ success : false, message: "Specified product returned", data: {product: {sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}}}`
 
 * **Error Response:**
     
-  **Code:** 500 Server Error <br />
-  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+  * **Code:** 500 Server Error <br />
+  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
- 
  
 **Edit a product's stock level**
 ----
@@ -144,7 +150,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 * **URL**
 
-  /products/{sku}
+  /products/stock/{sku}
 
 * **Method:**
 
@@ -153,19 +159,20 @@ A warehouse house built by Mayden Academy students that would help employees kee
     
 * **Data Params**
 
-   **applicant** `{sku: "UGG-BB-PNR-98", stockLevel: "8"}`
+   **product** `{sku: "UGG-BB-PNR-98", stockLevel: "8"}`
 
 * **Success Response:**
  
   * **Code:** 200 <br />
-    **success:** true <br />
+  **Content:** `{ success : true, message: "Stock level successfully updated", data: [] }`
+
  
 * **Error Response:**
 
-* **Code:** 400 UNAUTHORIZED <br />
-  **Content:** `{ error : "Cannot make stock level negative" }`
+  * **Code:** 400 UNAUTHORIZED <br />
+  **Content:** `{ success : false, message: "Invalid Stock Level", data: [] }`
     
     or 
     
   **Code:** 500 Server Error <br />
-  **Content:** `{ error : "An unexpected error occured, please try again later" }`
+  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
