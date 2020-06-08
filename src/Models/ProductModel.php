@@ -71,8 +71,8 @@ class ProductModel implements ProductModelInterface
     public function deleteProductBySku(string $sku): bool
     {
         $query = $this->db->prepare("DELETE FROM `products` WHERE `sku` = ?");
-        $query->execute([$sku]);
+        $result = $query->execute([$sku]);
 
-        return $query ? "Product deleted successfully" : "Product could not be deleted, please try again later";
+        return $result;
     }
 }

@@ -13,6 +13,7 @@ class DeleteProductController extends Controller
 {
     private $productModel;
 
+
     /**
      * DeleteProductController constructor.
      */
@@ -23,6 +24,8 @@ class DeleteProductController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        return $response;
+        try {
+            $deleteProduct = $this->productModel->deleteProductBySku();
+        }
     }
 }
