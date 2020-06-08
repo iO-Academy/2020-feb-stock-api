@@ -22,8 +22,12 @@ class ProductModel implements ProductModelInterface
 
     public function addProduct(ProductEntityInterface $productEntity)
     {
-        $array = ["sku"=>$productEntity->getSku(), "name"=>$productEntity->getName(),
-            "price"=>$productEntity->getPrice(), "stockLevel"=>$productEntity->getStockLevel()];
+        $array = [
+            "sku"=>$productEntity->getSku(),
+            "name"=>$productEntity->getName(),
+            "price"=>$productEntity->getPrice(),
+            "stockLevel"=>$productEntity->getStockLevel()
+        ];
 
         $query = $this->db->prepare("UPDATE `products`
                                     SET `sku` = :sku
@@ -32,18 +36,15 @@ class ProductModel implements ProductModelInterface
                                         `stockLevel` = :stockLevel
         ");
         $result = $query->execute($array);
+
         return $result;
     }
 
     public function checkProductExists(string $sku): bool
     {
-        $query = $this->db->prepare("SELECT `id` FROM `products` WHERE `sku` = '$sku'");
-        $result = $query->execute();
+        $query = $this->db->prepare("SELECT `id` FROM `products` WHERE `sku` = ?");
+        $result = $query->execute([$sku]);
 
-        if(mysqli_num_rows($result) == 0) {
-            false;
-        } else {
-            true;
-        }
+        return mysqli_num_rows($result) !== 0;
     }
 }
