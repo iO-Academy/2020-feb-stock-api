@@ -12,9 +12,9 @@ abstract class StringValidator
      * @return string, which will return the validateData
      * @throws \Exception if the array is empty
      */
-    public static function validateExistsAndLength(string $validateData, int $characterLength)
+    public static function validateExistsAndLength(string $validateData, int $maxCharacterLength)
     {
-        if (!empty($validateData) == true && strlen($validateData) <= $characterLength) {
+        if (!empty($validateData) == true && strlen($validateData) <= $maxCharacterLength) {
             return $validateData;
         } else {
             throw new \Exception('An input string does not exist or is too long');

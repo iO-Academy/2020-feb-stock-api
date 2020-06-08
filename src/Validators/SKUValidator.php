@@ -2,21 +2,21 @@
 
 namespace App\Validators;
 
-class SKUValidator extends StringValidator
+class skuValidator extends StringValidator
 {
     private const SKU_REGEX = '/^[a-z0-9A-Z]{10,20}$/';
 
     /**
      * Make sure the SKU is valid
      *
-     * @param string $SKU
+     * @param string $sku
      * @return string|null
      * @throws \Exception
      */
-    public static function validateSKU(string $SKU)
+    public static function validateSku(string $sku)
     {
-        if (preg_match(self::SKU_REGEX, $SKU)) {
-            return $SKU;
+        if (preg_match(self::SKU_REGEX, $sku)) {
+            return $sku;
         } else {
             throw new \Exception('Invalid SKU');
         } 
