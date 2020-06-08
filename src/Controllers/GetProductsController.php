@@ -23,8 +23,22 @@ class GetProductsController extends Controller
     public function __invoke(Request $request, Response $response, array $args)
     {
         $products = $this->productModel->getAllProducts();
-        var_dump($products);
-        return $response;
+
+        if ($products) {
+            $data = ['success' => true, 'data' => $products];
+            $payload = json_encode($data);
+
+            $response->getBody()->write($payload);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $data = ['success' => false, 'message' => 'Something went wrong, please try again later'];
+        $payload = json_encode($data);
+
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(500);
     }
 
 }
