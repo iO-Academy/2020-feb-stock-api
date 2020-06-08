@@ -4,7 +4,7 @@
 namespace App\Interfaces;
 
 
-interface IProductEntity
+interface ProductEntityInterface
 {
 
 }
