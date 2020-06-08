@@ -25,12 +25,6 @@ class AddProductController extends Controller
     public function __invoke(Request $request, Response $response, array $args)
     {
         $newProductData = $request->getParsedBody();
-        $responseData = [
-            'code' => 400,
-            'success' => false,
-            'msg' => '',
-            'data' => []
-        ];
 
         try {
             $newProduct = new ProductEntity(
@@ -39,38 +33,73 @@ class AddProductController extends Controller
                 $newProductData['price'],
                 $newProductData['stock']);
 
-            try {
-                $productExists = $this->productModel->checkProductExists($newProduct->getSku());
+        } catch (\Throwable $e) {
+            $responseData = [
+                'success' => false,
+                'message' => $e,
+                'data' => []
+            ];
 
-                if($productExists) {
-                    $responseData['code'] = 400;
-                    $responseData['msg'] =
-                        'This product already exists in the database. Either update the old product or use a new SKU.';
+            $response->getBody()->write(json_encode($responseData));
+            $response->withStatus(400);
+
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        try {
+            $productExists = $this->productModel->checkProductExists($newProduct->getSku());
+
+            if ($productExists) {
+                $responseData = [
+                    'success' => false,
+                    'message' =>
+                        'This product already exists in the database. Either update the old product or use a new SKU.',
+                    'data' => []
+                ];
+                $response->getBody()->write(json_encode($responseData));
+                $response->withStatus(400);
+
+                return $response->withHeader('Content-Type', 'application/json');
+
+            } else {
+                $query_success = $this->productModel->addProduct($newProduct);
+
+                if ($query_success) {
+                    $responseData = [
+                        'success' => true,
+                        'message' =>
+                            'Product successfully added.',
+                        'data' => []
+                    ];
+                    $response->getBody()->write(json_encode($responseData));
+                    $response->withStatus(200);
+
+                    return $response->withHeader('Content-Type', 'application/json');
 
                 } else {
-                    $responseData['success'] = $this->productModel->addProduct($newProduct);
+                    $responseData = [
+                        'success' => true,
+                        'message' =>
+                            'Could not add product please try again.',
+                        'data' => []
+                    ];
+                    $response->getBody()->write(json_encode($responseData));
+                    $response->withStatus(500);
 
-                    if($responseData['success']) {
-                        $responseData['code'] = 200;
-                        $responseData['msg'] = 'Product successfully added.';
-
-                    } else {
-                        $responseData['code'] = 500;
-                        $responseData['msg'] = 'Could not add product please try again.';
-                    }
+                    return $response->withHeader('Content-Type', 'application/json');
                 }
-
-            } catch(\Throwable $e) {
-                $responseData['code'] = 500;
-                $responseData['msg'] = 'Oops! Something went wrong. Please try again later.';
             }
 
         } catch (\Throwable $e) {
-            $responseData['msg'] = $e;
+            $responseData = [
+                'success' => false,
+                'message' => 'Oops! Something went wrong. Please try again later.',
+                'data' => []
+            ];
+            $response->getBody()->write(json_encode($responseData));
+            $response->withStatus(400);
+
+            return $response->withHeader('Content-Type', 'application/json');
         }
-
-        $response->getBody()->write(json_encode($responseData));
-
-        return $response->withHeader('Content-Type', 'application/json');
     }
 }
