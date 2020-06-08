@@ -42,11 +42,7 @@ class UpdateProductController extends Controller
             );
 
         } catch(\Throwable $e) {
-            $responseData = [
-                'success' => false,
-                'msg' => $e->getMessage(),
-                'data' => []
-            ];
+            $responseData['message'] = $e->getMessage();
 
             return $this->respondWithJson($response, $responseData, 400);
         }
