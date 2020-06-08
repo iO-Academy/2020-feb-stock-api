@@ -40,10 +40,7 @@ class AddProductController extends Controller
                 'data' => []
             ];
 
-            $response->getBody()->write(json_encode($responseData));
-            $response->withStatus(400);
-
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->respondWithJson($response, $responseData, 400);
         }
 
         try {
@@ -56,10 +53,8 @@ class AddProductController extends Controller
                         'This product already exists in the database. Either update the old product or use a new SKU.',
                     'data' => []
                 ];
-                $response->getBody()->write(json_encode($responseData));
-                $response->withStatus(400);
 
-                return $response->withHeader('Content-Type', 'application/json');
+                return $this->respondWithJson($response, $responseData, 400);
 
             } else {
                 $query_success = $this->productModel->addProduct($newProduct);
@@ -71,11 +66,8 @@ class AddProductController extends Controller
                             'Product successfully added.',
                         'data' => []
                     ];
-                    $response->getBody()->write(json_encode($responseData));
-                    $response->withStatus(200);
 
-                    return $response->withHeader('Content-Type', 'application/json');
-
+                    return $this->respondWithJson($response, $responseData, 200);
                 }
                 $responseData = [
                     'success' => false,
@@ -83,10 +75,8 @@ class AddProductController extends Controller
                         'Could not add product please try again.',
                     'data' => []
                 ];
-                $response->getBody()->write(json_encode($responseData));
-                $response->withStatus(500);
 
-                return $response->withHeader('Content-Type', 'application/json');
+                return $this->respondWithJson($response, $responseData, 500);
             }
 
         } catch (\Throwable $e) {
@@ -95,10 +85,8 @@ class AddProductController extends Controller
                 'message' => 'Oops! Something went wrong. Please try again later.',
                 'data' => []
             ];
-            $response->getBody()->write(json_encode($responseData));
-            $response->withStatus(500);
 
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->respondWithJson($response, $responseData, 500);
         }
     }
 }
