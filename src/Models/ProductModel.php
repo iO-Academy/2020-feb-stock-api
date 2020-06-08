@@ -33,12 +33,9 @@ class ProductModel implements ProductModelInterface
             "stockLevel"=>$productEntity->getStockLevel()
         ];
 
-        $query = $this->db->prepare("UPDATE `products`
-                                    SET `sku` = :sku
-                                        `name` = :name
-                                        `price` = :price
-                                        `stockLevel` = :stockLevel
-        ");
+        $query = $this->db->prepare("INSERT INTO `products`
+                                        (`sku`, `name`, `price`, `stockLevel`)
+                                            VALUES (:sku, :name, :price, :stockLevel)");
 
         return $query->execute($array);
     }
@@ -50,8 +47,9 @@ class ProductModel implements ProductModelInterface
     public function checkProductExists(string $sku): bool
     {
         $query = $this->db->prepare("SELECT `id` FROM `products` WHERE `sku` = ?");
-        $result = $query->execute([$sku]);
+        $query->execute([$sku]);
+        $result = $query->fetch();
 
-        return mysqli_num_rows($result) !== 0;
+        return !empty($result);
     }
 }
