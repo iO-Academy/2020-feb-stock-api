@@ -40,18 +40,26 @@ class AddProductController extends Controller
                 $newProductData['stock']);
 
             try {
-                $queryResponse = $this->productModel->addProduct($newProduct);
+                $productExists = $this->productModel->checkProductExists($newProduct);
 
-                $responseData = [
-                    'code' => 200,
-                    'success' => $queryResponse,
-                    'msg' => 'Product successfully added.',
-                    'data' => []
-                ];
+                if($productExists) {
+                    $responseData['code'] = 400;
+                    $responseData['msg'] = 'This product already exists in the database. 
+                    Either update the old product or use a new SKU.';
+
+                } else {
+                    $queryResponse = $this->productModel->addProduct($newProduct);
+
+                    $responseData = [
+                        'code' => 200,
+                        'success' => $queryResponse,
+                        'msg' => 'Product successfully added.',
+                    ];
+                }
 
             } catch(\Throwable $e) {
                 $responseData['code'] = 500;
-                $responseData['msg'] = $e;
+                $responseData['msg'] = 'Oops! Something went wrong. Please try again later.';
             }
 
         } catch (\Throwable $e) {
@@ -61,6 +69,5 @@ class AddProductController extends Controller
         $response->getBody()->write(json_encode($responseData));
 
         return $response->withHeader('Content-Type', 'application/json');
-
     }
 }
