@@ -24,21 +24,7 @@ class GetProductsController extends Controller
     {
         try {
             $products = $this->productModel->getAllProducts();
-            $message = 'All products returned';
-
-            if(!$products) {
-                $message = 'There are no products active in the database';
-            }
-
-            $data = ['success' => true,
-                'message' => $message,
-                'data' => $products];
-            $payload = json_encode($data);
-
-            $response->getBody()->write($payload);
-            return $response->withHeader('Content-Type', 'application/json');
-
-        } catch (\Throwable $e){
+        } catch (\Throwable $e) {
             $data = ['success' => false,
                 'message' => 'Something went wrong, please try again later',
                 'data' => []];
@@ -49,5 +35,19 @@ class GetProductsController extends Controller
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus(500);
         }
+
+        $message = 'All products returned';
+
+        if (!$products) {
+            $message = 'There are no products active in the database';
+        }
+
+        $data = ['success' => true,
+            'message' => $message,
+            'data' => $products];
+        $payload = json_encode($data);
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }
