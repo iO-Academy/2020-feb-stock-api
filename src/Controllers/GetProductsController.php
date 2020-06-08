@@ -40,5 +40,4 @@ class GetProductsController extends Controller
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(500);
     }
-
 }
