@@ -24,7 +24,7 @@ class AddProductController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $newProductData = $request->getParsedBody();
+        $newProductData = $request->getParsedBody()['product'];
 
         try {
             $newProduct = new ProductEntity(
@@ -36,7 +36,7 @@ class AddProductController extends Controller
         } catch (\Throwable $e) {
             $responseData = [
                 'success' => false,
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'data' => []
             ];
 
@@ -76,18 +76,17 @@ class AddProductController extends Controller
 
                     return $response->withHeader('Content-Type', 'application/json');
 
-                } else {
-                    $responseData = [
-                        'success' => true,
-                        'message' =>
-                            'Could not add product please try again.',
-                        'data' => []
-                    ];
-                    $response->getBody()->write(json_encode($responseData));
-                    $response->withStatus(500);
-
-                    return $response->withHeader('Content-Type', 'application/json');
                 }
+                $responseData = [
+                    'success' => false,
+                    'message' =>
+                        'Could not add product please try again.',
+                    'data' => []
+                ];
+                $response->getBody()->write(json_encode($responseData));
+                $response->withStatus(500);
+
+                return $response->withHeader('Content-Type', 'application/json');
             }
 
         } catch (\Throwable $e) {
@@ -97,7 +96,7 @@ class AddProductController extends Controller
                 'data' => []
             ];
             $response->getBody()->write(json_encode($responseData));
-            $response->withStatus(400);
+            $response->withStatus(500);
 
             return $response->withHeader('Content-Type', 'application/json');
         }

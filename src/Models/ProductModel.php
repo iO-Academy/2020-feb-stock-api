@@ -50,6 +50,6 @@ class ProductModel implements ProductModelInterface
         $query->execute([$sku]);
         $result = $query->fetch();
 
-        return $result > 0;
+        return !empty($result);
     }
 }
