@@ -65,7 +65,7 @@ class ProductModel implements ProductModelInterface
         $query->execute([$sku]);
         $result = $query->fetch();
 
-        return $result > 0;
+        return !empty($result);
     }
 
     public function deleteProductBySku(string $sku): bool
