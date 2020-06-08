@@ -5,6 +5,8 @@ namespace App\Controllers;
 
 
 use App\Abstracts\Controller;
+use App\Entities\ProductEntity;
+use App\Interfaces\ProductModelInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -16,7 +18,7 @@ class UpdateProductController extends Controller
      * UpdateProductController constructor.
      * @param $productModel
      */
-    public function __construct($productModel)
+    public function __construct(ProductModelInterface $productModel)
     {
         $this->productModel = $productModel;
     }
@@ -31,7 +33,7 @@ class UpdateProductController extends Controller
                 $args['sku'],
                 $productData['name'],
                 $productData['price'],
-                $productData['stock']
+                $productData['stockLevel']
             );
 
         } catch(\Throwable $e) {
@@ -48,7 +50,7 @@ class UpdateProductController extends Controller
         }
 
         try {
-            $productExists = $this->productModel->checkProductExists($product);
+            $productExists = $this->productModel->checkProductExists($product->getSku());
 
             if($productExists) {
                 $query_response = $this->productModel->updateProduct($product);
@@ -100,5 +102,4 @@ class UpdateProductController extends Controller
             return $response->withHeader('Content-Type', 'application-json');
         }
     }
-
 }

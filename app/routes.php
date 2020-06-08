@@ -15,5 +15,5 @@ return function (App $app) {
     });
 
     $app->post('/products', 'AddProductController');
-    $app->put('products/:sku', 'UpdateProductController');
+    $app->put('/products/{sku}', 'UpdateProductController');
 };
