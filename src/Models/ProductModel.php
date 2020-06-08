@@ -33,7 +33,11 @@ class ProductModel implements ProductModelInterface
         return $query;
         }
 
-    public function addProduct(ProductEntityInterface $productEntity)
+    /**
+     * @param ProductEntityInterface $productEntity
+     * @return bool if product has been added successfully to DB
+     */
+    public function addProduct(ProductEntityInterface $productEntity): bool
     {
         $array = [
             "sku"=>$productEntity->getSku(),
@@ -48,11 +52,14 @@ class ProductModel implements ProductModelInterface
                                         `price` = :price
                                         `stockLevel` = :stockLevel
         ");
-        $result = $query->execute($array);
 
-        return $result;
+        return $query->execute($array);
     }
 
+    /**
+     * @param string $sku
+     * @return bool whether the product was found in DB or not
+     */
     public function checkProductExists(string $sku): bool
     {
         $query = $this->db->prepare("SELECT `id` FROM `products` WHERE `sku` = ?");
