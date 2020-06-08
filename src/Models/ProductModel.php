@@ -29,7 +29,7 @@ class ProductModel implements ProductModelInterface
                                                 WHERE `deleted` = 0;');
 
         return $query->fetchAll();
-        }
+    }
 
     /**
      * @param ProductEntityInterface $productEntity
