@@ -33,5 +33,11 @@ return function (ContainerBuilder $containerBuilder) {
         return $renderer;
     };
 
+    $container['Database'] = new App\Utilities\Database();
+
+    $container['ProductModel'] = DI\factory('App\Factories\ProductModelFactory');
+
+    $container['AddProductController'] = DI\factory('App\Factories\AddProductControllerFactory');
+
     $containerBuilder->addDefinitions($container);
 };
