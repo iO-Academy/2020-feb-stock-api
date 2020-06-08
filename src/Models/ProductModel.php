@@ -34,4 +34,16 @@ class ProductModel implements ProductModelInterface
         $result = $query->execute($array);
         return $result;
     }
+
+    public function checkProductExists(string $sku): bool
+    {
+        $query = $this->db->prepare("SELECT `id` FROM `products` WHERE `sku` = '$sku'");
+        $result = $query->execute();
+
+        if(mysqli_num_rows($result) == 0) {
+            false;
+        } else {
+            true;
+        }
+    }
 }
