@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Models;
-
 
 use App\Interfaces\ProductEntityInterface;
 use App\Interfaces\ProductModelInterface;
@@ -15,9 +13,22 @@ class ProductModel implements ProductModelInterface
      * ProductModel constructor.
      * @param $db
      */
-    public function __construct($db)
+    public function __construct(\PDO $db)
     {
         $this->db = $db;
+    }
+
+    /**
+     * Gets all products from Database
+     * @return array contains all active products in DB
+     */
+    public function getAllProducts(): array
+    {
+        $query = $this->db->query('SELECT `sku`, `name`, `price`, `stockLevel` 
+                                                FROM `products` 
+                                                WHERE `deleted` = 0;');
+
+        return $query->fetchAll();
     }
 
     /**
