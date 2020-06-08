@@ -24,7 +24,8 @@ class ProductModel implements ProductModelInterface
      */
     public function getAllProducts()
     {
-        $query = $this->db->query('SELECT `sku`, `name`, `price`, `stockLevel` FROM `products`;');
+        $query = $this->db->query('SELECT `sku`, `name`, `price`, `stockLevel` FROM `products` 
+WHERE `deleted` = 0;');
 
         if ($query){
             return $query->fetchAll();
