@@ -26,6 +26,12 @@ class AddProductController extends Controller
     {
         $newProductData = $request->getParsedBody()['product'];
 
+        $responseData = [
+            'success' => false,
+            'message' => '',
+            'data' => []
+        ];
+
         try {
             $newProduct = new ProductEntity(
                 $newProductData['sku'],
@@ -34,11 +40,7 @@ class AddProductController extends Controller
                 $newProductData['stockLevel']);
 
         } catch (\Throwable $e) {
-            $responseData = [
-                'success' => false,
-                'message' => $e->getMessage(),
-                'data' => []
-            ];
+            $responseData['message']= $e->getMessage();
 
             return $this->respondWithJson($response, $responseData, 400);
         }
@@ -47,12 +49,8 @@ class AddProductController extends Controller
             $productExists = $this->productModel->checkProductExists($newProduct->getSku());
 
             if ($productExists) {
-                $responseData = [
-                    'success' => false,
-                    'message' =>
-                        'This product already exists in the database. Either update the old product or use a new SKU.',
-                    'data' => []
-                ];
+                $responseData['message']=
+                    'This product already exists in the database. Either update the old product or use a new SKU.';
 
                 return $this->respondWithJson($response, $responseData, 400);
 
@@ -60,31 +58,18 @@ class AddProductController extends Controller
                 $query_success = $this->productModel->addProduct($newProduct);
 
                 if ($query_success) {
-                    $responseData = [
-                        'success' => true,
-                        'message' =>
-                            'Product successfully added.',
-                        'data' => []
-                    ];
+                    $responseData['success'] = true;
+                    $responseData['message'] = 'Product successfully added.';
 
                     return $this->respondWithJson($response, $responseData, 200);
                 }
-                $responseData = [
-                    'success' => false,
-                    'message' =>
-                        'Could not add product please try again.',
-                    'data' => []
-                ];
+                $responseData['message']= 'Could not add product please try again.';
 
                 return $this->respondWithJson($response, $responseData, 500);
             }
 
         } catch (\Throwable $e) {
-            $responseData = [
-                'success' => false,
-                'message' => 'Oops! Something went wrong. Please try again later.',
-                'data' => []
-            ];
+            $responseData['message']= 'Oops! Something went wrong. Please try again later.';
 
             return $this->respondWithJson($response, $responseData, 500);
         }
