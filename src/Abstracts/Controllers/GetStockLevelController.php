@@ -9,6 +9,13 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class GetStockLevelController extends Controller
 {
-    private $productModel
+    private $productModel;
+
+    public function __construct($productModel)
+    {
+        $this->productModel = $productModel;
+    }
+
+    public function __invoke(Request $request, Response $response, array $args)
 }
 
