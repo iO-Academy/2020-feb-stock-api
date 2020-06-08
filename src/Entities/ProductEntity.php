@@ -4,9 +4,9 @@
 namespace App\Entities;
 
 
-use App\Interfaces\IProductEntity;
+use App\Interfaces\ProductEntityInterface;
 
-class ProductEntity implements IProductEntity
+class ProductEntity implements ProductEntityInterface
 {
     private $sku;
     private $name;
@@ -22,5 +22,37 @@ class ProductEntity implements IProductEntity
         $this->name = $name;
         $this->price = $price;
         $this->stockLevel = $stockLevel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSku()
+    {
+        return $this->sku;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStockLevel()
+    {
+        return $this->stockLevel;
     }
 }
