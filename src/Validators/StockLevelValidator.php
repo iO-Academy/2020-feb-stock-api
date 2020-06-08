@@ -1,6 +1,6 @@
 <?php 
 
-namespace Portal\Validators;
+namespace App\Validators;
 
 class StockLevelValidator
 {

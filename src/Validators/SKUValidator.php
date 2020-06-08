@@ -1,6 +1,6 @@
 <?php
 
-namespace Portal\Validators;
+namespace App\Validators;
 
 class SKUValidator extends StringValidator
 {
@@ -15,7 +15,7 @@ class SKUValidator extends StringValidator
      */
     public static function validateSKU(string $SKU)
     {
-        if (preg_match(self::PRICE_REGEX, $SKU)) {
+        if (preg_match(self::SKU_REGEX, $SKU)) {
             return $SKU;
         } else {
             throw new \Exception('Invalid SKU');
