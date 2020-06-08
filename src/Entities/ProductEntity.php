@@ -28,7 +28,7 @@ class ProductEntity implements ProductEntityInterface
         $this->price = $price;
         $this->stockLevel = $stockLevel;
 
-        $this->sanitiseDatas();
+        $this->sanitiseData();
     }
 
     /**
@@ -63,11 +63,11 @@ class ProductEntity implements ProductEntityInterface
         return $this->stockLevel;
     }
 
-    private function sanitiseDatas()
+    private function sanitiseData()
     {
         $this->sku = SkuValidator::validateSku($this->sku);
 
-        $this->name = StringValidator::sanitiseData($this->name);
+        $this->name = StringValidator::sanitiseString($this->name);
         $this->name = StringValidator::validateExistsAndLength($this->name, 255);
 
         $this->price = StringValidator::validateExistsAndLength($this->price, 255);
