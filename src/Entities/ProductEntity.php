@@ -1,7 +1,10 @@
 <?php
 
+
 namespace App\Entities;
 
+
+use App\Validators\NameValidator;
 use App\Validators\PriceValidator;
 use App\Validators\SkuValidator;
 use App\Validators\StockLevelValidator;
