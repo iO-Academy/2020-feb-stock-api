@@ -6,6 +6,8 @@ namespace App\Controllers;
 
 use App\Abstracts\Controller;
 use App\Interfaces\ProductModelInterface;
+use App\Validators\SkuValidator;
+use App\Validators\StockLevelValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -24,10 +26,28 @@ class DeleteProductController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
+        $sku = $args['sku'];
+
+        $responseData = [
+            'success' => false,
+            'message' => '',
+            'data' => []
+        ];
+
         try {
+            $sku = SKUValidator::validateSKU($sku);
+
+        } catch (\Throwable $e) {
+            $responseData['message'] = $e->getMessage();
+
+            return $this->respondWithJson($response, $responseData, 400);
+        }
+
+        try {
+            $exists = $this->productModel->checkProductExists($args['sku']);
             $deleteProduct = $this->productModel->deleteProductBySku($args['sku']);
 
-            if ($deleteProduct) {
+            if ($deleteProduct && $exists) {
                 $responseData['message'] =
                     "Product successfully deleted";
 
