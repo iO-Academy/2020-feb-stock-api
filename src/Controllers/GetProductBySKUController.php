@@ -29,11 +29,9 @@ class GetProductBySKUController extends Controller
             $sku = SKUValidator::validateSKU($sku);
 
         } catch (\Throwable $e) {
-            $responseData = ['success' => false,
-                'message' => 'Something went wrong, please try again later please',
-                'data' => []];
+            $responseData['message'] = $e->getMessage();
 
-            return $this->respondWithJson($response, $responseData, 500);
+            return $this->respondWithJson($response, $responseData, 400);
         }
 
         try {
