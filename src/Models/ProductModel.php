@@ -127,9 +127,13 @@ class ProductModel implements ProductModelInterface
         return $query->execute([$sku]);
     }
 
+    /**
+     * @param string $sku
+     * @return mixed array of product if exists or false if it doesn't
+     */
     public function getProductBySKU(string $sku)
     {
-        $query = $this->db->prepare("SELECT `sku`, `name`, `price`, `stockLevel` FROM `products` WHERE `sku` = ?");
+        $query = $this->db->prepare("SELECT `sku`, `name`, `price`, `stockLevel` FROM `products` WHERE `sku` = ? AND `deleted` = 0");
         $query->execute([$sku]);
 
         return $query->fetch();
