@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 use App\Validators\PriceValidator;
-use App\Validators\SkuValidator;
+use App\Validators\SkuOrderValidator;
 use App\Validators\StockLevelValidator;
 use App\Validators\StringValidator;
 use App\Interfaces\ProductEntityInterface;
@@ -66,7 +66,7 @@ class ProductEntity implements ProductEntityInterface
 
     private function sanitiseData()
     {
-        $this->sku = SkuValidator::validateSku($this->sku);
+        $this->sku = SkuOrderValidator::validateSkuAndOrder($this->sku);
 
         $this->name = StringValidator::sanitiseString($this->name);
         $this->name = StringValidator::validateExistsAndLength($this->name, 255);

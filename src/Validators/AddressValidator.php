@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Validators;
 
-
-class AddressValidator
+class AddressValidator extends StringValidator
 {
     private const ADDRESS_REGEX = '/^[a-z0-9- ]+$/i';
 

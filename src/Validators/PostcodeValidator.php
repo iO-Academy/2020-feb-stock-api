@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Validators;
 
-
-class PostcodeValidator
+class PostcodeValidator extends StringValidator
 {
     /**
      * Validates postcode

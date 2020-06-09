@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Abstracts\Controller;
 use App\Interfaces\ProductModelInterface;
-use App\Validators\SkuValidator;
+use App\Validators\SkuOrderValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -31,7 +31,7 @@ class DeleteProductController extends Controller
         ];
 
         try {
-            $sku = SKUValidator::validateSKU($sku);
+            $sku = SkuOrderValidator::validateSkuAndOrder($sku);
 
         } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();

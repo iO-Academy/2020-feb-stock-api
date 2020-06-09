@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Abstracts\Controller;
 use App\Interfaces\ProductModelInterface;
-use App\Validators\SKUValidator;
+use App\Validators\SkuOrderValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -26,7 +26,7 @@ class GetProductBySKUController extends Controller
         $sku = $args['sku'];
 
         try {
-            $sku = SKUValidator::validateSKU($sku);
+            $sku = SkuOrderValidator::validateSkuAndOrder($sku);
 
         } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();

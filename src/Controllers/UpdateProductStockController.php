@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Abstracts\Controller;
-use App\Validators\SKUValidator;
+use App\Validators\SkuOrderValidator;
 use App\Validators\StockLevelValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -34,7 +34,7 @@ class UpdateProductStockController extends Controller
 
         try {
             $productData = [
-                'sku' => SKUValidator::validateSKU($sku),
+                'sku' => SkuOrderValidator::validateSkuAndOrder($sku),
                 'stockLevel' => StockLevelValidator::validateStockLevel($stockLevel)
             ];
         } catch (\Throwable $e) {

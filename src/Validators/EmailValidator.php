@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Validators;
 
-
-class EmailValidator
+class EmailValidator extends StringValidator
 {
     /**
      * Ensures valid email
