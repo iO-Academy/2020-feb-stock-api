@@ -12,5 +12,4 @@ class ReinstateProductControllerFactory
         $productModel = $container->get('ProductModel');
         return new ReinstateProductController($productModel);
     }
-
 }

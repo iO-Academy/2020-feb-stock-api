@@ -31,14 +31,21 @@ class ReinstateProductController extends Controller
 
         try {
             $sku = SkuValidator::validateSku($args['sku']);
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();
+
+            return $this->respondWithJson($response, $responseData, 400);
+        }
+        $checkProduct = $this->productModel->checkProductExists($sku);
+
+        if (!$checkProduct) {
+            $responseData['message'] = 'Product SKU does not exist in database';
 
             return $this->respondWithJson($response, $responseData, 400);
         }
         $success_query = $this->productModel->reinstateProduct($sku);
 
-        if($success_query){
+        if ($success_query) {
             $responseData['success'] = true;
             $responseData['message'] = 'Product no longer deleted';
 
