@@ -36,9 +36,9 @@ class ReinstateProductController extends Controller
 
             return $this->respondWithJson($response, $responseData, 400);
         }
-        $checkProduct = $this->productModel->checkProductExists($sku);
+        $productExists = $this->productModel->checkProductExists($sku);
 
-        if (!$checkProduct) {
+        if (!$productExists) {
             $responseData['message'] = 'Product SKU does not exist in database';
 
             return $this->respondWithJson($response, $responseData, 400);
