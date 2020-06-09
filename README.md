@@ -200,6 +200,8 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
   * **Code:** 400 UNAUTHORIZED <br />
  **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
+     <br /> or <br />
+ **Content:** `{ success : false, message: "Product SKU does not exist in DB ", data: []` 
     
     or 
     
