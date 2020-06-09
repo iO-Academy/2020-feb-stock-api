@@ -37,7 +37,7 @@ class GetProductBySKUController extends Controller
         }
 
         try {
-            $getProduct = $this->productModel->getProductBySKU();
+            $getProduct = $this->productModel->getProductBySKU($sku);
 
         } catch (\Throwable $e) {
             $responseData = ['success' => false,
