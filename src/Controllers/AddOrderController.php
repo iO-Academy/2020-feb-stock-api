@@ -8,7 +8,7 @@ use App\Abstracts\Controller;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class AddProductController extends Controller
+class AddOrderController extends Controller
 {
     private $orderModel;
 
