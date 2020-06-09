@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.29)
 # Database: stock_api
-# Generation Time: 2020-06-09 15:10:13 +0000
+# Generation Time: 2020-06-09 15:12:25 +0000
 # ************************************************************
 
 
@@ -29,14 +29,14 @@ CREATE TABLE `orderedProducts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `orderNumber` varchar(20) NOT NULL DEFAULT '',
   `sku` varchar(20) NOT NULL DEFAULT '',
-  `numberProductOrdered` int(11) NOT NULL,
+  `volumeOrdered` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 LOCK TABLES `orderedProducts` WRITE;
 /*!40000 ALTER TABLE `orderedProducts` DISABLE KEYS */;
 
-INSERT INTO `orderedProducts` (`id`, `orderNumber`, `sku`, `numberProductOrdered`)
+INSERT INTO `orderedProducts` (`id`, `orderNumber`, `sku`, `volumeOrdered`)
 VALUES
 	(1,'TESTORDER6','UGGBBPUR06',1),
 	(2,'TESTORDER6','UGGBBPUR07',2),
