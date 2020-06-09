@@ -50,7 +50,6 @@ class GetProductBySKUController extends Controller
                 'data' => [$returnedProduct]];
 
             return $this->respondWithJson($response, $responseData, 200);
-
         }
 
         $responseData = ['success' => false,
