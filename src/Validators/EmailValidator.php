@@ -6,7 +6,13 @@ namespace App\Validators;
 
 class EmailValidator
 {
-    public function validateEmail($email)
+    /**
+     * Ensures valid email
+     * @param string $email
+     * @return mixed
+     * @throws \Exception
+     */
+    public static function validateEmail(string $email)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $email;
