@@ -14,9 +14,8 @@ return function (App $app) {
         return $renderer->render($response, "index.php", $args);
     });
 
-    $app->post('/products', 'AddProductController');
     $app->get('/products', 'GetProductsController');
-
+    $app->post('/products', 'AddProductController');
     $app->put('/products/{sku}', 'UpdateProductController');
     $app->delete('/products/{sku}', 'DeleteProductController');
 
