@@ -48,10 +48,10 @@ class UpdateProductStockController extends Controller
         try {
             $productExists = $this->productModel->checkProductExists($productData['sku']);
 
-            if($productExists) {
+            if ($productExists) {
                 $updatedProductStock = $this->productModel->updateProductStock($productData);
 
-                if($updatedProductStock) {
+                if ($updatedProductStock) {
                     $responseData['success'] = true;
                     $responseData['message'] = 'Successfully updated product\'s stock level.';
 
@@ -65,7 +65,7 @@ class UpdateProductStockController extends Controller
                 'The product does not exist in the database. Please add it as a new product.';
 
             return $this->respondWithJson($response, $responseData, 400);
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $responseData['message']= 'Oops! Something went wrong. Please try again later.';
 
             return $this->respondWithJson($response, $responseData, 500);
