@@ -4,10 +4,11 @@ namespace App\Controllers;
 
 use App\Abstracts\Controller;
 use App\Interfaces\ProductModelInterface;
+use App\Validators\SkuValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class GetProductsBySKUController extends Controller
+class GetProductBySKUController extends Controller
 {
     private $productModel;
 
@@ -22,16 +23,16 @@ class GetProductsBySKUController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $sku = $request->getParsedBody() ['sku'];
         $sku = $args['sku'];
 
         try {
-            $products = $this->productModel->getAllProductsBySKU();
+            $sku = SKUValidator::validateSKU($sku);
+
         } catch (\Throwable $e) {
-            $data = ['success' => false,
+            $responseData = ['success' => false,
                 'message' => 'Something went wrong, please try again later',
                 'data' => []];
-            $payload = json_encode($data);
+            $payload = json_encode($responseData);
 
             $response->getBody()->write($payload);
             return $response
@@ -39,12 +40,27 @@ class GetProductsBySKUController extends Controller
                 ->withStatus(500);
         }
 
-        $message = $products ? 'All products returned' : 'There are no products in the database';
+        try {
+            $getProduct = $this->productModel->getProductBySKU();
 
-        $data = ['success' => true,
+        } catch (\Throwable $e) {
+            $responseData = ['success' => false,
+                'message' => 'Something went wrong, please try again later',
+                'data' => []];
+            $payload = json_encode($responseData);
+
+            $response->getBody()->write($payload);
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(500);
+        }
+
+        $message = $getProduct ? 'Requested product returned' : 'There are no products of this SKU in the database';
+
+        $responseData = ['success' => true,
             'message' => $message,
-            'data' => $products];
-        $payload = json_encode($data);
+            'data' => $getProduct];
+        $payload = json_encode($responseData);
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
