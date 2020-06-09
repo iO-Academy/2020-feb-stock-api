@@ -275,7 +275,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
          `products:[` <br />
             `{sku: "UGG-BB-PNR-98", "volumeOrdered" : 2},` <br />
             `{sku: "UGG-BB-PUR-06","volumeOrdered" : 3}` <br />
-            `]}` <br />
+            `]},` <br />
     `{orderNumber: "F87MKNAL", customerEmail: "another-email@mail.com",` <br /> 
          `shippingAddress:` <br />
          `{address1: "Another Street 28", address2: Flat 2E, city: "Bristol", postcode: "BR75ML", country: "United Kingdom"}, ` <br /> 
