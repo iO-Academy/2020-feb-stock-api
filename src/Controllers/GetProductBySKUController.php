@@ -43,14 +43,14 @@ class GetProductBySKUController extends Controller
                 if ($productExists) {
                     $responseData = ['success' => true,
                     'message' => 'Requested product returned',
-                    'data' => []];
+                    'data' => [$getProduct]];
 
                     return $this->respondWithJson($response, $responseData, 200);
 
                 } else {
                     $responseData = ['success' => false,
                     'message' => 'Product could not be returned at this time',
-                    'data' => []];
+                    'data' => [$getProduct]];
 
                     return $this->respondWithJson($response, $responseData, 500);
                 }
@@ -58,14 +58,14 @@ class GetProductBySKUController extends Controller
 
             $responseData = ['success' => false,
             'message' => 'There are no products of this SKU in the database',
-            'data' => []];
+            'data' => [$getProduct]];
 
             return $this->respondWithJson($response, $responseData, 400);
 
         } catch (\Throwable $e) {
             $responseData = ['success' => false,
                 'message' => 'Something went wrong, please try again later',
-                'data' => []];
+                'data' => [$getProduct]];
 
             return $this->respondWithJson($response, $responseData, 500);
         }      
