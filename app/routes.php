@@ -20,5 +20,7 @@ return function (App $app) {
     $app->put('/products/{sku}', 'UpdateProductController');
     $app->delete('/products/{sku}', 'DeleteProductController');
 
+    $app->put('/products/stock/{sku}', 'UpdateProductStockController');
+
     $app->put('/products/undodelete/{sku}', 'ReinstateProductController');
 };
