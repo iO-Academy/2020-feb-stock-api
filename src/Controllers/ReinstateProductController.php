@@ -40,7 +40,7 @@ class ReinstateProductController extends Controller
 
         if($success_query){
             $responseData['success'] = true;
-            $responseData['message'] = 'Product no longer deleted and updated with new information';
+            $responseData['message'] = 'Product no longer deleted';
 
             return $this->respondWithJson($response, $responseData);
         }
