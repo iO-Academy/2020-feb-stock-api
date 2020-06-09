@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 use App\Abstracts\Controller;
 use App\Entities\ProductEntity;

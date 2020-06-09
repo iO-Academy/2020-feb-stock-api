@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Factories;
-
 
 use App\Controllers\UpdateProductStockController;
 use Psr\Container\ContainerInterface;
