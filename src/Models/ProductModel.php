@@ -32,6 +32,7 @@ class ProductModel implements ProductModelInterface
     }
 
     /**
+     * Adds a product to the Database
      * @param ProductEntityInterface $productEntity
      * @return bool if product has been added successfully to DB
      */
@@ -74,6 +75,7 @@ class ProductModel implements ProductModelInterface
     }
 
     /**
+     * Checks if product exists in Database
      * @param string $sku
      * @return array containing the existing product's SKU and deleted status.
      * @return false if product doesn't exist
@@ -94,6 +96,21 @@ class ProductModel implements ProductModelInterface
         $query = $this->db->prepare("UPDATE `products`
                                         SET `deleted` = 0
                                         WHERE `sku` = ?;");
+
+        return $query->execute([$sku]);
+    }
+
+    /**
+     * Soft deletes product from Database and updates stock to 0 for said product
+     * @param string $sku
+     * @return bool whether the operation was successful or not
+     */
+    public function deleteProductBySku(string $sku): bool
+    {
+        $query = $this->db->prepare("UPDATE `products`
+                                        SET `deleted` = 1,
+                                            `stockLevel` = 0
+                                        WHERE `sku` = ?");
 
         return $query->execute([$sku]);
     }
