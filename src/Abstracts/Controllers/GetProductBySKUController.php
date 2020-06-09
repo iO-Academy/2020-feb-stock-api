@@ -32,12 +32,8 @@ class GetProductBySKUController extends Controller
             $responseData = ['success' => false,
                 'message' => 'Something went wrong, please try again later',
                 'data' => []];
-            $payload = json_encode($responseData);
 
-            $response->getBody()->write($payload);
-            return $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(500);
+            return $this->respondWithJson($response, $responseData, 500);
         }
 
         try {
@@ -47,12 +43,8 @@ class GetProductBySKUController extends Controller
             $responseData = ['success' => false,
                 'message' => 'Something went wrong, please try again later',
                 'data' => []];
-            $payload = json_encode($responseData);
 
-            $response->getBody()->write($payload);
-            return $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(500);
+            return $this->respondWithJson($response, $responseData, 500);
         }
 
         $message = $getProduct ? 'Requested product returned' : 'There are no products of this SKU in the database';
@@ -60,9 +52,7 @@ class GetProductBySKUController extends Controller
         $responseData = ['success' => true,
             'message' => $message,
             'data' => $getProduct];
-        $payload = json_encode($responseData);
 
-        $response->getBody()->write($payload);
-        return $response->withHeader('Content-Type', 'application/json');
+        return $this->respondWithJson($response, $responseData, 200);
     }
 }
