@@ -239,6 +239,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
  *** 
  
  **Add an order**
+ ----
 
     Add an order to the database.
   
@@ -296,6 +297,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
    
   
 **Get all orders**
+----
 
     Get all orders that are in the database.
   
@@ -372,6 +374,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
    
    
  **Cancel an order**
+ ----
     
   Cancel an order from the database
       
