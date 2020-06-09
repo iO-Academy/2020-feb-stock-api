@@ -12,6 +12,10 @@ class ReinstateProductController extends Controller
 {
     private $productModel;
 
+    /**
+     * ReinstateProductController constructor.
+     * @param ProductModelInterface $productModel
+     */
     public function __construct(ProductModelInterface $productModel)
     {
         $this->productModel = $productModel;
@@ -32,16 +36,16 @@ class ReinstateProductController extends Controller
 
             return $this->respondWithJson($response, $responseData, 400);
         }
-
         $success_query = $this->productModel->reinstateProduct($sku);
 
         if($success_query){
             $responseData['success'] = true;
             $responseData['message'] = 'Product no longer deleted and updated with new information';
+
             return $this->respondWithJson($response, $responseData);
         }
-
         $responseData['message'] = 'Something went wrong, please try again later';
+
         return $this->respondWithJson($response, $responseData, 500);
     }
 }

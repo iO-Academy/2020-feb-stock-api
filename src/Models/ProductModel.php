@@ -76,7 +76,7 @@ class ProductModel implements ProductModelInterface
     /**
      * @param string $sku
      * @return array containing the existing product's SKU and deleted status.
-     * @return false if products doesn't exist
+     * @return false if product doesn't exist
      */
     public function checkProductExists(string $sku)
     {
@@ -91,7 +91,6 @@ class ProductModel implements ProductModelInterface
      */
     public function reinstateProduct(string $sku): bool
     {
-
         $query = $this->db->prepare("UPDATE `products`
                                         SET `deleted` = 0
                                         WHERE `sku` = ?;");
