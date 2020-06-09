@@ -48,7 +48,7 @@ class UpdateProductStockController extends Controller
         try {
             $productExists = $this->productModel->checkProductExists($productData['sku']);
 
-            if ($productExists) {
+            if ($productExists && $productExists['deleted'] === "0") {
                 $updatedProductStock = $this->productModel->updateProductStock($productData);
 
                 if ($updatedProductStock) {

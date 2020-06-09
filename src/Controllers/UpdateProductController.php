@@ -50,7 +50,7 @@ class UpdateProductController extends Controller
         try {
             $productExists = $this->productModel->checkProductExists($product->getSku());
 
-            if($productExists) {
+            if($productExists && $productExists['deleted'] === "0") {
                 $query_response = $this->productModel->updateProduct($product);
 
                 if($query_response) {
