@@ -30,6 +30,8 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
   * **Code:** 400 User Error <br />
   **Content:** `{ success : false, message: "Invalid Product Information", data: [] }`
+      <br /> or <br />
+   **Content:** `{ success : false, message: "Product SKU has previously been added ", data: {product: {sku: "UGG-BB-PUR-06", deleted: 1 or 0}} }` 
   
   or
   * **Code:** 500 Internal Server Error <br />
@@ -175,4 +177,31 @@ A warehouse house built by Mayden Academy students that would help employees kee
     or 
     
   **Code:** 500 Server Error <br />
+  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+  
+**Reinstate a deleted product**
+----
+  Undo a delete on a previously deleted product
+
+* **URL**
+
+  /products/undodelete{sku}
+
+* **Method:**
+
+   `PUT`
+    
+* **Success Response:**
+ 
+  * **Code:** 200 <br />
+ **Content:** `{ success : true, message: "Product is no longer deleted", data: [] }`
+ 
+* **Error Response:**
+
+  * **Code:** 400 UNAUTHORIZED <br />
+ **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
+    
+    or 
+    
+  * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
