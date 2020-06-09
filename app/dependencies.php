@@ -39,6 +39,7 @@ return function (ContainerBuilder $containerBuilder) {
     $container['AddProductController'] = DI\factory('App\Factories\AddProductControllerFactory');
     $container['UpdateProductController'] = DI\factory('\App\Factories\UpdateProductControllerFactory');
     $container['GetProductsController'] = DI\factory('App\Factories\GetProductsControllerFactory');
+    $container['DeleteProductController'] = DI\factory('App\Factories\DeleteProductControllerFactory');
 
     $containerBuilder->addDefinitions($container);
 };

@@ -4,15 +4,14 @@
 namespace App\Factories;
 
 
-use App\Controllers\UpdateProductController;
+use App\Controllers\DeleteProductController;
 use Psr\Container\ContainerInterface;
 
-class UpdateProductControllerFactory
+class DeleteProductControllerFactory
 {
     public function __invoke(ContainerInterface $container)
     {
         $productModel = $container->get('ProductModel');
-
-        return new updateProductController($productModel);
+        return new DeleteProductController($productModel);
     }
 }
