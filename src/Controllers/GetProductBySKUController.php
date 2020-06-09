@@ -35,39 +35,28 @@ class GetProductBySKUController extends Controller
         }
 
         try {
-            $productExists = $this->productModel->checkProductExists($sku);
-            
-            if ($productExists) {
-                $getProduct = $this->productModel->getProductBySKU($sku);
-            
-                if ($productExists) {
-                    $responseData = ['success' => true,
-                    'message' => 'Requested product returned',
-                    'data' => [$getProduct]];
-
-                    return $this->respondWithJson($response, $responseData, 200);
-
-                } else {
-                    $responseData = ['success' => false,
-                    'message' => 'Product could not be returned at this time',
-                    'data' => [$getProduct]];
-
-                    return $this->respondWithJson($response, $responseData, 500);
-                }
-            }
-
-            $responseData = ['success' => false,
-            'message' => 'There are no products of this SKU in the database',
-            'data' => [$getProduct]];
-
-            return $this->respondWithJson($response, $responseData, 400);
-
+            $returnedProduct = $this->productModel->getProductBySKU($sku);
         } catch (\Throwable $e) {
             $responseData = ['success' => false,
                 'message' => 'Something went wrong, please try again later',
-                'data' => [$getProduct]];
+                'data' => []];
 
             return $this->respondWithJson($response, $responseData, 500);
-        }      
+        }
+
+        if ($returnedProduct) {
+            $responseData = ['success' => true,
+                'message' => 'Requested product returned',
+                'data' => [$returnedProduct]];
+
+            return $this->respondWithJson($response, $responseData, 200);
+
+        }
+
+        $responseData = ['success' => false,
+            'message' => 'There are no products with this SKU in the database',
+            'data' => []];
+
+        return $this->respondWithJson($response, $responseData, 400);
     }
 }
