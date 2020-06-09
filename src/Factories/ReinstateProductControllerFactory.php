@@ -2,14 +2,14 @@
 
 namespace App\Factories;
 
-use App\Controllers\AddProductController;
+use App\Controllers\ReinstateProductController;
 use Psr\Container\ContainerInterface;
 
-class AddProductControllerFactory
+class ReinstateProductControllerFactory
 {
     public function __invoke(ContainerInterface $container)
     {
         $productModel = $container->get('ProductModel');
-        return new AddProductController($productModel);
+        return new ReinstateProductController($productModel);
     }
 }

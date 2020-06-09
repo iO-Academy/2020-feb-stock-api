@@ -14,9 +14,16 @@ return function (App $app) {
         return $renderer->render($response, "index.php", $args);
     });
 
-    $app->post('/products', 'AddProductController');
     $app->get('/products', 'GetProductsController');
-    $app->delete('/products/{sku}', 'DeleteProductController');
+    $app->post('/products', 'AddProductController');
     $app->put('/products/{sku}', 'UpdateProductController');
+<<<<<<< HEAD
     $app->get('/products/{sku}', 'GetProductBySKUController');
+=======
+    $app->delete('/products/{sku}', 'DeleteProductController');
+
+    $app->put('/products/stock/{sku}', 'UpdateProductStockController');
+
+    $app->put('/products/undodelete/{sku}', 'ReinstateProductController');
+>>>>>>> a9e801241cb1bca6a682273d1840d3a17d12f58a
 };

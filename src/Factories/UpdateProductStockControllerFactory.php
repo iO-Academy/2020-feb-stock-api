@@ -2,14 +2,14 @@
 
 namespace App\Factories;
 
-use App\Controllers\AddProductController;
+use App\Controllers\UpdateProductStockController;
 use Psr\Container\ContainerInterface;
 
-class AddProductControllerFactory
+class UpdateProductStockControllerFactory
 {
     public function __invoke(ContainerInterface $container)
     {
         $productModel = $container->get('ProductModel');
-        return new AddProductController($productModel);
+        return new UpdateProductStockController($productModel);
     }
 }
