@@ -63,7 +63,8 @@ class UpdateProductController extends Controller
 
                 return $this->respondWithJson($response, $responseData, 500);
             }
-            $responseData['message'] = 'Product does not exist in the database. Please add as a new product.';
+            $responseData['message'] =
+                'Product does not exist in the database. Please add as a new product.';
 
             return $this->respondWithJson($response, $responseData, 400);
 
