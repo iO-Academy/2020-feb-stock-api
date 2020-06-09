@@ -41,6 +41,7 @@ return function (ContainerBuilder $containerBuilder) {
     $container['UpdateProductStockController'] = DI\factory('App\Factories\UpdateProductStockControllerFactory');
     $container['UpdateProductController'] = DI\factory('\App\Factories\UpdateProductControllerFactory');
     $container['GetProductsController'] = DI\factory('App\Factories\GetProductsControllerFactory');
+    $container['ReinstateProductController'] = DI\factory('App\Factories\ReinstateProductControllerFactory');
     $container['DeleteProductController'] = DI\factory('App\Factories\DeleteProductControllerFactory');
 
     $containerBuilder->addDefinitions($container);

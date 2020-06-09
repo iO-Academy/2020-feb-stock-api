@@ -89,15 +89,27 @@ class ProductModel implements ProductModelInterface
     /**
      * Checks if product exists in Database
      * @param string $sku
-     * @return bool whether the product was found in DB or not
+     * @return array containing the existing product's SKU and deleted status.
+     * @return false if product doesn't exist
      */
-    public function checkProductExists(string $sku): bool
+    public function checkProductExists(string $sku)
     {
-        $query = $this->db->prepare("SELECT `id` FROM `products` WHERE `sku` = ?");
+        $query = $this->db->prepare("SELECT `sku`, `deleted` FROM `products` WHERE `sku` = ?");
         $query->execute([$sku]);
-        $result = $query->fetch();
+        return $query->fetch();
+    }
 
-        return !empty($result);
+    /**
+     * @param string $sku
+     * @return bool if product has been "undeleted" successfully in DB
+     */
+    public function reinstateProduct(string $sku): bool
+    {
+        $query = $this->db->prepare("UPDATE `products`
+                                        SET `deleted` = 0
+                                        WHERE `sku` = ?;");
+
+        return $query->execute([$sku]);
     }
 
     /**

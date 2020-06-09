@@ -46,27 +46,25 @@ class AddProductController extends Controller
         }
 
         try {
-            $productExists = $this->productModel->checkProductExists($newProduct->getSku());
+            $existingProduct = $this->productModel->checkProductExists($newProduct->getSku());
 
-            if ($productExists) {
-                $responseData['message']=
-                    'This product already exists in the database. Either update the old product or use a new SKU.';
+            if ($existingProduct) {
+                $responseData['message'] = 'This product with the provided SKU has previously been added to the database';
+                $responseData['data'] = ['product' => $existingProduct];
 
                 return $this->respondWithJson($response, $responseData, 400);
-
-            } else {
-                $query_success = $this->productModel->addProduct($newProduct);
-
-                if ($query_success) {
-                    $responseData['success'] = true;
-                    $responseData['message'] = 'Product successfully added.';
-
-                    return $this->respondWithJson($response, $responseData, 200);
-                }
-                $responseData['message']= 'Could not add product please try again.';
-
-                return $this->respondWithJson($response, $responseData, 500);
             }
+            $query_success = $this->productModel->addProduct($newProduct);
+
+            if ($query_success) {
+                $responseData['success'] = true;
+                $responseData['message'] = 'Product successfully added.';
+
+                return $this->respondWithJson($response, $responseData, 200);
+            }
+            $responseData['message'] = 'An error occurred, could not add product please try again.';
+
+            return $this->respondWithJson($response, $responseData, 500);
 
         } catch (\Throwable $e) {
             $responseData['message']= 'Oops! Something went wrong. Please try again later.';
