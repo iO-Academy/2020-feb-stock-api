@@ -85,9 +85,35 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Success Response:**
  
   * **Code:** 200 <br />
- **Content:** `{ success : true, message: "All products returned", data: {products:[` <br />
-            `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"},` <br />
-            `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}]} }`
+ **Content:** 
+ ```json
+ {
+     "success": true,
+     "message": "All products returned",
+     "data": {
+         "products": [
+             {
+                 "sku": "abcdef123456",
+                 "name": "test_name_1",
+                 "price": "99.99",
+                 "stockLevel": "1"
+             },
+             {
+                 "sku": "abcdef123457",
+                 "name": "test_name_2",
+                 "price": "89.99",
+                 "stockLevel": "5"
+             },
+             {
+                 "sku": "abcdef123458",
+                 "name": "test_name_3",
+                 "price": "79.99",
+                 "stockLevel": "10"
+             }
+         ]
+     }
+ }
+ ```
  
 * **Error Response:**
     
@@ -226,13 +252,30 @@ A warehouse house built by Mayden Academy students that would help employees kee
    
  * **Data Params**
   
-     **order** `{orderNumber: "K3FK57MN", customerEmail: "example@mail.com",` <br /> 
-     `shippingAddress:` <br />
-     `{address1: "New Street 15", address2: optional, city: "Bath", postcode: "BA91LO", country: "United Kingdom"}, ` <br /> 
-     `products:[` <br />
-                 `{sku: "BJL-44-NMR-78", "volumeOrdered" : 5},` <br />
-                 `{sku: "JKS-89-PMJ-40", "volumeOrdered" : 1}` <br />
-                 `]}`
+     **order** 
+```json
+     {
+         "orderNumber": "K3FK57MN",
+         "customerEmail": "example@mail.com",
+         "shippingAddress": {
+             "address1": "New Street 15",
+             "address2": "optional",
+             "city": "Bath",
+             "postcode": "BA91LO",
+             "country": "United Kingdom"
+         },
+         "products": [
+             {
+                 "sku": "UGG-BB-PNR-98",
+                 "volumeOrdered": 5
+             },
+             {
+                 "sku": "BNH-LR-DSR-54",
+                 "volumeOrdered": 9
+             }
+         ]
+     }
+```
         
  * **Success Response:**
    
@@ -268,21 +311,59 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Success Response:**
    
     * **Code:** 200 <br />
-   **Content:** `{ success : true, message: "Order successfully added", data: {orders:[` <br />
-    `{orderNumber: "K3FK57MN", customerEmail: "example@mail.com",` <br /> 
-         `shippingAddress:` <br />
-         `{address1: "New Street 15", address2: optional, city: "Bath", postcode: "BA91LO", country: "United Kingdom"}, ` <br /> 
-         `products:[` <br />
-            `{sku: "UGG-BB-PNR-98", "volumeOrdered" : 2},` <br />
-            `{sku: "UGG-BB-PUR-06","volumeOrdered" : 3}` <br />
-            `]},` <br />
-    `{orderNumber: "F87MKNAL", customerEmail: "another-email@mail.com",` <br /> 
-         `shippingAddress:` <br />
-         `{address1: "Another Street 28", address2: Flat 2E, city: "Bristol", postcode: "BR75ML", country: "United Kingdom"}, ` <br /> 
-         `products:[` <br />
-            `{sku: "BJL-44-NMR-78", "volumeOrdered" : 5},` <br />
-            `{sku: "JKS-89-PMJ-40", "volumeOrdered" : 1}` <br />
-            `]}`
+   **Content:**  
+```json
+    {
+        "succcess": true,
+        "message": "Orders successfully returned",
+        "data": {
+            "orders": [
+                {
+                    "orderNumber": "K3FK57MN",
+                    "customerEmail": "example@mail.com",
+                    "shippingAddress": {
+                        "address1": "New Street 15",
+                        "address2": "optional",
+                        "city": "Bath",
+                        "postcode": "BA91LO",
+                        "country": "United Kingdom"
+                    },
+                    "products": [
+                        {
+                            "sku": "UGG-BB-PNR-98",
+                            "volumeOrdered": 5
+                        },
+                        {
+                            "sku": "BNH-LR-DSR-54",
+                            "volumeOrdered": 9
+                        }
+                    ]
+                },
+                {
+                    "orderNumber": "F87MKNAL",
+                    "customerEmail": "anotheremail@gmail.com",
+                    "shippingAddress": {
+                        "address1": "Another Lane 56",
+                        "address2": "Flat 2B",
+                        "city": "Bristol",
+                        "postcode": "BR56LM",
+                        "country": "United Kingdom"
+                    },
+                    "products": [
+                        {
+                            "sku": "BJL-44-NMR-78",
+                            "volumeOrdered": 1
+                        },
+                        {
+                            "sku": "JKS-89-PMJ-40",
+                            "volumeOrdered": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+ ```
    
 * **Error Response:**
  
