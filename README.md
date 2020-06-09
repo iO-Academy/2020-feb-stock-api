@@ -199,11 +199,91 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Error Response:**
 
   * **Code:** 400 UNAUTHORIZED <br />
- **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
+    **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
      <br /> or <br />
- **Content:** `{ success : false, message: "Product SKU does not exist in DB ", data: []` 
+    **Content:** `{ success : false, message: "Product SKU does not exist in DB ", data: []` 
     
     or 
     
   * **Code:** 500 Server Error <br />
-  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+    **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+  
+  
+ **Add an order**
+
+    Add an order to the database.
+  
+ * **URL**
+  
+    /orders
+  
+ * **Method:**
+   
+     `POST`
+   
+ * **Data Params**
+  
+     **order** `{orderNumber: "K3FK57MN", customerEmail: "example@mail.com",` <br /> 
+     `shippingAddress:` <br />
+     `{address1: "New Street 15", address2: optional, city: "Bath", postcode: "BA91LO", country: "United Kingdom"}, ` <br /> 
+     `products:[` <br />
+                 `{sku: "BJL-44-NMR-78", "volumeOrdered" : 5},` <br />
+                 `{sku: "JKS-89-PMJ-40", "volumeOrdered" : 1}` <br />
+                 `]}`
+        
+ * **Success Response:**
+   
+    * **Code:** 200 <br />
+   **Content:** `{ success : true, message: "Order successfully added", data: [] }`
+   
+ * **Error Response:**
+  
+    * **Code:** 400 User Error <br />
+        **Content:** `{ success : false, message: "Invalid Order Information", data: [] }`
+        <br /> or <br />
+         **Content:** `{ success : false, message: "Order Number already exists ", data: []` 
+    
+    or
+    * **Code:** 500 Internal Server Error <br />
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+    
+   
+  
+ **Get all orders**
+
+    Get all orders that are in the database.
+  
+ * **URL**
+  
+    /orders
+  
+ * **Method:**
+   
+     `GET`
+   
+        
+ * **Success Response:**
+   
+    * **Code:** 200 <br />
+   **Content:** `{ success : true, message: "Order successfully added", data: {orders:[` <br />
+    `{orderNumber: "K3FK57MN", customerEmail: "example@mail.com",` <br /> 
+         `shippingAddress:` <br />
+         `{address1: "New Street 15", address2: optional, city: "Bath", postcode: "BA91LO", country: "United Kingdom"}, ` <br /> 
+         `products:[` <br />
+            `{sku: "UGG-BB-PNR-98", "volumeOrdered" : 2},` <br />
+            `{sku: "UGG-BB-PUR-06","volumeOrdered" : 3}` <br />
+            `]}` <br />
+    `{orderNumber: "F87MKNAL", customerEmail: "another-email@mail.com",` <br /> 
+         `shippingAddress:` <br />
+         `{address1: "Another Street 28", address2: Flat 2E, city: "Bristol", postcode: "BR75ML", country: "United Kingdom"}, ` <br /> 
+         `products:[` <br />
+            `{sku: "BJL-44-NMR-78", "volumeOrdered" : 5},` <br />
+            `{sku: "JKS-89-PMJ-40", "volumeOrdered" : 1}` <br />
+            `]}`
+   
+ * **Error Response:**
+ 
+    * **Code:** 500 Internal Server Error <br />
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+        
+        
