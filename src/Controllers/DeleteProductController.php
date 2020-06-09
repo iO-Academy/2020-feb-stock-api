@@ -52,14 +52,19 @@ class DeleteProductController extends Controller
                         "Product successfully deleted";
 
                     return $this->respondWithJson($response, $responseData, 200);
+
+                } else {
+                    $responseData['message'] =
+                        "Product couldn't be deleted at this time, please try again";
+
+                    return $this->respondWithJson($response, $responseData, 500);
                 }
-
-            } else {
-                $responseData['message'] =
-                    "Product doesn't exist, therefore couldn't be deleted, please try again";
-
-                return $this->respondWithJson($response, $responseData, 500);
             }
+
+            $responseData['message'] =
+                "Product doesn't exist, therefore couldn't be deleted, please try again";
+
+            return $this->respondWithJson($response, $responseData, 400);
 
         } catch(\Throwable $e) {
             $responseData['message'] =
