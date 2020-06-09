@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.29)
 # Database: stock_api
-# Generation Time: 2020-06-09 14:43:24 +0000
+# Generation Time: 2020-06-09 14:57:57 +0000
 # ************************************************************
 
 
@@ -63,6 +63,7 @@ CREATE TABLE `orders` (
   `shippingPostcode` varchar(255) NOT NULL DEFAULT '',
   `shippingCountry` varchar(255) NOT NULL DEFAULT '',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE` (`orderNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -70,9 +71,9 @@ CREATE TABLE `orders` (
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 
-INSERT INTO `orders` (`id`, `orderNumber`, `CustomerEmail`, `shippingAddress1`, `shippingAddress2`, `shippingCity`, `shippingPostcode`, `shippingCountry`, `deleted`)
+INSERT INTO `orders` (`id`, `orderNumber`, `CustomerEmail`, `shippingAddress1`, `shippingAddress2`, `shippingCity`, `shippingPostcode`, `shippingCountry`, `deleted`, `completed`)
 VALUES
-	(1,'TESTORDER6','test@example.com','21 Test Lane','','Teston','AB12 BA21','UK',0);
+	(1,'TESTORDER6','test@example.com','21 Test Lane','','Teston','AB12 BA21','UK',0,0);
 
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
