@@ -208,7 +208,10 @@ A warehouse house built by Mayden Academy students that would help employees kee
   * **Code:** 500 Server Error <br />
     **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
-  
+ ***
+ **ORDERS**
+ *** 
+ 
  **Add an order**
 
     Add an order to the database.
