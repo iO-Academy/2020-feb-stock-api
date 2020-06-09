@@ -17,9 +17,8 @@ return function (App $app) {
     $app->get('/products', 'GetProductsController');
     $app->post('/products', 'AddProductController');
     $app->put('/products/{sku}', 'UpdateProductController');
+    $app->get('/products/{sku}', 'GetProductBySKUController');
     $app->delete('/products/{sku}', 'DeleteProductController');
-
     $app->put('/products/stock/{sku}', 'UpdateProductStockController');
-
     $app->put('/products/undodelete/{sku}', 'ReinstateProductController');
 };
