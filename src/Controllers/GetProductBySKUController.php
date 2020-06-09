@@ -30,7 +30,7 @@ class GetProductBySKUController extends Controller
 
         } catch (\Throwable $e) {
             $responseData = ['success' => false,
-                'message' => 'Something went wrong, please try again later',
+                'message' => 'Something went wrong, please try again later please',
                 'data' => []];
 
             return $this->respondWithJson($response, $responseData, 500);
