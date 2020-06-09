@@ -1,19 +1,14 @@
 <?php
 
+
 namespace App\Entities;
 
 
-
 use App\Validators\NameValidator;
-
-
 use App\Validators\PriceValidator;
 use App\Validators\SkuValidator;
 use App\Validators\StockLevelValidator;
 use App\Validators\StringValidator;
-
-
-
 use App\Interfaces\ProductEntityInterface;
 
 class ProductEntity implements ProductEntityInterface

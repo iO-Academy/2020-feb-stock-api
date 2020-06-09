@@ -4,7 +4,7 @@
 namespace App\Factories;
 
 
-use App\Controllers\updateProductController;
+use App\Controllers\UpdateProductController;
 use Psr\Container\ContainerInterface;
 
 class UpdateProductControllerFactory

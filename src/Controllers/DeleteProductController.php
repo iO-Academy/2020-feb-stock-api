@@ -7,14 +7,12 @@ namespace App\Controllers;
 use App\Abstracts\Controller;
 use App\Interfaces\ProductModelInterface;
 use App\Validators\SkuValidator;
-use App\Validators\StockLevelValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class DeleteProductController extends Controller
 {
     private $productModel;
-
 
     /**
      * DeleteProductController constructor.
@@ -45,9 +43,10 @@ class DeleteProductController extends Controller
 
         try {
             $exists = $this->productModel->checkProductExists($args['sku']);
-            $deleteProduct = $this->productModel->deleteProductBySku($args['sku']);
 
-            if ($deleteProduct && $exists) {
+            if ($exists) {
+                $this->productModel->deleteProductBySku($args['sku']);
+
                 $responseData['message'] =
                     "Product successfully deleted";
 
@@ -55,9 +54,9 @@ class DeleteProductController extends Controller
 
             } else {
                 $responseData['message'] =
-                    "Product couldn't be deleted at this time, please try again";
+                    "Product doesn't exist, therefore couldn't be deleted, please try again";
 
-                return $this->respondWithJson($response, $responseData, 400);
+                return $this->respondWithJson($response, $responseData, 500);
             }
 
         } catch(\Throwable $e) {
