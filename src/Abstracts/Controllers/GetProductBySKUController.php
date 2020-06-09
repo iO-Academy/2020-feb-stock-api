@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Abstracts\Controller;
 use App\Interfaces\ProductModelInterface;
-use App\Validators\SkuValidator;
+use App\Validators\SKUValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -13,7 +13,7 @@ class GetProductBySKUController extends Controller
     private $productModel;
 
     /**
-     * GetProductsController constructor.
+     * GetProductBySKUController constructor.
      * @param $productModel
      */
     public function __construct(ProductModelInterface $productModel)
