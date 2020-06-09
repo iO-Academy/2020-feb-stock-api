@@ -85,4 +85,18 @@ class ProductModel implements ProductModelInterface
 
         return !empty($result);
     }
+
+    /**
+     * @param string $sku
+     * @return bool if product has been updated successfully in DB
+     */
+    public function reinstateProduct(string $sku): bool
+    {
+
+        $query = $this->db->prepare("UPDATE `products`
+                                        SET `deleted` = 0
+                                        WHERE `sku` = ?;");
+
+        return $query->execute([$sku]);
+    }
 }
