@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 use App\Abstracts\Controller;
 use App\Entities\ProductEntity;
@@ -50,7 +48,7 @@ class UpdateProductController extends Controller
         try {
             $productExists = $this->productModel->checkProductExists($product->getSku());
 
-            if($productExists) {
+            if($productExists && $productExists['deleted'] === "0") {
                 $query_response = $this->productModel->updateProduct($product);
 
                 if($query_response) {
@@ -63,7 +61,8 @@ class UpdateProductController extends Controller
 
                 return $this->respondWithJson($response, $responseData, 500);
             }
-            $responseData['message'] = 'Product does not exist in the database. Please add as a new product.';
+            $responseData['message'] =
+                'Product does not exist in the database. Please add as a new product.';
 
             return $this->respondWithJson($response, $responseData, 400);
 
