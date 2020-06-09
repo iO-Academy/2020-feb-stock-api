@@ -35,22 +35,39 @@ class GetProductBySKUController extends Controller
         }
 
         try {
-            $getProduct = $this->productModel->getProductBySKU($sku);
+            $productExists = $this->productModel->checkProductExists($sku);
+            
+            if ($productExists) {
+                $getProduct = $this->productModel->getProductBySKU($sku);
+            
+                if ($productExists) {
+                    $responseData = ['success' => true,
+                    'message' => 'Requested product returned',
+                    'data' => []];
+
+                    return $this->respondWithJson($response, $responseData, 200);
+
+                } else {
+                    $responseData = ['success' => false,
+                    'message' => 'Product could not be returned at this time',
+                    'data' => []];
+
+                    return $this->respondWithJson($response, $responseData, 500);
+                }
+            }
+
+            $responseData = ['success' => false,
+            'message' => 'There are no products of this SKU in the database',
+            'data' => []];
+
+            return $this->respondWithJson($response, $responseData, 400);
 
         } catch (\Throwable $e) {
             $responseData = ['success' => false,
-                'message' => 'There are no products of this SKU in the database',
+                'message' => 'Something went wrong, please try again later',
                 'data' => []];
 
             return $this->respondWithJson($response, $responseData, 500);
-        }
-
-        $message = $getProduct ? 'Requested product returned' : 'Product could not be returned at this time';
-
-        $responseData = ['success' => true,
-            'message' => $message,
-            'data' => $getProduct];
-
-        return $this->respondWithJson($response, $responseData, 200);
+        }      
     }
 }

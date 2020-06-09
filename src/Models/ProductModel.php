@@ -103,7 +103,7 @@ class ProductModel implements ProductModelInterface
         return $query->execute([$sku]);
     }
 
-    public function getProductBySKU(string $sku): array
+    public function getProductBySKU(string $sku)
     {
         $query = $this->db->prepare("SELECT `sku`, `name`, `price`, `stockLevel` FROM `products` WHERE `sku` = ?");
         $query->execute([$sku]);
