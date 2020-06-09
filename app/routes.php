@@ -18,5 +18,6 @@ return function (App $app) {
     $app->get('/products', 'GetProductsController');
 
     $app->put('/products/stock/{sku}', 'UpdateProductStockController');
-
+    $app->delete('/products/{sku}', 'DeleteProductController');
+    $app->put('/products/{sku}', 'UpdateProductController');
 };
