@@ -18,5 +18,5 @@ return function (App $app) {
 
     $app->get('/products', 'GetProductsController');
 
-    $app->get('/products/{sku}', 'GetProductsBySKUController');
+    $app->get('/products/{sku}', 'GetProductBySKUController');
 };

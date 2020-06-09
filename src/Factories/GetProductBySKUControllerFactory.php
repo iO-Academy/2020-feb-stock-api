@@ -2,7 +2,7 @@
 
 namespace App\Factories;
 
-use App\Controllers\UpdateProductStockController;
+use App\Controllers\GetProductBySKUController;
 use Psr\Container\ContainerInterface;
 
 class GetProductBySKUControllerFactory
