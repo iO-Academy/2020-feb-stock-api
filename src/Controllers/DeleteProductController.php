@@ -42,10 +42,10 @@ class DeleteProductController extends Controller
         }
 
         try {
-            $exists = $this->productModel->checkProductExists($args['sku']);
+            $exists = $this->productModel->checkProductExists($sku);
 
             if ($exists) {
-                $deleteProduct = $this->productModel->deleteProductBySku($args['sku']);
+                $deleteProduct = $this->productModel->deleteProductBySku($sku);
 
                 if ($deleteProduct){
                     $responseData['message'] =
