@@ -45,12 +45,14 @@ class DeleteProductController extends Controller
             $exists = $this->productModel->checkProductExists($args['sku']);
 
             if ($exists) {
-                $this->productModel->deleteProductBySku($args['sku']);
+                $deleteProduct = $this->productModel->deleteProductBySku($args['sku']);
 
-                $responseData['message'] =
-                    "Product successfully deleted";
+                if ($deleteProduct){
+                    $responseData['message'] =
+                        "Product successfully deleted";
 
-                return $this->respondWithJson($response, $responseData, 200);
+                    return $this->respondWithJson($response, $responseData, 200);
+                }
 
             } else {
                 $responseData['message'] =
