@@ -19,9 +19,10 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
-     * Adds an order to the Database, including inserting order in orders table,
-     * adding products ordered in linking table for order/products relationships,
-     * and updates products' stockLevels with newStockLevels after order volume is taken into account.
+     * * Adds an order to the Database which does the following in a transaction:
+     *  - adds order into the orders table
+     *  - adds products ordered into the productsOrdered linking table
+     *  - updates products' stockLevels with newStockLevels after order volume is taken into account.
      * @param OrderEntityInterface $orderEntity
      * @return bool depending on whether the transaction was successful or not.
      */
