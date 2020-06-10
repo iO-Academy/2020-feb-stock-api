@@ -17,6 +17,10 @@ class OrderModel implements OrderModelInterface
         $this->db = $db;
     }
 
+    /**
+     * returns an array of all the orders in the DB with the products ordered as well.
+     * @return array|false false if a query fails. 
+     */
     public function getAllOrders()
     {
         $ordersPdo = $this->db->query('SELECT `orderNumber` ,
