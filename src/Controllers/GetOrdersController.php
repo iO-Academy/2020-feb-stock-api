@@ -32,8 +32,12 @@ class GetOrdersController extends Controller
             return $this->respondWithJson($response, $responseData, 500);
         }
 
+        if ($orders === false) {
+            return $this->respondWithJson($response, $responseData, 500);
+        }
+
         $responseData = ['success' => true,
-            'message' => $orders ? 'All orders returned' : 'No orders are currently in the DB',
+            'message' => empty($orders) ? 'No orders are currently in the DB' : 'All orders returned',
             'data' => ['orders' => $orders]];
 
         return $this->respondWithJson($response, $responseData);
