@@ -30,7 +30,7 @@ class OrderModel implements OrderModelInterface
         $orders = $ordersPdo->fetchAll();
 
         foreach ($orders as $key=>$order){
-            $query = $this->db->prepare('SELECT `orderNumber` , `sku`, `volumeOrdered` 
+            $query = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
                                         FROM `orderedProducts` 
                                         WHERE `orderNumber` = ?;');
             $queryCheck = $query->execute([$order['orderNumber']]);

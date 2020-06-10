@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.29)
 # Database: stock_api
-# Generation Time: 2020-06-09 15:17:44 +0000
+# Generation Time: 2020-06-10 09:00:18 +0000
 # ************************************************************
 
 
@@ -42,7 +42,9 @@ VALUES
 	(2,'TESTORDER6','UGGBBPUR07',2),
 	(3,'TESTORDER6','UGGBBPUR08',3),
 	(4,'TESTORDER6','UGGBBPUR09',4),
-	(5,'TESTORDER6','UGGBBPUR10',5);
+	(5,'TESTORDER6','UGGBBPUR10',5),
+	(6,'TESTORDER10','abcdef123456',3),
+	(7,'TESTORDER10','abcdef123457',2);
 
 /*!40000 ALTER TABLE `orderedProducts` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -73,7 +75,8 @@ LOCK TABLES `orders` WRITE;
 
 INSERT INTO `orders` (`id`, `orderNumber`, `customerEmail`, `shippingAddress1`, `shippingAddress2`, `shippingCity`, `shippingPostcode`, `shippingCountry`, `deleted`, `completed`)
 VALUES
-	(1,'TESTORDER6','test@example.com','21 Test Lane','','Teston','AB12 BA21','UK',0,0);
+	(1,'TESTORDER6','test@example.com','21 Test Lane','','Teston','AB12 BA21','UK',0,0),
+	(2,'TESTORDER10','example@mail.com','New Street 48','Flat 2C','Bath','BY57PL','UK',0,0);
 
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
