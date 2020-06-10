@@ -25,7 +25,7 @@ class ProductEntity implements ProductEntityInterface
      * @param $shippingPostcode
      * @param $shippingCountry
      */
-    public function __construct($orderNumber, $customerEmail, $shippingAddress1, $shippingAddress2, $shippingCity, $shippingPostcode, $shippingCountry)
+    public function __construct($orderNumber, $customerEmail, $shippingAddress1, $shippingAddress2, $shippingCity, $shippingPostcode, $shippingCountry, $products)
     {
         $this->orderNumber = $orderNumber;
         $this->customerEmail = $customerEmail;
