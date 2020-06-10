@@ -8,20 +8,21 @@ abstract class StringValidator
      * Validate that a string exists and is within length allowed, throws an error if not
      *
      * @param string $validateData
-     * @param int $characterLength
+     * @param int $maxCharacterLength
+     * @param string $errorMsg
      * @return string, which will return the validateData
      * @throws \Exception if the array is empty
      */
-    public static function validateExistsAndLength(string $validateData, int $maxCharacterLength)
+    protected static function validateExistsAndLength(string $validateData, int $maxCharacterLength, string $errorMsg = 'An input string does not exist or is too long')
     {
         if (!empty($validateData) == true && strlen($validateData) <= $maxCharacterLength) {
             return $validateData;
         } else {
-            throw new \Exception('An input string does not exist or is too long');
+            throw new \Exception($errorMsg);
         }
     }
 
-    public static function sanitiseString($validateData)
+    protected static function sanitiseString($validateData)
     {
         return trim(filter_var($validateData, FILTER_SANITIZE_STRING));
     }
