@@ -13,7 +13,7 @@ abstract class StringValidator
      * @return string|null will return the string that was validated if it's valid.
      * @throws \Exception
      */
-    protected static function validateExistsAndLength(string $validateData, int $maxCharacterLength, string $errorMsg = 'An input string does not exist or is too long')
+    protected static function validateExistsAndLength(string $validateData, int $maxCharacterLength, string $errorMsg)
     {
         if (!empty($validateData) == true && strlen($validateData) <= $maxCharacterLength) {
             return $validateData;
