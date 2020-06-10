@@ -262,7 +262,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
      "shippingAddress2": "optional",
      "shippingCity": "Bath",
      "shippingPostcode": "BA91LO",
-     "shippingCountry": "United Kingdom",
+     "shippingCountry": "UK",
      "products": [
          {
              "sku": "UGG-BB-PNR-98",
@@ -325,7 +325,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
                 "shippingAddress2": "optional",
                 "shippingCity": "Bath",
                 "shippingPostcode": "BA91LO",
-                "shippingCountry": "United Kingdom",
+                "shippingCountry": "UK",
                 "products": [
                     {
                         "sku": "UGG-BB-PNR-98",
@@ -344,7 +344,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
                 "shippingAddress2": "Flat 2B",
                 "shippingCity": "Bristol",
                 "shippingPostcode": "BR56LM",
-                "shippingCountry": "United Kingdom",
+                "shippingCountry": "UK",
                 "products": [
                     {
                         "sku": "BJL-44-NMR-78",
