@@ -9,7 +9,7 @@ class OrderModelFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $db = $container->get('Database')::connect();
+        $db = $container->get('Database')->connect();
         return new OrderModel($db);
     }
 }
