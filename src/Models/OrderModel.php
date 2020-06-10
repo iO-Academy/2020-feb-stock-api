@@ -60,7 +60,11 @@ class OrderModel implements OrderModelInterface
                                                 :shippingCountry)");
 
         $orderQueryResult = $orderQuery->execute($order);
-        $overallProductQuery = true;
+
+        if (!$orderQueryResult) {
+            $this->db->rollback();
+            return false;
+        }
 
         foreach($orderedProducts as $product) {
             $linkTableSql[] = '("' . $order['orderNumber'] .'", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
@@ -70,7 +74,10 @@ class OrderModel implements OrderModelInterface
 
             $productQueryResult = $productQuery->execute([$product['newStockLevel'], $product['sku']]);
 
-            $overallProductQuery = $productQueryResult ? $overallProductQuery : $productQueryResult;
+            if (!$productQueryResult) {
+                $this->db->rollback();
+                return false;
+            }
         }
         $linkTableQuery = $this->db->prepare("INSERT INTO `orderedProducts`
                                                   (`orderNumber`, `sku`, `volumeOrdered`) 
@@ -78,11 +85,11 @@ class OrderModel implements OrderModelInterface
 
         $linkTableQueryResult = $linkTableQuery->execute();
 
-        if ($orderQueryResult && $overallProductQuery && $linkTableQueryResult) {
-            $this->db->commit();
-            return true;
+        if (!$linkTableQueryResult) {
+            $this->db->rollback();
+            return false;
         }
-        $this->db->rollback();
+        $this->db->commit();
 
         return false;
     }
