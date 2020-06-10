@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Abstracts\Controller;
 use App\Entities\OrderEntity;
-use App\Validators\SKUValidator;
+use App\Validators\SkuOrderValidator;
+use App\Validators\StockLevelValidator;
+use App\Validators\SufficientStockValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -48,7 +50,7 @@ class AddOrderController extends Controller
                         $volumeOrdered = StockLevelValidator::validateStockLevel($product['volumeOrdered']);
 
                         if ($volumeOrdered) {
-                            $sufficientStock = StockValidator::validateStock($currentProductStock, $volumeOrdered);
+                            $sufficientStock = SufficientStockValidator::validateSufficientStock($currentProductStock, $volumeOrdered);
 
                             if (!$sufficientStock) {
                                 $responseData['message'] = 'Insufficient stock for product ' . $sku . '. unable to process order.';
