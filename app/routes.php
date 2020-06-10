@@ -23,4 +23,5 @@ return function (App $app) {
     $app->put('/products/undodelete/{sku}', 'ReinstateProductController');
 
     $app->post('/orders', 'AddOrderController');
+    $app->get('/orders', 'GetOrdersController');
 };
