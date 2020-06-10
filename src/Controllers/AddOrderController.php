@@ -33,51 +33,73 @@ class AddOrderController extends Controller
         
         $newOrderData = $request->getParsedBody()['order'];
 
-        $productArray = $newOrderData['products'];
+        $orderedProducts = $newOrderData['products'];
+        //is an array of product skus and their order volume
 
-        foreach ($productArray as $product) {
-            $sku = SkuOrderValidator::validateSkuAndOrder($product['sku']);
+        try {
+            $productStockLevels = $this->productModel->getMultipleStockLevels($orderedProducts);
+            //an array of the product skus and their stock levels
+        } catch (\Throwable $e) {
+            $responseData['message'] = 'An error occurred, could not add order, please try again later.';
 
-            if ($sku) {
-                try {
-                    $productData = $this->productModel->getProductBySKU($sku);
+            return $this->respondWithJson($response, $responseData, 500);
+        }
 
-                    if ($productData) {
-                        $currentProductStock = $productData->getStockLevel();    
-                        
-                        $volumeOrdered = StockLevelValidator::validateStockLevel($product['volumeOrdered']);
+        $sufficientStockCheck = StockValidator::validateStock($orderedProducts, $productStockLevels);
+        //simple true/false whether there stock of the products is larger/equal to the order volume. Returns false if ANY less is higher than order volume.
 
-                        if ($volumeOrdered) {
-                            $sufficientStock = StockValidator::validateStock($currentProductStock, $volumeOrdered);
-
-                            if (!$sufficientStock) {
-                                $responseData['message'] = 'Insufficient stock for product ' . $sku . '. unable to process order.';
-
-                                return $this->respondWithJson($response, $responseData, 400);
-                            }
-
-                            $newStockLevel = $currentProductStock - $volumeOrdered;
-
-                            $productsForOrderEntity[] = [
-                                'sku' => $sku,
-                                'volumeOrdered' => $volumeOrdered,
-                                'newStockLevel' => $newStockLevel
-                            ];
-                        }
-                        $responseData['message'] = 'Invalid volume ordered for product ' . $sku . '. unable to process order.';
-
-                        return $this->respondWithJson($response, $responseData, 400);
-                    }
-                } catch (\Throwable $e) {
-                    $responseData['message'] = 'An error occurred, please try again later';
-
-                    return $this->respondWithJson($response, $responseData, 500);
-                }
-            }
-            $responseData['message'] = 'Invalid SKU for product ' . $sku . '. unable to process order.';
+        if (!$sufficientStockCheck){
+            $responseData['message'] = 'Insufficient stock for products requested in order';
 
             return $this->respondWithJson($response, $responseData, 400);
-        } 
+        }
+
+        $productsForOrderEntity = Utility::calcNewStockLevels($orderedProducts, $productStockLevels);
+        //an array of the product skus, their order volume AND new stock levels
+
+//        foreach ($productArray as $product) {
+//            $sku = SkuOrderValidator::validateSkuAndOrder($product['sku']);
+//
+//            if ($sku) {
+//                try {
+//                    $productData = $this->productModel->getProductBySKU($sku);
+//
+//                    if ($productData) {
+//                        $currentProductStock = $productData->getStockLevel();
+//
+//                        $volumeOrdered = StockLevelValidator::validateStockLevel($product['volumeOrdered']);
+//
+//                        if ($volumeOrdered) {
+//                            $sufficientStock = StockValidator::validateStock($currentProductStock, $volumeOrdered);
+//
+//                            if (!$sufficientStock) {
+//                                $responseData['message'] = 'Insufficient stock for product ' . $sku . '. unable to process order.';
+//
+//                                return $this->respondWithJson($response, $responseData, 400);
+//                            }
+//
+//                            $newStockLevel = $currentProductStock - $volumeOrdered;
+//
+//                            $productsForOrderEntity[] = [
+//                                'sku' => $sku,
+//                                'volumeOrdered' => $volumeOrdered,
+//                                'newStockLevel' => $newStockLevel
+//                            ];
+//                        }
+//                        $responseData['message'] = 'Invalid volume ordered for product ' . $sku . '. unable to process order.';
+//
+//                        return $this->respondWithJson($response, $responseData, 400);
+//                    }
+//                } catch (\Throwable $e) {
+//                    $responseData['message'] = 'An error occurred, please try again later';
+//
+//                    return $this->respondWithJson($response, $responseData, 500);
+//                }
+//            }
+//            $responseData['message'] = 'Invalid SKU for product ' . $sku . '. unable to process order.';
+//
+//            return $this->respondWithJson($response, $responseData, 400);
+//        }
 
         try {
             $newOrder = new OrderEntity(
