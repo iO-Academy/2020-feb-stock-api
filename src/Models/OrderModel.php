@@ -12,7 +12,7 @@ class OrderModel implements OrderModelInterface
      * OrderModel constructor.
      * @param $db
      */
-    public function __construct($db)
+    public function __construct(\PDO $db)
     {
         $this->db = $db;
     }
@@ -23,7 +23,9 @@ class OrderModel implements OrderModelInterface
      */
     public function getAllOrders()
     {
-        $ordersPdo = $this->db->query('SELECT `orderNumber` ,
+        $this->db->beginTransaction();
+
+        $ordersQuery = $this->db->prepare('SELECT `orderNumber` ,
                                     `customerEmail`,
                                     `shippingAddress1`,
                                     `shippingAddress2`,
@@ -31,22 +33,29 @@ class OrderModel implements OrderModelInterface
                                     `shippingPostcode`,
                                     `shippingCountry` 
                                 FROM `orders`');
-        $orders = $ordersPdo->fetchAll();
+        $ordersQueryCheck = $ordersQuery->execute();
+        if(!$ordersQueryCheck){
+            $this->db->rollback();
+            return false;
+        }
 
-        foreach ($orders as $key=>$order) {
-            $query = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
+        $orders = $ordersQuery->fetchAll();
+
+        foreach ($orders as $i=>$order) {
+            $productQuery = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
                                         FROM `orderedProducts` 
                                         WHERE `orderNumber` = ?;');
-            $queryCheck = $query->execute([$order['orderNumber']]);
-
-            if (!$queryCheck) {
+            $productQueryCheck = $productQuery->execute([$order['orderNumber']]);
+            if (!$productQueryCheck){
+                $this->db->rollback();
                 return false;
             }
 
-            $products = $query->fetchAll();
-            $orders[$key]['products'] = $products;
+            $products = $productQuery->fetchAll();
+            $orders[$i]['products'] = $products;
         }
 
+        $this->db->commit();
         return $orders;
     }
 }
