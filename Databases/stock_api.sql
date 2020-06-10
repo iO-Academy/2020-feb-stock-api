@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.29)
 # Database: stock_api
-# Generation Time: 2020-06-09 15:17:44 +0000
+# Generation Time: 2020-06-10 12:20:09 +0000
 # ************************************************************
 
 
@@ -42,7 +42,9 @@ VALUES
 	(2,'TESTORDER6','UGGBBPUR07',2),
 	(3,'TESTORDER6','UGGBBPUR08',3),
 	(4,'TESTORDER6','UGGBBPUR09',4),
-	(5,'TESTORDER6','UGGBBPUR10',5);
+	(5,'TESTORDER6','UGGBBPUR10',5),
+	(27,'TESTORDER7','UGGBBPUR06',2),
+	(28,'TESTORDER7','UGGBBPUR07',2);
 
 /*!40000 ALTER TABLE `orderedProducts` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -73,7 +75,8 @@ LOCK TABLES `orders` WRITE;
 
 INSERT INTO `orders` (`id`, `orderNumber`, `customerEmail`, `shippingAddress1`, `shippingAddress2`, `shippingCity`, `shippingPostcode`, `shippingCountry`, `deleted`, `completed`)
 VALUES
-	(1,'TESTORDER6','test@example.com','21 Test Lane','','Teston','AB12 BA21','UK',0,0);
+	(1,'TESTORDER6','test@example.com','21 Test Lane','','Teston','AB12 BA21','UK',0,0),
+	(6,'TESTORDER7','test@example.com','21 Test Lane','','Teston','AB12 BA21','UK',0,0);
 
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -88,7 +91,7 @@ CREATE TABLE `products` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `sku` varchar(20) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
-  `price` varchar(255) NOT NULL DEFAULT '',
+  `price` varchar(13) NOT NULL DEFAULT '',
   `stockLevel` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -103,9 +106,8 @@ VALUES
 	(1,'abcdef123456','test_name_1','99.99',1,0),
 	(2,'abcdef123457','test_name_2','89.99',5,0),
 	(3,'abcdef123458','test_name_3','79.99',10,0),
-	(15,'UGABBPUR06','testing','0.99',14,0),
-	(16,'UGGBBPUR06','test_name','0.99',14,0),
-	(17,'UGGBBPUR07','test_name','0.99',2,0),
+	(16,'UGGBBPUR06','test_name','0.99',10,0),
+	(17,'UGGBBPUR07','test_name','0.99',8,0),
 	(18,'UGGBBPUR08','test_name','0.99',2,0),
 	(19,'UGGBBPUR09','test_name','0.99',0,0),
 	(20,'UGGBBPUR10','test_name','0.99',2,0);
