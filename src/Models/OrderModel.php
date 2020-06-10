@@ -72,7 +72,6 @@ class OrderModel implements OrderModelInterface
             $this->db->commit();
             return true;
         }
-
         $this->db->rollback();
 
         return false;

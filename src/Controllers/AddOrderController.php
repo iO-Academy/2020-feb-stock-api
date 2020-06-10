@@ -22,7 +22,6 @@ class AddOrderController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-
         // dummy data to check if db query is working
         $products = [
             [
