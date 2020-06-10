@@ -85,9 +85,35 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Success Response:**
  
   * **Code:** 200 <br />
- **Content:** `{ success : true, message: "All products returned", data: {products:[` <br />
-            `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"},` <br />
-            `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}]} }`
+ **Content:** 
+ ```json
+ {
+     "success": true,
+     "message": "All products returned",
+     "data": {
+         "products": [
+             {
+                 "sku": "abcdef123456",
+                 "name": "test_name_1",
+                 "price": "99.99",
+                 "stockLevel": "1"
+             },
+             {
+                 "sku": "abcdef123457",
+                 "name": "test_name_2",
+                 "price": "89.99",
+                 "stockLevel": "5"
+             },
+             {
+                 "sku": "abcdef123458",
+                 "name": "test_name_3",
+                 "price": "79.99",
+                 "stockLevel": "10"
+             }
+         ]
+     }
+ }
+ ```
  
 * **Error Response:**
     
@@ -199,11 +225,173 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Error Response:**
 
   * **Code:** 400 UNAUTHORIZED <br />
- **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
+    **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
      <br /> or <br />
- **Content:** `{ success : false, message: "Product SKU does not exist in DB ", data: []` 
+    **Content:** `{ success : false, message: "Product SKU does not exist in DB ", data: []` 
     
     or 
     
   * **Code:** 500 Server Error <br />
-  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+    **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+  
+ ***
+ **ORDERS**
+ *** 
+ 
+ **Add an order**
+ ----
+
+    Add an order to the database.
+  
+ * **URL**
+  
+    /orders
+  
+ * **Method:**
+   
+     `POST`
+   
+ * **Data Params**
+  
+     **order** 
+```json
+{
+     "orderNumber": "K3FK57MN",
+     "customerEmail": "example@mail.com",
+     "shippingAddress1": "New Street 15",
+     "shippingAddress2": "optional",
+     "shippingCity": "Bath",
+     "shippingPostcode": "BA91LO",
+     "shippingCountry": "United Kingdom",
+     "products": [
+         {
+             "sku": "UGG-BB-PNR-98",
+             "volumeOrdered": 5
+         },
+         {
+             "sku": "BNH-LR-DSR-54",
+             "volumeOrdered": 9
+         }
+     ]
+}
+```
+        
+ * **Success Response:**
+   
+    * **Code:** 200 <br />
+   **Content:** `{ success : true, message: "Order successfully added", data: [] }`
+   
+ * **Error Response:**
+  
+    * **Code:** 400 User Error <br />
+        **Content:** `{ success : false, message: "Invalid Order Information", data: [] }`
+        <br /> or <br />
+         **Content:** `{ success : false, message: "Order Number already exists ", data: []` 
+    
+    or
+    * **Code:** 500 Internal Server Error <br />
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+    
+   
+  
+**Get all orders**
+----
+
+    Get all orders that are in the database.
+  
+* **URL**
+  
+    /orders
+  
+* **Method:**
+   
+     `GET`
+   
+        
+* **Success Response:**
+   
+    * **Code:** 200 <br />
+   **Content:**  
+```json
+{
+    "succcess": true,
+    "message": "Orders successfully returned",
+    "data": {
+        "orders": [
+            {
+                "orderNumber": "K3FK57MN",
+                "customerEmail": "example@mail.com",
+                "shippingAddress1": "New Street 15",
+                "shippingAddress2": "optional",
+                "shippingCity": "Bath",
+                "shippingPostcode": "BA91LO",
+                "shippingCountry": "United Kingdom",
+                "products": [
+                    {
+                        "sku": "UGG-BB-PNR-98",
+                        "volumeOrdered": 5
+                    },
+                    {
+                        "sku": "BNH-LR-DSR-54",
+                        "volumeOrdered": 9
+                    }
+                ]
+            },
+            {
+                "orderNumber": "F87MKNAL",
+                "customerEmail": "anotheremail@gmail.com",
+                "shippingAddress1": "Another Lane 56",
+                "shippingAddress2": "Flat 2B",
+                "shippingCity": "Bristol",
+                "shippingPostcode": "BR56LM",
+                "shippingCountry": "United Kingdom",
+                "products": [
+                    {
+                        "sku": "BJL-44-NMR-78",
+                        "volumeOrdered": 1
+                    },
+                    {
+                        "sku": "JKS-89-PMJ-40",
+                        "volumeOrdered": 3
+                    }
+                ]
+            }
+        ]
+    }
+}
+ ```
+   
+* **Error Response:**
+ 
+    * **Code:** 500 Internal Server Error <br />
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+   
+   
+ **Cancel an order**
+ ----
+    
+  Cancel an order from the database
+      
+ * **URL**
+      
+     /orders/{orderNumber}
+      
+ * **Method:**
+       
+      `DELETE`
+       
+            
+* **Success Response:**
+       
+    * **Code:** 200 <br />
+       **Content:** `{ success : true, message: "Order successfully cancelled", data: []}`
+       
+* **Error Response:**
+   * **Code:** 400 User Error <br />
+        **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
+      
+      or
+     
+   * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+        
