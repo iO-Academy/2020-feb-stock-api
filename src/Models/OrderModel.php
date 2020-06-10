@@ -117,20 +117,36 @@ class OrderModel implements OrderModelInterface
         $orders = $ordersQuery->fetchAll();
 
         foreach ($orders as $i=>$order) {
-            $productQuery = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
-                                        FROM `orderedProducts` 
-                                        WHERE `orderNumber` = ?;');
-            $productQueryCheck = $productQuery->execute([$order['orderNumber']]);
-            if (!$productQueryCheck){
+            $return = $this->getOrderedProductsByOrderNumber($order['orderNumber']);
+
+            if ($return === false){
                 $this->db->rollback();
                 return false;
             }
 
-            $products = $productQuery->fetchAll();
-            $orders[$i]['products'] = $products;
+            $orders[$i]['products'] = $return;
         }
 
         $this->db->commit();
         return $orders;
+    }
+
+    /**
+     * Gets the products ordered for the specified order number and returns them.
+     *
+     * @param string $orderNumber
+     * @return array|false array of products ordered with their SKU and volumeOrdered or false if query failed.
+     */
+    private function getOrderedProductsByOrderNumber(string $orderNumber){
+        $query = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
+                                        FROM `orderedProducts` 
+                                        WHERE `orderNumber` = ? ;');
+        $queryResult = $query->execute([$orderNumber]);
+
+        if ($queryResult){
+            return $query->fetchAll();
+        }
+
+        return false;
     }
 }
