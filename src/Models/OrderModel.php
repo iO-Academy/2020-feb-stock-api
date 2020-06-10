@@ -162,7 +162,7 @@ class OrderModel implements OrderModelInterface
                                     `shippingPostcode`,
                                     `shippingCountry` 
                                 FROM `orders`
-                                WHERE `deleted` = 0');
+                                WHERE (`deleted` = 0 && `completed` = 0)');
         $ordersQueryCheck = $ordersQuery->execute();
         if(!$ordersQueryCheck){
             $this->db->rollback();
