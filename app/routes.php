@@ -22,5 +22,6 @@ return function (App $app) {
     $app->put('/products/stock/{sku}', 'UpdateProductStockController');
     $app->put('/products/undodelete/{sku}', 'ReinstateProductController');
 
+    $app->post('/orders', 'AddOrderController');
     $app->delete('/orders/{orderNumber}', 'CancelOrderController');
 };

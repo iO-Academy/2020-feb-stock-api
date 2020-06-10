@@ -37,6 +37,8 @@ return function (ContainerBuilder $containerBuilder) {
 
     $container['ProductModel'] = DI\factory('App\Factories\ProductModelFactory');
 
+    $container['OrderModel'] = DI\factory('App\Factories\OrderModelFactory');
+
     $container['AddProductController'] = DI\factory('App\Factories\AddProductControllerFactory');
     $container['GetProductsController'] = DI\factory('App\Factories\GetProductsControllerFactory');
     $container['GetProductBySKUController'] = DI\factory('App\Factories\GetProductBySKUControllerFactory');
@@ -45,6 +47,8 @@ return function (ContainerBuilder $containerBuilder) {
     $container['ReinstateProductController'] = DI\factory('App\Factories\ReinstateProductControllerFactory');
     $container['DeleteProductController'] = DI\factory('App\Factories\DeleteProductControllerFactory');
     $container['CancelOrderController'] = DI\factory('App\Factories\CancelOrderControllerFactory');
+
+    $container['AddOrderController'] = DI\factory('App\Factories\AddOrderControllerFactory');   
 
     $containerBuilder->addDefinitions($container);
 };
