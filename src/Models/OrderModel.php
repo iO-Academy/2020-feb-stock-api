@@ -18,8 +18,8 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
-     * returns an array of all the orders in the DB with the products ordered as well.
-     * @return array|false false if a query fails.
+     * returns an array of all the orders in the DB with the products ordered as well or false if it fails.
+     * @return array|false
      */
     public function getAllOrders()
     {
