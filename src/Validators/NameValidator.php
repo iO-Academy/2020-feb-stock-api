@@ -5,7 +5,7 @@ namespace App\Validators;
 class NameValidator extends StringValidator
 {
     private const MAX_CHAR = 255;
-    private const ERROR_MSG = 'Must provide product name must exist and be max 255 characters long';
+    private const ERROR_MSG = 'Must provide product name must exist and be less than 255 characters';
 
     /**
      * Does the following:

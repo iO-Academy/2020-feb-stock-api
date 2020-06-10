@@ -6,7 +6,7 @@ class PriceValidator extends StringValidator
 {
     private const PRICE_REGEX = '/^(0|[1-9]\d*)(\.\d{2})?$/';
     private const MAX_CHAR = 255;
-    private const ERROR_MSG = 'Must provide price and be max 255 characters long';
+    private const ERROR_MSG = 'Must provide price and be less than 255 characters';
 
     /**
      * Checks the following:

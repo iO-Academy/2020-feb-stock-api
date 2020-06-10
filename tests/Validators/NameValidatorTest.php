@@ -23,7 +23,7 @@ class NameValidatorTest extends \PHPUnit\Framework\TestCase
     public function testValidateNameEmpty()
     {
         $name = '';
-        $this->expectExceptionMessage('Must provide product name must exist and be max 255 characters long');
+        $this->expectExceptionMessage('Must provide product name must exist and be less than 255 characters');
         NameValidator::validateName($name);
     }
 
@@ -32,7 +32,7 @@ class NameValidatorTest extends \PHPUnit\Framework\TestCase
         $name = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget metus a nunc laoreet porttitor at
          a nibh. Donec felis odio, faucibus eu eleifend placerat, rhoncus sed nibh. Duis purus ipsum, dictum vitae
           interdum id, rutrum eget nisl. rutrum eget nisl. ';
-        $this->expectExceptionMessage('Must provide product name must exist and be max 255 characters long');
+        $this->expectExceptionMessage('Must provide product name must exist and be less than 255 characters');
         NameValidator::validateName($name);
     }
 
