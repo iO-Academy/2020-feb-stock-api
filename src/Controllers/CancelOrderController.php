@@ -32,14 +32,26 @@ class CancelOrderController extends Controller
 
         if ($orderNumber) {
             try {
-                $cancelOrderSuccess = $this->orderModel->cancelOrder($orderNumber);
+                $exists = $this->orderModel->checkOrderExists($orderNumber);
 
-                print_r($cancelOrderSuccess);
+                if ($exists) {
+                    $cancelOrderSuccess = $this->orderModel->cancelOrder($orderNumber);
 
-                $responseData['success'] = true;
-                $responseData['message'] = 'Order cancelled successfully.';
+                    if ($cancelOrderSuccess) {
+                        $responseData['success'] = true;
+                        $responseData['message'] = 'Order cancelled successfully.';
 
-                return $this->respondWithJson($response, $responseData, 200);
+                        return $this->respondWithJson($response, $responseData, 200);
+                    }
+                    $responseData['message'] = 'Could not cancel order. Please try again.';
+
+                    return $this->respondWithJson($response, $responseData, 500);
+                }
+
+                $responseData['message'] =
+                    "Order doesn't exist, therefore couldn't be deleted, please try again";
+
+                return $this->respondWithJson($response, $responseData, 400);
 
             } catch (\Throwable $e) {
                 $responseData['message'] = 'Oops! Something went wrong; please try again.';

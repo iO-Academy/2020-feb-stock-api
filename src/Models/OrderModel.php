@@ -19,6 +19,19 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
+     * Checks if order exists in Database
+     * @param string $orderNumber
+     * @return array containing the existing order's orderNumber and deleted status.
+     * @return false if order doesn't exist
+     */
+    public function checkOrderExists(string $orderNumber)
+    {
+        $query = $this->db->prepare("SELECT `orderNumber`, `deleted` FROM `orders` WHERE `orderNumber` = ?");
+        $query->execute([$orderNumber]);
+        return $query->fetch();
+    }
+
+    /**
      * Gets the SKU and volumeOrdered for all products for a given orderNumber
      * @param string $orderNumber
      * @return array an array of all products (sku and volumeOrdered)
@@ -111,9 +124,43 @@ class OrderModel implements OrderModelInterface
         return true;
     }
 
+    /**
+     * * Cancels an order to the Database which does the following in a transaction:
+     *  - soft deletes order in the orders table
+     *  - updates products' stockLevels with old stockLevel plus the volumeOrdered.
+     * @param string $orderNumber
+     * @return bool depending on whether the transaction was successful or not.
+     */
     public function cancelOrder(string $orderNumber) {
+        $this->db->beginTransaction();
+
+        $cancelOrderQuery = $this->db->prepare("UPDATE `orders`
+                                                    SET `deleted` = 1
+                                                    WHERE `orderNumber` = ?");
+        $cancelOrderQueryResult = $cancelOrderQuery->execute([$orderNumber]);
+
+        if (!$cancelOrderQueryResult) {
+            $this->db->rollback();
+            return false;
+        }
+
         $productsOrdered = $this->getProductsOrderedByOrderNumber($orderNumber);
 
-        return $productsOrdered;
+        foreach($productsOrdered as $product) {
+            $restorePreviousProductStockLevelQuery = $this->db->prepare("UPDATE `products`
+                                                                            SET `stockLevel` = `stockLevel` + ?
+                                                                            WHERE `sku` = ?");
+            $restorePreviousProductStockLevelQueryResult =
+                $restorePreviousProductStockLevelQuery->execute([$product['volumeOrdered'], $product['sku']]);
+
+            if (!$restorePreviousProductStockLevelQueryResult) {
+                $this->db->rollback();
+                return false;
+            }
+        }
+
+        $this->db->commit();
+
+        return true;
     }
 }
