@@ -20,11 +20,13 @@ class OrderModel implements OrderModelInterface
 
 
     /**
-     * Adds an order to the Database, including orders table row,
-     * linking table rows for order/product relationship,
-     * and
-     * @param ProductEntityInterface $productEntity
-     * @return bool if product has been added successfully to DB
+     * Adds an order to the Database, including adding order in in orders table,
+     * adding rows in linking table for order/products relationships,
+     * and updates products' stockLevels based on calculated newStockLevels
+     * @param OrderEntityInterface $orderEntity
+     * @return bool
+     * true: if all three db queries have been added successfully to DB
+     * false: if any of the three db queries fail
      */
     public function addOrder(OrderEntityInterface $orderEntity)
     {
