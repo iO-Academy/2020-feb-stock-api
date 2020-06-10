@@ -5,13 +5,13 @@ namespace App\Validators;
 abstract class StringValidator
 {
     /**
-     * Validate that a string exists and is within length allowed, throws an error if not
+     * Validate that a string exists and is within length provided, and throws exception with error message if not.
      *
      * @param string $validateData
      * @param int $maxCharacterLength
      * @param string $errorMsg
-     * @return string, which will return the validateData
-     * @throws \Exception if the array is empty
+     * @return string|null will return the string that was validated if it's valid.
+     * @throws \Exception
      */
     protected static function validateExistsAndLength(string $validateData, int $maxCharacterLength, string $errorMsg = 'An input string does not exist or is too long')
     {

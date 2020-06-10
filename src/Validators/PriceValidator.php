@@ -9,7 +9,9 @@ class PriceValidator extends StringValidator
     private const ERROR_MSG = 'Must provide price and be max 255 characters long';
 
     /**
-     * Make sure the price is valid
+     * Checks the following:
+     *  - That price is provided and is max 255 characters.
+     *  - That a valid price was provided.
      *
      * @param string $price
      * @return string|null

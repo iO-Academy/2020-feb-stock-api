@@ -9,7 +9,9 @@ class StockLevelValidator extends StringValidator
     private const ERROR_MSG = 'Must provide stock level and be max 11 characters long';
 
     /**
-     * Make sure the stockLevel is valid
+     * Checks the following:
+     *  - That stock is provided and is max 11 characters.
+     *  - That a valid stock level was provided.
      *
      * @param string $stockLevel
      * @return string|null
@@ -18,7 +20,7 @@ class StockLevelValidator extends StringValidator
     public static function validateStockLevel(string $stockLevel)
     {
         $stockLevel = self::validateExistsAndLength($stockLevel, self::MAX_CHAR, self::ERROR_MSG);
-        
+
         if (!preg_match(self::STOCK_LEVEL_REGEX, $stockLevel)) {
             throw new \Exception('Invalid stock level');
         }
