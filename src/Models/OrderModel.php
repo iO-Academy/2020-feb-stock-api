@@ -11,7 +11,7 @@ class OrderModel implements OrderModelInterface
 
     /**
      * OrderModel constructor.
-     * 
+     *
      * @param $db
      */
     public function __construct(\PDO $db)
@@ -148,6 +148,19 @@ class OrderModel implements OrderModelInterface
         $this->db->commit();
 
         return true;
+    }
+
+    /**
+     * Marks an order as complete in the Database
+     *
+     * @param string $orderNumber
+     * @return bool depending on whether the order was successfully marked as complete.
+     */
+    public function completeOrder(string $orderNumber) {
+        $completeOrderQuery = $this->db->prepare("UPDATE `orders`
+                                                    SET `completed` = 1
+                                                    WHERE `orderNumber` = ?");
+        return $completeOrderQuery->execute([$orderNumber]);
     }
 
     /**

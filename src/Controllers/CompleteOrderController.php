@@ -6,12 +6,12 @@ use App\Abstracts\Controller;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class CancelOrderController extends Controller
+class CompleteOrderController extends Controller
 {
     private $orderModel;
 
     /**
-     * CancelOrderController constructor.
+     * CompleteOrderController constructor.
      * @param $orderModel
      */
     public function __construct($orderModel)
@@ -39,33 +39,27 @@ class CancelOrderController extends Controller
         try {
             $exists = $this->orderModel->checkOrderExists($orderNumber);
 
-            if ($exists) {
+            if ($exists && $exists['deleted'] === "0") {
 
-                if ($exists['deleted'] === "0") {
+                if ($exists['completed'] === "0") {
+                    $cancelOrderSuccess = $this->orderModel->completeOrder($orderNumber);
 
-                    if ($exists['completed'] === "0") {
-                        $cancelOrderSuccess = $this->orderModel->cancelOrder($orderNumber);
+                    if ($cancelOrderSuccess) {
+                        $responseData['success'] = true;
+                        $responseData['message'] = 'Order successfully marked as complete.';
 
-                        if ($cancelOrderSuccess) {
-                            $responseData['success'] = true;
-                            $responseData['message'] = 'Order cancelled successfully.';
-
-                            return $this->respondWithJson($response, $responseData, 200);
-                        }
-                        $responseData['message'] = 'Could not cancel order. Please try again.';
-
-                        return $this->respondWithJson($response, $responseData, 500);
+                        return $this->respondWithJson($response, $responseData, 200);
                     }
-                    $responseData['message'] = 'Order has already been completed. Cannot cancel. Please delete instead.';
+                    $responseData['message'] = 'Could not mark order as complete. Please try again.';
 
-                    return $this->respondWithJson($response, $responseData, 400);
+                    return $this->respondWithJson($response, $responseData, 500);
                 }
-                $responseData['message'] = 'Order has already been cancelled.';
+                $responseData['message'] = 'Order has already been completed.';
 
                 return $this->respondWithJson($response, $responseData, 400);
             }
             $responseData['message'] =
-                "Order doesn't exist, therefore could not be deleted.";
+                "Order doesn't exist, therefore could not be marked as complete.";
 
             return $this->respondWithJson($response, $responseData, 400);
 
