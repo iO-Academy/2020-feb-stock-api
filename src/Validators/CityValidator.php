@@ -8,7 +8,7 @@ class CityValidator extends StringValidator
     private const ERROR_MSG = 'Must provide a city and be less than 255 characters';
 
     /**
-     * Validates city exists and is les that 255 chars
+     * Validates city exists and is less that 255 chars
      *
      * @param string $city
      * @return string|null
