@@ -2,15 +2,23 @@
 
 namespace App\Validators;
 
-class StockLevelValidator
+class SufficientStockValidator
 {
-    public static function validateSufficientStock(int $currentProductStock, int $volumeOrdered)
+    public static function checkSufficientStock(array $orderedProducts, array $productsStockLevels): void
     {
-        if (!empty($volumeOrdered) == true && $volumeOrdered <= $currentProductStock) {
-            return $volumeOrdered;
-
-        } else {
-            throw new \Exception('Insufficient stock');
+        if (count($orderedProducts) !== count($productsStockLevels)){
+            throw new \Exception('Some SKUs provided for ordered products are invalid');
         }
+
+        for ($i = 0; $i < count($orderedProducts); $i++) {
+            $volume = $orderedProducts[$i]['volumeOrdered'];
+            $stockLevel = $productsStockLevels[$i]['stockLevel'];
+
+            if ($volume > $stockLevel) {
+                throw new \Exception("Volume ordered for SKU: " . $orderedProducts[$i]['sku'] . " is higher than current stock");
+            }
+        }
+
+        return;
     }
 }
