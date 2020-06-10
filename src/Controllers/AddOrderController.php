@@ -4,7 +4,11 @@ namespace App\Controllers;
 
 use App\Abstracts\Controller;
 use App\Entities\OrderEntity;
+use App\Interfaces\OrderModelInterface;
+use App\Interfaces\ProductModelInterface;
+use App\Utilities\OrderUtilities;
 use App\Validators\SkuOrderValidator;
+use App\Validators\SkuValidator;
 use App\Validators\StockLevelValidator;
 use App\Validators\SufficientStockValidator;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -17,9 +21,10 @@ class AddOrderController extends Controller
 
     /**
      * AddOrderController constructor.
-     * @param $orderModel
+     * @param OrderModelInterface $orderModel
+     * @param ProductModelInterface $productModel
      */
-    public function __construct($orderModel, $productModel)
+    public function __construct(OrderModelInterface $orderModel, ProductModelInterface $productModel)
     {
         $this->orderModel = $orderModel;
         $this->productModel = $productModel;
@@ -34,52 +39,38 @@ class AddOrderController extends Controller
         ];
         
         $newOrderData = $request->getParsedBody()['order'];
+        $orderedProducts = $newOrderData['products'];
 
-        $productArray = $newOrderData['products'];
-
-        foreach ($productArray as $product) {
-            $sku = SkuOrderValidator::validateSkuAndOrder($product['sku']);
-
-            if ($sku) {
-                try {
-                    $productData = $this->productModel->getProductBySKU($sku);
-
-                    if ($productData) {
-                        $currentProductStock = $productData->getStockLevel();    
-                        
-                        $volumeOrdered = StockLevelValidator::validateStockLevel($product['volumeOrdered']);
-
-                        if ($volumeOrdered) {
-                            $sufficientStock = SufficientStockValidator::validateSufficientStock($currentProductStock, $volumeOrdered);
-
-                            if (!$sufficientStock) {
-                                $responseData['message'] = 'Insufficient stock for product ' . $sku . '. unable to process order.';
-
-                                return $this->respondWithJson($response, $responseData, 400);
-                            }
-
-                            $newStockLevel = $currentProductStock - $volumeOrdered;
-
-                            $productsForOrderEntity[] = [
-                                'sku' => $sku,
-                                'volumeOrdered' => $volumeOrdered,
-                                'newStockLevel' => $newStockLevel
-                            ];
-                        }
-                        $responseData['message'] = 'Invalid volume ordered for product ' . $sku . '. unable to process order.';
-
-                        return $this->respondWithJson($response, $responseData, 400);
-                    }
-                } catch (\Throwable $e) {
-                    $responseData['message'] = 'An error occurred, please try again later';
-
-                    return $this->respondWithJson($response, $responseData, 500);
-                }
+        $productSKUs = [];
+        try {
+            foreach ($orderedProducts as $orderedProduct) {
+                $sku = SKUValidator::validateSku($orderedProduct['sku']);
+                StockLevelValidator::validateStockLevel($orderedProduct['volumeOrdered']);
+                $productSKUs[] = $sku;
             }
-            $responseData['message'] = 'Invalid SKU for product ' . $sku . '. unable to process order.';
+        } catch (\Throwable $e){
+            $responseData['message'] = $e->getMessage();
 
             return $this->respondWithJson($response, $responseData, 400);
-        } 
+        }
+
+        try {
+            $productStockLevels = $this->productModel->getMultipleStockLevelsBySKUs($productSKUs);
+        } catch (\Throwable $e) {
+            $responseData['message'] = 'An error occurred, could not add order, please try again later.';
+
+            return $this->respondWithJson($response, $responseData, 500);
+        }
+
+        try {
+            SufficientStockValidator::checkSufficientStock($orderedProducts, $productStockLevels);
+        }catch (\Throwable $e){
+            $responseData['message'] = $e->getMessage();
+
+            return $this->respondWithJson($response, $responseData, 400);
+        }
+
+        $productsForOrderEntity = OrderUtilities::calcAdjustedStockLevel($orderedProducts, $productStockLevels);
 
         try {
             $newOrder = new OrderEntity(
