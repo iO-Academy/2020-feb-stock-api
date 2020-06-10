@@ -28,7 +28,7 @@ class OrderModel implements OrderModelInterface
      * true: if all three db queries have been added successfully to DB
      * false: if any of the three db queries fail
      */
-    public function addOrder(OrderEntityInterface $orderEntity)
+    public function addOrder(OrderEntityInterface $orderEntity): bool
     {
         $order = [
             'orderNumber' => $orderEntity->getOrderNumber(),
@@ -91,6 +91,6 @@ class OrderModel implements OrderModelInterface
         }
         $this->db->commit();
 
-        return false;
+        return true;
     }
 }
