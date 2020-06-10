@@ -18,15 +18,12 @@ class OrderModel implements OrderModelInterface
         $this->db = $db;
     }
 
-
     /**
-     * Adds an order to the Database, including adding order in in orders table,
-     * adding rows in linking table for order/products relationships,
-     * and updates products' stockLevels based on calculated newStockLevels
+     * Adds an order to the Database, including inserting order in orders table,
+     * adding products ordered in linking table for order/products relationships,
+     * and updates products' stockLevels with newStockLevels after order volume is taken into account.
      * @param OrderEntityInterface $orderEntity
-     * @return bool
-     * true: if all three db queries have been added successfully to DB
-     * false: if any of the three db queries fail
+     * @return bool depending on whether the transaction was successful or not.
      */
     public function addOrder(OrderEntityInterface $orderEntity): bool
     {
