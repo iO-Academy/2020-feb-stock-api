@@ -255,27 +255,25 @@ A warehouse house built by Mayden Academy students that would help employees kee
   
      **order** 
 ```json
-     {
-         "orderNumber": "K3FK57MN",
-         "customerEmail": "example@mail.com",
-         "shippingAddress": {
-             "address1": "New Street 15",
-             "address2": "optional",
-             "city": "Bath",
-             "postcode": "BA91LO",
-             "country": "United Kingdom"
+{
+     "orderNumber": "K3FK57MN",
+     "customerEmail": "example@mail.com",
+     "shippingAddress1": "New Street 15",
+     "shippingAddress2": "optional",
+     "shippingCity": "Bath",
+     "shippingPostcode": "BA91LO",
+     "shippingCountry": "UK",
+     "products": [
+         {
+             "sku": "UGG-BB-PNR-98",
+             "volumeOrdered": 5
          },
-         "products": [
-             {
-                 "sku": "UGG-BB-PNR-98",
-                 "volumeOrdered": 5
-             },
-             {
-                 "sku": "BNH-LR-DSR-54",
-                 "volumeOrdered": 9
-             }
-         ]
-     }
+         {
+             "sku": "BNH-LR-DSR-54",
+             "volumeOrdered": 9
+         }
+     ]
+}
 ```
         
  * **Success Response:**
@@ -315,56 +313,52 @@ A warehouse house built by Mayden Academy students that would help employees kee
     * **Code:** 200 <br />
    **Content:**  
 ```json
-    {
-        "succcess": true,
-        "message": "Orders successfully returned",
-        "data": {
-            "orders": [
-                {
-                    "orderNumber": "K3FK57MN",
-                    "customerEmail": "example@mail.com",
-                    "shippingAddress": {
-                        "address1": "New Street 15",
-                        "address2": "optional",
-                        "city": "Bath",
-                        "postcode": "BA91LO",
-                        "country": "United Kingdom"
+{
+    "succcess": true,
+    "message": "Orders successfully returned",
+    "data": {
+        "orders": [
+            {
+                "orderNumber": "K3FK57MN",
+                "customerEmail": "example@mail.com",
+                "shippingAddress1": "New Street 15",
+                "shippingAddress2": "optional",
+                "shippingCity": "Bath",
+                "shippingPostcode": "BA91LO",
+                "shippingCountry": "UK",
+                "products": [
+                    {
+                        "sku": "UGG-BB-PNR-98",
+                        "volumeOrdered": 5
                     },
-                    "products": [
-                        {
-                            "sku": "UGG-BB-PNR-98",
-                            "volumeOrdered": 5
-                        },
-                        {
-                            "sku": "BNH-LR-DSR-54",
-                            "volumeOrdered": 9
-                        }
-                    ]
-                },
-                {
-                    "orderNumber": "F87MKNAL",
-                    "customerEmail": "anotheremail@gmail.com",
-                    "shippingAddress": {
-                        "address1": "Another Lane 56",
-                        "address2": "Flat 2B",
-                        "city": "Bristol",
-                        "postcode": "BR56LM",
-                        "country": "United Kingdom"
+                    {
+                        "sku": "BNH-LR-DSR-54",
+                        "volumeOrdered": 9
+                    }
+                ]
+            },
+            {
+                "orderNumber": "F87MKNAL",
+                "customerEmail": "anotheremail@gmail.com",
+                "shippingAddress1": "Another Lane 56",
+                "shippingAddress2": "Flat 2B",
+                "shippingCity": "Bristol",
+                "shippingPostcode": "BR56LM",
+                "shippingCountry": "UK",
+                "products": [
+                    {
+                        "sku": "BJL-44-NMR-78",
+                        "volumeOrdered": 1
                     },
-                    "products": [
-                        {
-                            "sku": "BJL-44-NMR-78",
-                            "volumeOrdered": 1
-                        },
-                        {
-                            "sku": "JKS-89-PMJ-40",
-                            "volumeOrdered": 3
-                        }
-                    ]
-                }
-            ]
-        }
+                    {
+                        "sku": "JKS-89-PMJ-40",
+                        "volumeOrdered": 3
+                    }
+                ]
+            }
+        ]
     }
+}
  ```
    
 * **Error Response:**
