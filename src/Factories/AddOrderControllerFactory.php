@@ -10,6 +10,7 @@ class AddOrderControllerFactory
     public function __invoke(ContainerInterface $container)
     {
         $orderModel = $container->get('OrderModel');
-        return new AddOrderController($orderModel);
+        $productModel = $container->get('ProductModel');
+        return new AddOrderController($orderModel, $productModel);
     }
 }
