@@ -19,6 +19,25 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
+     * Gets the SKU and volumeOrdered for all products for a given orderNumber
+     * @param string $orderNumber
+     * @return array an array of all products (sku and volumeOrdered)
+     * can be empty if
+     * - there are no products within the order
+     * - the orderNumber doesn't exist within the database
+     */
+    public function getProductsOrderedByOrderNumber(string $orderNumber)
+    {
+        $query = $this->db->prepare("SELECT `sku`, `volumeOrdered` 
+                                        FROM `orderedProducts`
+                                        WHERE `orderNumber` = ?");
+
+        $query->execute([$orderNumber]);
+
+        return $query->fetchAll();
+    }
+
+    /**
      * * Adds an order to the Database which does the following in a transaction:
      *  - adds order into the orders table
      *  - adds products ordered into the productsOrdered linking table
@@ -90,5 +109,11 @@ class OrderModel implements OrderModelInterface
         $this->db->commit();
 
         return true;
+    }
+
+    public function cancelOrder(string $orderNumber) {
+        $productsOrdered = $this->getProductsOrderedByOrderNumber($orderNumber);
+
+        return $productsOrdered;
     }
 }
