@@ -2,7 +2,7 @@
 
 namespace App\Validators;
 
-class SkuValidator extends StringValidator
+class SkuValidator
 {
     private const SKU_REGEX = '/^[a-z0-9A-Z]{10,20}$/';
 
