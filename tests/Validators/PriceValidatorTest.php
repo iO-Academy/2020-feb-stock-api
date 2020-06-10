@@ -9,9 +9,9 @@ class PriceValidatorTest extends TestCase
 {
     public function testValidatePriceSuccess()
     {
-        $price = '12345';
+        $price = '12345.55';
         $result = PriceValidator::validatePrice($price);
-        $this->assertEquals('12345', $result);
+        $this->assertEquals('12345.55', $result);
     }
 
     public function testValidatePriceFailure()
