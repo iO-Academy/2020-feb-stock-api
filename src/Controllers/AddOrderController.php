@@ -36,7 +36,7 @@ class AddOrderController extends Controller
             'message' => '',
             'data' => []
         ];
-        
+
         $newOrderData = $request->getParsedBody()['order'];
         $orderedProducts = $newOrderData['products'];
 
@@ -47,7 +47,7 @@ class AddOrderController extends Controller
                 StockLevelValidator::validateStockLevel($orderedProduct['volumeOrdered']);
                 $productSKUs[] = $sku;
             }
-        } catch (\Throwable $e){
+        } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();
 
             return $this->respondWithJson($response, $responseData, 400);
@@ -86,22 +86,21 @@ class AddOrderController extends Controller
 
         try {
             $query_success = $this->orderModel->addOrder($newOrder);
-
-            if ($query_success) {
-                $responseData['success'] = true;
-                $responseData['message'] = 'Order successfully added.';
-
-                return $this->respondWithJson($response, $responseData, 200);
-            }
-
-            $responseData['message'] = 'An error occurred, could not add order, please try again later.';
-
-            return $this->respondWithJson($response, $responseData, 500);
-        
         } catch (\Throwable $e) {
             $responseData['message'] = 'An error occurred, could not add order, please try again later.';
 
             return $this->respondWithJson($response, $responseData, 500);
         }
+
+        if ($query_success) {
+            $responseData['success'] = true;
+            $responseData['message'] = 'Order successfully added.';
+
+            return $this->respondWithJson($response, $responseData, 200);
+        }
+
+        $responseData['message'] = 'An error occurred, could not add order, please try again later.';
+
+        return $this->respondWithJson($response, $responseData, 500);
     }
 }
