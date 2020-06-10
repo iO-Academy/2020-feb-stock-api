@@ -13,6 +13,7 @@ class ProductEntity implements ProductEntityInterface
     private $shippingCity;
     private $shippingPostcode;
     private $shippingCountry;
+    private $products;
 
     /**
      * OrderEntity constructor.
@@ -33,5 +34,70 @@ class ProductEntity implements ProductEntityInterface
         $this->shippingCity = $shippingCity;
         $this->shippingPostcode = $shippingPostcode;
         $this->shippingCountry = $shippingCountry;
+        $this->products = $products;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrderNumber()
+    {
+        return $this->orderNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCustomerEmail()
+    {
+        return $this->customerEmail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingAddress1()
+    {
+        return $this->shippingAddress1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingAddress2()
+    {
+        return $this->shippingAddress2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingCity()
+    {
+        return $this->shippingCity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingPostcode()
+    {
+        return $this->shippingPostcode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingCountry()
+    {
+        return $this->shippingCountry;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }
