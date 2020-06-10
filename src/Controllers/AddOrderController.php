@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Abstracts\Controller;
 use App\Entities\OrderEntity;
 use App\Validators\SKUValidator;
+use App\Validators\StockLevelValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -36,8 +37,16 @@ class AddOrderController extends Controller
         $orderedProducts = $newOrderData['products'];
         //is an array of product skus and their order volume
 
+        $skusArray = [];
+        foreach ($orderedProducts as $orderedProduct){
+            $skuCheck = SKUValidator::validateSku($orderedProduct['sku']);
+            $skusArray[] = $orderedProduct['sku'];
+
+            StockLevelValidator::validateStockLevel($orderedProduct['volumeOrdered']);
+        }
+
         try {
-            $productStockLevels = $this->productModel->getMultipleStockLevels($orderedProducts);
+            $productStockLevels = $this->productModel->getMultipleStockLevelsBySKUs($skusArray);
             //an array of the product skus and their stock levels
         } catch (\Throwable $e) {
             $responseData['message'] = 'An error occurred, could not add order, please try again later.';
