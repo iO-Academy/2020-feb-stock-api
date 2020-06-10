@@ -60,6 +60,7 @@ class OrderModel implements OrderModelInterface
                                                 :shippingCountry)");
 
         $orderQueryResult = $orderQuery->execute($order);
+        $overallProductQuery = true;
 
         foreach($orderedProducts as $product) {
             $linkTableSql[] = '("' . $order['orderNumber'] .'", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
@@ -68,6 +69,8 @@ class OrderModel implements OrderModelInterface
                                                     WHERE `sku` = ?");
 
             $productQueryResult = $productQuery->execute([$product['newStockLevel'], $product['sku']]);
+
+            $overallProductQuery = $productQueryResult ? $overallProductQuery : $productQueryResult;
         }
         $linkTableQuery = $this->db->prepare("INSERT INTO `orderedProducts`
                                                   (`orderNumber`, `sku`, `volumeOrdered`) 
@@ -75,7 +78,7 @@ class OrderModel implements OrderModelInterface
 
         $linkTableQueryResult = $linkTableQuery->execute();
 
-        if ($orderQueryResult && $productQueryResult && $linkTableQueryResult) {
+        if ($orderQueryResult && $overallProductQuery && $linkTableQueryResult) {
             $this->db->commit();
             return true;
         }
