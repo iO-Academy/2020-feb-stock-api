@@ -22,6 +22,24 @@ class GetOrdersController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        // TODO: Implement __invoke() method.
+        $responseData = ['success' => false,
+            'message' => 'Something went wrong, please try again later',
+            'data' => []];
+
+        try {
+            $orders = $this->orderModel->getAllOrders();
+        } catch (\Throwable $e){
+            return $this->respondWithJson($response, $responseData, 500);
+        }
+
+        if (!$orders){
+            return $this->respondWithJson($response, $responseData, 500);
+        }
+
+        $responseData = ['success' => true,
+            'message' => 'All orders returned!',
+            'data' => ['orders' => $orders]];
+
+        return $this->respondWithJson($response, $responseData);
     }
 }
