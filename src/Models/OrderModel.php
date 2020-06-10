@@ -33,17 +33,18 @@ class OrderModel implements OrderModelInterface
                                 FROM `orders`');
         $orders = $ordersPdo->fetchAll();
 
-        foreach ($orders as $key=>$order){
+        foreach ($orders as $key=>$order) {
             $query = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
                                         FROM `orderedProducts` 
                                         WHERE `orderNumber` = ?;');
             $queryCheck = $query->execute([$order['orderNumber']]);
-            if($queryCheck) {
-                $products = $query->fetchAll();
-                $orders[$key]['products'] = $products;
-            } else {
+
+            if (!$queryCheck) {
                 return false;
             }
+
+            $products = $query->fetchAll();
+            $orders[$key]['products'] = $products;
         }
 
         return $orders;
