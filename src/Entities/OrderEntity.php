@@ -2,9 +2,9 @@
 
 namespace App\Entities;
 
-use App\Interfaces\ProductEntityInterface;
+use App\Interfaces\OrderEntityInterface;
 
-class ProductEntity implements ProductEntityInterface
+class OrderEntity implements OrderEntityInterface
 {
     private $orderNumber;
     private $customerEmail;

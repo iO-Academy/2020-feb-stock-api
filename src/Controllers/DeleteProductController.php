@@ -46,6 +46,7 @@ class DeleteProductController extends Controller
                 $deleteProduct = $this->productModel->deleteProductBySku($sku);
 
                 if ($deleteProduct){
+                    $responseData['success'] = true;
                     $responseData['message'] =
                         "Product successfully deleted";
 
