@@ -11,6 +11,7 @@ class OrderModel implements OrderModelInterface
 
     /**
      * OrderModel constructor.
+     * 
      * @param $db
      */
     public function __construct(\PDO $db)
@@ -20,6 +21,7 @@ class OrderModel implements OrderModelInterface
 
     /**
      * Checks if order exists in Database
+     *
      * @param string $orderNumber
      * @return array containing the existing order's orderNumber and deleted status.
      * @return false if order doesn't exist
@@ -34,10 +36,11 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
-     * * Adds an order to the Database which does the following in a transaction:
+     * Adds an order to the Database which does the following in a transaction:
      *  - adds order into the orders table
      *  - adds products ordered into the productsOrdered linking table
      *  - updates products' stockLevels with newStockLevels after order volume is taken into account.
+     *
      * @param OrderEntityInterface $orderEntity
      * @return bool depending on whether the transaction was successful or not.
      */
@@ -108,9 +111,10 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
-     * * Cancels an order in the Database through the following transaction:
+     * Cancels an order in the Database through the following transaction:
      *  - soft deletes order in the orders table
      *  - updates products' stockLevels with old stockLevel plus the relevant volumeOrdered from order.
+     *
      * @param string $orderNumber
      * @return bool depending on whether the transaction was successful or not.
      */
@@ -148,6 +152,7 @@ class OrderModel implements OrderModelInterface
 
     /**
      * returns an array of all the orders in the DB with the products ordered as well or false if it fails.
+     *
      * @return array|false
      */
     public function getAllOrders()
