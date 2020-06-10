@@ -26,7 +26,9 @@ class OrderModel implements OrderModelInterface
      */
     public function checkOrderExists(string $orderNumber)
     {
-        $query = $this->db->prepare("SELECT `orderNumber`, `deleted` FROM `orders` WHERE `orderNumber` = ?");
+        $query = $this->db->prepare("SELECT `orderNumber`, `deleted`, `completed` 
+                                        FROM `orders` 
+                                        WHERE `orderNumber` = ?");
         $query->execute([$orderNumber]);
         return $query->fetch();
     }
