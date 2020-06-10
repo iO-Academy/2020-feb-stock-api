@@ -27,14 +27,21 @@ class CancelOrderController extends Controller
             'data' => []
         ];
 
-//        $orderNumber = SkuOrderValidator::validateSkuAndOrderNumber($args['orderNumber']);
-        $orderNumber = $args['orderNumber'];
+        try {
+//            $orderNumber = SkuOrderValidator::validateSkuAndOrderNumber($args['orderNumber']);
+            $orderNumber = $args['orderNumber'];
+        } catch (\Throwable $e) {
+            $responseData['message'] = $e->getMessage();
 
-        if ($orderNumber) {
-            try {
-                $exists = $this->orderModel->checkOrderExists($orderNumber);
+            return $this->respondWithJson($response, $responseData, 400);
+        }
 
-                if ($exists) {
+        try {
+            $exists = $this->orderModel->checkOrderExists($orderNumber);
+
+            if ($exists) {
+
+                if ($exists['deleted'] === 0) {
                     $cancelOrderSuccess = $this->orderModel->cancelOrder($orderNumber);
 
                     if ($cancelOrderSuccess) {
@@ -47,20 +54,19 @@ class CancelOrderController extends Controller
 
                     return $this->respondWithJson($response, $responseData, 500);
                 }
-
-                $responseData['message'] =
-                    "Order doesn't exist, therefore couldn't be deleted, please try again";
+                $responseData['message'] = 'Order has already been cancelled.';
 
                 return $this->respondWithJson($response, $responseData, 400);
-
-            } catch (\Throwable $e) {
-                $responseData['message'] = 'Oops! Something went wrong; please try again.';
-
-                return $this->respondWithJson($response, $responseData, 500);
             }
-        }
-        $responseData['message'] = 'Invalid order number. Please try again.';
+            $responseData['message'] =
+                "Order doesn't exist, therefore couldn't be deleted, please try again";
 
-        return $this->respondWithJson($response, $responseData, 400);
+            return $this->respondWithJson($response, $responseData, 400);
+
+        } catch (\Throwable $e) {
+            $responseData['message'] = 'Oops! Something went wrong; please try again.';
+
+            return $this->respondWithJson($response, $responseData, 500);
+        }
     }
 }
