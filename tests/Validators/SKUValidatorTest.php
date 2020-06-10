@@ -17,7 +17,7 @@ class SkuValidatorTest extends TestCase
     public function testValidateSkuFailure()
     {
         $sku = '@£$%';
-        $this->expectExceptionMessage('Invalid SKU');
+        $this->expectExceptionMessage('Input must not have special characters');
         SkuValidator::validateSku($sku);
     }
 

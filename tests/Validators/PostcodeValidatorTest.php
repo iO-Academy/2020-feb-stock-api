@@ -11,7 +11,7 @@ class PostcodeValidatorTest extends TestCase
     {
         $postcode = 'SM5 7UP';
         $result = PostcodeValidator::validatePostcode($postcode);
-        $this->assertEquals('SM57UP', $result);
+        $this->assertEquals('SM5 7UP', $result);
     }
 
     public function testValidatePostcodeFailure()
