@@ -18,6 +18,14 @@ class OrderModel implements OrderModelInterface
         $this->db = $db;
     }
 
+
+    /**
+     * Adds an order to the Database, including orders table row,
+     * linking table rows for order/product relationship,
+     * and
+     * @param ProductEntityInterface $productEntity
+     * @return bool if product has been added successfully to DB
+     */
     public function addOrder(OrderEntityInterface $orderEntity)
     {
         $order = [
@@ -29,7 +37,6 @@ class OrderModel implements OrderModelInterface
             'shippingPostcode' => $orderEntity->getShippingPostcode(),
             'shippingCountry' => $orderEntity->getShippingCountry()
         ];
-
         $orderedProducts = $orderEntity->getProducts();
 
         $this->db->beginTransaction();
@@ -53,7 +60,6 @@ class OrderModel implements OrderModelInterface
         $orderQueryResult = $orderQuery->execute($order);
 
         foreach($orderedProducts as $product) {
-            $productList[] = [$product['newStockLevel'], $product['sku']];
             $linkTableSql[] = '("' . $order['orderNumber'] .'", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
             $productQuery = $this->db->prepare("UPDATE `products` 
                                                     SET `stockLevel` = ?
@@ -61,7 +67,6 @@ class OrderModel implements OrderModelInterface
 
             $productQueryResult = $productQuery->execute([$product['newStockLevel'], $product['sku']]);
         }
-
         $linkTableQuery = $this->db->prepare("INSERT INTO `orderedProducts`
                                                   (`orderNumber`, `sku`, `volumeOrdered`) 
                                                   VALUES ". implode(",", $linkTableSql));
