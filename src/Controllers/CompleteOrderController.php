@@ -28,7 +28,7 @@ class CompleteOrderController extends Controller
         ];
 
         try {
-//            $orderNumber = SkuOrderValidator::validateSkuAndOrderNumber($args['orderNumber']);
+//            $orderNumber = OrderNumberValidator::validateOrderNumber($args['orderNumber']);
             $orderNumber = $args['orderNumber'];
         } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();
