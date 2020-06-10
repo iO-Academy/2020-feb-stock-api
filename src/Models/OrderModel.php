@@ -13,7 +13,7 @@ class OrderModel implements OrderModelInterface
      * OrderModel constructor.
      * @param $db
      */
-    public function __construct($db)
+    public function __construct(\PDO $db)
     {
         $this->db = $db;
     }
@@ -29,25 +29,6 @@ class OrderModel implements OrderModelInterface
         $query = $this->db->prepare("SELECT `orderNumber`, `deleted` FROM `orders` WHERE `orderNumber` = ?");
         $query->execute([$orderNumber]);
         return $query->fetch();
-    }
-
-    /**
-     * Gets the SKU and volumeOrdered for all products for a given orderNumber
-     * @param string $orderNumber
-     * @return array an array of all products (sku and volumeOrdered)
-     * can be empty if
-     * - there are no products within the order
-     * - the orderNumber doesn't exist within the database
-     */
-    public function getProductsOrderedByOrderNumber(string $orderNumber)
-    {
-        $query = $this->db->prepare("SELECT `sku`, `volumeOrdered` 
-                                        FROM `orderedProducts`
-                                        WHERE `orderNumber` = ?");
-
-        $query->execute([$orderNumber]);
-
-        return $query->fetchAll();
     }
 
     /**
@@ -125,9 +106,9 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
-     * * Cancels an order to the Database which does the following in a transaction:
+     * * Cancels an order in the Database through the following transaction:
      *  - soft deletes order in the orders table
-     *  - updates products' stockLevels with old stockLevel plus the volumeOrdered.
+     *  - updates products' stockLevels with old stockLevel plus the relevant volumeOrdered from order.
      * @param string $orderNumber
      * @return bool depending on whether the transaction was successful or not.
      */
@@ -144,7 +125,7 @@ class OrderModel implements OrderModelInterface
             return false;
         }
 
-        $productsOrdered = $this->getProductsOrderedByOrderNumber($orderNumber);
+        $productsOrdered = $this->getOrderedProductsByOrderNumber($orderNumber);
 
         foreach($productsOrdered as $product) {
             $restorePreviousProductStockLevelQuery = $this->db->prepare("UPDATE `products`
@@ -158,9 +139,65 @@ class OrderModel implements OrderModelInterface
                 return false;
             }
         }
-
         $this->db->commit();
 
         return true;
+    }
+
+    /**
+     * returns an array of all the orders in the DB with the products ordered as well or false if it fails.
+     * @return array|false
+     */
+    public function getAllOrders()
+    {
+        $this->db->beginTransaction();
+
+        $ordersQuery = $this->db->prepare('SELECT `orderNumber` ,
+                                    `customerEmail`,
+                                    `shippingAddress1`,
+                                    `shippingAddress2`,
+                                    `shippingCity`,
+                                    `shippingPostcode`,
+                                    `shippingCountry` 
+                                FROM `orders`');
+        $ordersQueryCheck = $ordersQuery->execute();
+        if(!$ordersQueryCheck){
+            $this->db->rollback();
+            return false;
+        }
+        $orders = $ordersQuery->fetchAll();
+
+        foreach ($orders as $i=>$order) {
+            $return = $this->getOrderedProductsByOrderNumber($order['orderNumber']);
+
+            if ($return === false){
+                $this->db->rollback();
+                return false;
+            }
+
+            $orders[$i]['products'] = $return;
+        }
+
+        $this->db->commit();
+        return $orders;
+    }
+
+    /**
+     * Gets the products ordered for the specified order number and returns them.
+     *
+     * @param string $orderNumber
+     * @return array|false array of products ordered with their SKU and volumeOrdered or false if query failed.
+     */
+    private function getOrderedProductsByOrderNumber(string $orderNumber){
+        $query = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
+                                        FROM `orderedProducts` 
+                                        WHERE `orderNumber` = ? ;');
+        $queryResult = $query->execute([$orderNumber]);
+
+        if ($queryResult){
+            return $query->fetchAll();
+        }
+
+        return false;
     }
 }
