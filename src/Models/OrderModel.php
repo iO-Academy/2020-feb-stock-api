@@ -13,7 +13,7 @@ class OrderModel implements OrderModelInterface
      * OrderModel constructor.
      * @param $db
      */
-    public function __construct($db)
+    public function __construct(\PDO $db)
     {
         $this->db = $db;
     }
@@ -90,5 +90,63 @@ class OrderModel implements OrderModelInterface
         $this->db->commit();
 
         return true;
+    }
+
+    /**
+     * returns an array of all the orders in the DB with the products ordered as well or false if it fails.
+     * @return array|false
+     */
+    public function getAllOrders()
+    {
+        $this->db->beginTransaction();
+
+        $ordersQuery = $this->db->prepare('SELECT `orderNumber` ,
+                                    `customerEmail`,
+                                    `shippingAddress1`,
+                                    `shippingAddress2`,
+                                    `shippingCity`,
+                                    `shippingPostcode`,
+                                    `shippingCountry` 
+                                FROM `orders`');
+        $ordersQueryCheck = $ordersQuery->execute();
+        if(!$ordersQueryCheck){
+            $this->db->rollback();
+            return false;
+        }
+
+        $orders = $ordersQuery->fetchAll();
+
+        foreach ($orders as $i=>$order) {
+            $return = $this->getOrderedProductsByOrderNumber($order['orderNumber']);
+
+            if ($return === false){
+                $this->db->rollback();
+                return false;
+            }
+
+            $orders[$i]['products'] = $return;
+        }
+
+        $this->db->commit();
+        return $orders;
+    }
+
+    /**
+     * Gets the products ordered for the specified order number and returns them.
+     *
+     * @param string $orderNumber
+     * @return array|false array of products ordered with their SKU and volumeOrdered or false if query failed.
+     */
+    private function getOrderedProductsByOrderNumber(string $orderNumber){
+        $query = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
+                                        FROM `orderedProducts` 
+                                        WHERE `orderNumber` = ? ;');
+        $queryResult = $query->execute([$orderNumber]);
+
+        if ($queryResult){
+            return $query->fetchAll();
+        }
+
+        return false;
     }
 }
