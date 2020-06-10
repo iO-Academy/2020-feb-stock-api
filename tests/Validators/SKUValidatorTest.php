@@ -17,8 +17,8 @@ class SkuValidatorTest extends TestCase
     public function testValidateSkuFailure()
     {
         $sku = '@£$%';
-        $this->expectExceptionMessage('Invalid SKU');     
-        SkuValidator::validateSku($sku); 
+        $this->expectExceptionMessage('Invalid SKU');
+        SkuValidator::validateSku($sku);
     }
 
     public function testValidateSkuMalformed()
