@@ -138,4 +138,15 @@ class ProductModel implements ProductModelInterface
 
         return $query->fetch();
     }
+
+    public function getMultipleStockLevelsBySKUs(array $productSKUs)
+    {
+        $skusList = '("' . implode('", "', $productSKUs) . '")';
+        $query = $this->db->prepare("SELECT `sku`, `name`, `price`, `stockLevel` 
+                                                FROM `products` 
+                                                WHERE `deleted` = 0 AND `sku` in " . $skusList);
+        $query->execute();
+
+        return $query->fetchAll();
+    }
 }
