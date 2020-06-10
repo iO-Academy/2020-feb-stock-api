@@ -42,6 +42,8 @@ class OrderEntity implements OrderEntityInterface
         $this->shippingPostcode = $shippingPostcode;
         $this->shippingCountry = $shippingCountry;
         $this->products = $products;
+
+        $this->validateOrder();
     }
 
     /**
