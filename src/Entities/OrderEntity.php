@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Interfaces\OrderEntityInterface;
+use App\Validators\AddressTwoValidator;
 use App\Validators\AddressValidator;
 use App\Validators\CityValidator;
 use App\Validators\CountryValidator;
@@ -112,7 +113,7 @@ class OrderEntity implements OrderEntityInterface
         $this->orderNumber = OrderNumberValidator::validateOrderNumber($this->orderNumber);
         $this->customerEmail = EmailValidator::validateEmail($this->customerEmail);
         $this->shippingAddress1 = AddressValidator::validateAddress($this->shippingAddress1);
-        $this->shippingAddress2 = AddressValidator::validateAddress($this->shippingAddress2);
+        $this->shippingAddress2 = AddressTwoValidator::validateAddressTwo($this->shippingAddress2);
         $this->shippingCity = CityValidator::validateCity($this->shippingCity);
         $this->shippingPostcode = PostcodeValidator::validatePostcode($this->shippingPostcode);
         $this->shippingCountry = CountryValidator::validateCountry($this->shippingCountry);
