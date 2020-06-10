@@ -7,7 +7,6 @@ use App\Entities\OrderEntity;
 use App\Interfaces\OrderModelInterface;
 use App\Interfaces\ProductModelInterface;
 use App\Utilities\OrderUtilities;
-use App\Validators\SkuOrderValidator;
 use App\Validators\SkuValidator;
 use App\Validators\StockLevelValidator;
 use App\Validators\SufficientStockValidator;
@@ -64,15 +63,9 @@ class AddOrderController extends Controller
 
         try {
             SufficientStockValidator::checkSufficientStock($orderedProducts, $productStockLevels);
-        }catch (\Throwable $e){
-            $responseData['message'] = $e->getMessage();
 
-            return $this->respondWithJson($response, $responseData, 400);
-        }
+            $productsForOrderEntity = OrderUtilities::calcAdjustedStockLevel($orderedProducts, $productStockLevels);
 
-        $productsForOrderEntity = OrderUtilities::calcAdjustedStockLevel($orderedProducts, $productStockLevels);
-
-        try {
             $newOrder = new OrderEntity(
                 $newOrderData['orderNumber'],
                 $newOrderData['customerEmail'],
@@ -83,7 +76,6 @@ class AddOrderController extends Controller
                 $newOrderData['shippingCountry'],
                 $productsForOrderEntity
             );
-
         } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();
 
