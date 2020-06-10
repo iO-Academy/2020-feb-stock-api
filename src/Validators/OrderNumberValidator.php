@@ -11,12 +11,12 @@ class OrderNumberValidator extends StringValidator
     /**
      * Make sure the Order Number is valid
      *
-     * @param string $sku
+     * @param string $orderNumber
      * @return string|null
      * @throws \Exception
      */
     public static function validateOrderNumber(string $orderNumber)
     {
-        return StringValidator::validateNoSpecialCharacters($orderNumber, self::MIN_CHAR, self::MAX_CHAR, self::ERROR_MSG);
+        return self::validateNoSpecialCharacters($orderNumber, self::MIN_CHAR, self::MAX_CHAR, self::ERROR_MSG);
     }
 }

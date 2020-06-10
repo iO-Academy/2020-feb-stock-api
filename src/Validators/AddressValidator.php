@@ -2,7 +2,7 @@
 
 namespace App\Validators;
 
-class AddressValidator extends StringValidator
+class AddressValidator
 {
     private const ADDRESS_REGEX = '/^[a-z0-9- ]+$/i';
 

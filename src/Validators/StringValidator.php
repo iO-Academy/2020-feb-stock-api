@@ -27,7 +27,7 @@ abstract class StringValidator
         return trim(filter_var($validateData, FILTER_SANITIZE_STRING));
     }
 
-    public static function validateNoSpecialCharacters($string, int $minChar, int $maxChar, string $message = 'Input must not have special characters')
+    protected static function validateNoSpecialCharacters($string, int $minChar, int $maxChar, string $message = 'Input must not have special characters')
     {
         $regex = '/^[a-z0-9A-Z]{' . $minChar . ',' .  $maxChar . '}$/';
         if (preg_match($regex, $string)) {

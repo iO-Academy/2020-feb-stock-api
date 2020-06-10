@@ -6,7 +6,7 @@ class SkuValidator
 {
     private const MIN_CHAR = 10;
     private const MAX_CHAR = 20;
-    private const ERROR_MSG = 'Input must not have special characters';
+    private const ERROR_MSG = 'SKU must not have special characters and be between 10 and 20 characters';
 
     /**
      * Make sure the SKU is valid 
@@ -17,6 +17,6 @@ class SkuValidator
      */
     public static function validateSku(string $sku)
     {
-        return StringValidator::validateNoSpecialCharacters($sku, self::MIN_CHAR, self::MAX_CHAR, self::ERROR_MSG);
+        return self::validateNoSpecialCharacters($sku, self::MIN_CHAR, self::MAX_CHAR, self::ERROR_MSG);
     }
 }

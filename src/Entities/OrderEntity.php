@@ -3,6 +3,12 @@
 namespace App\Entities;
 
 use App\Interfaces\OrderEntityInterface;
+use App\Validators\AddressValidator;
+use App\Validators\CityValidator;
+use App\Validators\CountryValidator;
+use App\Validators\EmailValidator;
+use App\Validators\OrderNumberValidator;
+use App\Validators\PostcodeValidator;
 
 class OrderEntity implements OrderEntityInterface
 {
@@ -99,5 +105,16 @@ class OrderEntity implements OrderEntityInterface
     public function getProducts()
     {
         return $this->products;
+    }
+
+    private function validateOrder()
+    {
+        $this->orderNumber = OrderNumberValidator::validateOrderNumber($this->orderNumber);
+        $this->customerEmail = EmailValidator::validateEmail($this->customerEmail);
+        $this->shippingAddress1 = AddressValidator::validateAddress($this->shippingAddress1);
+        $this->shippingAddress2 = AddressValidator::validateAddress($this->shippingAddress2);
+        $this->shippingCity = CityValidator::validateCity($this->shippingCity);
+        $this->shippingPostcode = PostcodeValidator::validatePostcode($this->shippingPostcode);
+        $this->shippingCountry = CountryValidator::validateCountry($this->shippingCountry);
     }
 }

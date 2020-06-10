@@ -2,7 +2,7 @@
 
 namespace App\Validators;
 
-class PostcodeValidator extends StringValidator
+class PostcodeValidator
 {
     /**
      * Validates postcode

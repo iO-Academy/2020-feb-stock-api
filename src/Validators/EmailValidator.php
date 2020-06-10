@@ -2,7 +2,7 @@
 
 namespace App\Validators;
 
-class EmailValidator extends StringValidator
+class EmailValidator
 {
     /**
      * Ensures valid email
