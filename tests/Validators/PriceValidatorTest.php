@@ -17,8 +17,8 @@ class PriceValidatorTest extends TestCase
     public function testValidatePriceFailure()
     {
         $price = 'ABCD';
-        $this->expectExceptionMessage('Invalid price');     
-        PriceValidator::validatePrice($price); 
+        $this->expectExceptionMessage('Invalid price');
+        PriceValidator::validatePrice($price);
     }
 
     public function testValidatePriceEmpty()

@@ -20,6 +20,7 @@ class StockLevelValidatorTest extends TestCase
         $this->expectExceptionMessage('Must provide stock level and be max 11 characters long');
         StockLevelValidator::validateStockLevel($stockLevel);
     }
+
     public function testValidateStockLevelTooHigh()
     {
         $stockLevel = '4098530984908345';
@@ -31,7 +32,7 @@ class StockLevelValidatorTest extends TestCase
     {
         $stockLevel = 'ABCD';
         $this->expectExceptionMessage('Invalid stock level');
-        StockLevelValidator::validateStockLevel($stockLevel); 
+        StockLevelValidator::validateStockLevel($stockLevel);
     }
 
     public function testValidateStockLevelMalformed()

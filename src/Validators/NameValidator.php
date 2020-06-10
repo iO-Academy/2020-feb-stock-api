@@ -19,6 +19,6 @@ class NameValidator extends StringValidator
     public static function validateName(string $name)
     {
         $name = self::sanitiseString($name);
-        return self::validateExistsAndLength($name, self::MAX_CHAR, self::ERROR_MSG );
+        return self::validateExistsAndLength($name, self::MAX_CHAR, self::ERROR_MSG);
     }
 }
