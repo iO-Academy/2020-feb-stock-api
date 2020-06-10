@@ -4,7 +4,14 @@ namespace App\Utilities;
 
 class OrderUtilities
 {
-    public static function calcAdjustedStockLevel(array $orderedProducts, array $productsStockLevels)
+    /**
+     * Calculates the adjusted stock levels after taking into account the new order's volume.
+     *
+     * @param array $orderedProducts containing SKUs and volumeOrdered
+     * @param array $productsStockLevels containing SKUs and stockLevels
+     * @return array containing SKUs, volumeOrdered and newStockLevels
+     */
+    public static function calcAdjustedStockLevels(array $orderedProducts, array $productsStockLevels): array
     {
         $orderedProductsWithAdjustedStockLevel = $orderedProducts;
 
@@ -19,5 +26,4 @@ class OrderUtilities
 
         return $orderedProductsWithAdjustedStockLevel;
     }
-
 }

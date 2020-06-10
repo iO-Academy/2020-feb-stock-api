@@ -64,7 +64,7 @@ class AddOrderController extends Controller
         try {
             SufficientStockValidator::checkSufficientStock($orderedProducts, $productStockLevels);
 
-            $productsForOrderEntity = OrderUtilities::calcAdjustedStockLevel($orderedProducts, $productStockLevels);
+            $productsForOrderEntity = OrderUtilities::calcAdjustedStockLevels($orderedProducts, $productStockLevels);
 
             $newOrder = new OrderEntity(
                 $newOrderData['orderNumber'],
