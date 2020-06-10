@@ -14,7 +14,14 @@ class PriceValidatorTest extends TestCase
         $this->assertEquals('12345.55', $result);
     }
 
-    public function testValidatePriceFailure()
+    public function testValidatePriceFailure_Letters()
+    {
+        $price = 'ABCD';
+        $this->expectExceptionMessage('Invalid price');
+        PriceValidator::validatePrice($price);
+    }
+
+    public function testValidatePriceFailure_InvalidPrice()
     {
         $price = '12345.555';
         $this->expectExceptionMessage('Invalid price');
