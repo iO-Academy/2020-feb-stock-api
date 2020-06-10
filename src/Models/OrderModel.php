@@ -16,4 +16,10 @@ class OrderModel implements OrderModelInterface
     {
         $this->db = $db;
     }
+
+    public function getAllOrders()
+    {
+        $orders = $this->db->query('SELECT ');
+
+    }
 }
