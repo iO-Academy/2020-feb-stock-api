@@ -14,11 +14,25 @@ class StockLevelValidatorTest extends TestCase
         $this->assertEquals('1234', $result);
     }
 
+    public function testValidateStockLevelEmpty()
+    {
+        $stockLevel = '';
+        $this->expectExceptionMessage('Must provide stock level and be less than 11 characters');
+        StockLevelValidator::validateStockLevel($stockLevel);
+    }
+
+    public function testValidateStockLevelTooHigh()
+    {
+        $stockLevel = '4098530984908345';
+        $this->expectExceptionMessage('Must provide stock level and be less than 11 characters');
+        StockLevelValidator::validateStockLevel($stockLevel);
+    }
+
     public function testValidateStockLevelFailure()
     {
         $stockLevel = 'ABCD';
-        $this->expectExceptionMessage('Invalid stock level');     
-        StockLevelValidator::validateStockLevel($stockLevel); 
+        $this->expectExceptionMessage('Invalid stock level');
+        StockLevelValidator::validateStockLevel($stockLevel);
     }
 
     public function testValidateStockLevelMalformed()

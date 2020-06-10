@@ -2,7 +2,7 @@
 
 namespace App\Validators;
 
-class SkuValidator extends StringValidator
+class SkuValidator
 {
     private const MIN_CHAR = 10;
     private const MAX_CHAR = 20;
