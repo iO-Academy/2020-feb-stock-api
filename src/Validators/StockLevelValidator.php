@@ -18,9 +18,11 @@ class StockLevelValidator extends StringValidator
     public static function validateStockLevel(string $stockLevel)
     {
         $stockLevel = self::validateExistsAndLength($stockLevel, self::MAX_CHAR, self::ERROR_MSG);
+        
         if (!preg_match(self::STOCK_LEVEL_REGEX, $stockLevel)) {
             throw new \Exception('Invalid stock level');
         }
+
         return $stockLevel;
     }
 }
