@@ -6,7 +6,7 @@ class StockLevelValidator extends StringValidator
 {
     private const STOCK_LEVEL_REGEX = '/^\d+$/';
     private const MAX_CHAR = 11;
-    private const ERROR_MSG = 'Must provide stock level and be max 11 characters long';
+    private const ERROR_MSG = 'Must provide stock level and be less than 11 characters';
 
     /**
      * Checks the following:
