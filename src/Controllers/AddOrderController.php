@@ -62,20 +62,22 @@ class AddOrderController extends Controller
         }
 
         try {
-            SufficientStockValidator::checkSufficientStock($orderedProducts, $productStockLevels);
+            $sufficientStockCheck = SufficientStockValidator::checkSufficientStock($orderedProducts, $productStockLevels);
 
-            $productsForOrderEntity = OrderUtilities::calcAdjustedStockLevels($orderedProducts, $productStockLevels);
+            if ($sufficientStockCheck) {
+                $productsForOrderEntity = OrderUtilities::calcAdjustedStockLevels($orderedProducts, $productStockLevels);
 
-            $newOrder = new OrderEntity(
-                $newOrderData['orderNumber'],
-                $newOrderData['customerEmail'],
-                $newOrderData['shippingAddress1'],
-                $newOrderData['shippingAddress2'],
-                $newOrderData['shippingCity'],
-                $newOrderData['shippingPostcode'],
-                $newOrderData['shippingCountry'],
-                $productsForOrderEntity
-            );
+                $newOrder = new OrderEntity(
+                    $newOrderData['orderNumber'],
+                    $newOrderData['customerEmail'],
+                    $newOrderData['shippingAddress1'],
+                    $newOrderData['shippingAddress2'],
+                    $newOrderData['shippingCity'],
+                    $newOrderData['shippingPostcode'],
+                    $newOrderData['shippingCountry'],
+                    $productsForOrderEntity
+                );
+            }
         } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();
 

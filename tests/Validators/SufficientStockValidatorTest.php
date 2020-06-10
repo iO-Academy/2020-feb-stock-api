@@ -32,7 +32,7 @@ class SufficientStockValidatorTest extends \PHPUnit\Framework\TestCase
 
         $actual = SufficientStockValidator::checkSufficientStock($orderedProducts, $productStockLevels);
 
-        $this->assertNull($actual);
+        $this->assertEquals(true, $actual);
     }
 
     public function testCheckSufficientStockInvalidSKU()

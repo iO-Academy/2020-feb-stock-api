@@ -11,9 +11,10 @@ class SufficientStockValidator
      *
      * @param array $orderedProducts
      * @param array $productsStockLevels
+     * @return bool true if no checks failed.
      * @throws \Exception thrown if checks above fail.
      */
-    public static function checkSufficientStock(array $orderedProducts, array $productsStockLevels): void
+    public static function checkSufficientStock(array $orderedProducts, array $productsStockLevels): bool
     {
         if (count($orderedProducts) !== count($productsStockLevels)){
             throw new \Exception('Some SKUs provided do not exist in DB');
@@ -28,6 +29,6 @@ class SufficientStockValidator
             }
         }
 
-        return;
+        return true;
     }
 }
