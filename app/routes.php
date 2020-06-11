@@ -9,11 +9,6 @@ return function (App $app) {
 
     $app->addBodyParsingMiddleware();
 
-    $app->get('/', function ($request, $response, $args) use ($container) {
-        $renderer = $container->get('renderer');
-        return $renderer->render($response, "index.php", $args);
-    });
-
     $app->get('/products', 'GetProductsController');
     $app->post('/products', 'AddProductController');
 
