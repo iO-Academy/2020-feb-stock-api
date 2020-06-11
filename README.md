@@ -4,43 +4,43 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 [For information on how to set up this API for development click here!](setup.md)
 
-**Requests:**
+## Requests:
 
-* [***Products***](#products)
-  * [Add a product](#add-a-product)
-  * [Edit a product](#edit-a-product)
-  * [Get all products](#get-all-products)
-  * [Delete a product](#delete-a-product)
-  * [Get specified product](#get-specified-product)
-  * [Edit stock level](#edit-stock-level)
-  * [Reinstate a deleted product](#reinstate-a-deleted-product)
-  <br />
-  
-* [***Orders***](#orders)
-  * [Add an order](#add-an-order)
-  * [Get all orders](#get-all-orders)
-  * [Cancel an order](#cancel-an-order)
-  * [Mark an order complete](#mark-an-order-complete)
- 
+-   [***Products***](#products)
 
-***
+    -   [Add a product](#add-a-product)
+    -   [Edit a product](#edit-a-product)
+    -   [Get all products](#get-all-products)
+    -   [Delete a product](#delete-a-product)
+    -   [Get specified product](#get-specified-product)
+    -   [Edit stock level](#edit-stock-level)
+    -   [Reinstate a deleted product](#reinstate-a-deleted-product)
+        
+
+
+-   [***Orders***](#orders)
+    -   [Add an order](#add-an-order)
+    -   [Get all orders](#get-all-orders)
+    -   [Cancel an order](#cancel-an-order)
+    -   [Mark an order complete](#mark-an-order-complete)
+
+* * *
 
 # Products
-
 
 ## Add a product
 
   Add a product to the DB in order to keep track of it.
 
-* **URL**
+-   **URL**
 
-  /products
+    /products
 
-* **Method:**
- 
-   `POST`
- 
-* **Request Body**
+-   **Method:**
+
+     `POST`
+
+-   **Request Body**
 
 ```json
 {
@@ -53,36 +53,46 @@ A warehouse house built by Mayden Academy students that would help employees kee
 }
 ```
 
-* **Success Response:**
- 
-  * **Code:** 200 <br />
- **Content:** `{ success : true, message: "Product successfully added", data: [] }`
- 
-* **Error Response:**
+-   **Success Response:**
 
-  * **Code:** 400 User Error <br />
-  **Content:** `{ success : false, message: "Invalid Product Information", data: [] }`
-      <br /> or <br />
-   **Content:** `{ success : false, message: "Product SKU has previously been added ", data: {product: {sku: "UGG-BB-PUR-06", deleted: 1 or 0}} }` 
-  
-  or
-  * **Code:** 500 Internal Server Error <br />
-  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+    -   **Code:** 200 
+
+        **Content:** `{ success : true, message: "Product successfully added", data: [] }`
+
+-   **Error Response:**
+
+    -   **Code:** 400 User Error 
+
+        **Content:** `{ success : false, message: "Invalid Product Information", data: [] }`
+            
+ or 
+
+         **Content:** `{ success : false, message: "Product SKU has previously been added ", data: {product: {sku: "UGG-BB-PUR-06", deleted: 1 or 0}} }` 
+
+    or
+
+    -   **Code:** 500 Internal Server Error 
+
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+    
+
 
 
 ## Edit a product
 
   Edit an existing product.
 
-* **URL**
+-   **URL**
 
-  /products/{sku}
+    /products/{sku}
 
-* **Method:**
+-   **Method:**
 
-   `PUT`
-    
-* **Request Body**
+     `PUT`
+      
+
+-   **Request Body**
 
 ```json
 {
@@ -94,137 +104,160 @@ A warehouse house built by Mayden Academy students that would help employees kee
 }
 ```
 
-* **Success Response:**
- 
-  * **Code:** 200 <br />
- **Content:** `{ success : true, message: "Product successfully updated", data: [] }`
- 
-* **Error Response:**
+-   **Success Response:**
 
-  * **Code:** 400 UNAUTHORIZED <br />
- **Content:** `{ success : false, message: "Invalid request", data: [] }`
-    
-    or 
-    
-  * **Code:** 500 Server Error <br />
-  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-  
-  
+    -   **Code:** 200 
+
+        **Content:** `{ success : true, message: "Product successfully updated", data: [] }`
+
+-   **Error Response:**
+
+    -   **Code:** 400 UNAUTHORIZED 
+
+        **Content:** `{ success : false, message: "Invalid request", data: [] }`
+           or 
+           
+    -   **Code:** 500 Server Error 
+
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+
+
+
+
 ## Get all products
 
   Get all products in the database.
 
-* **URL**
+-   **URL**
 
-  /products
+    /products
 
-* **Method:**
+-   **Method:**
 
-   `GET`
+     `GET`
 
-* **Success Response:**
- 
-  * **Code:** 200 <br />
- **Content:** 
- ```json
- {
-     "success": true,
-     "message": "All products returned",
-     "data": {
-         "products": [
-             {
-                 "sku": "abcdef123456",
-                 "name": "test_name_1",
-                 "price": "99.99",
-                 "stockLevel": "1"
-             },
-             {
-                 "sku": "abcdef123457",
-                 "name": "test_name_2",
-                 "price": "89.99",
-                 "stockLevel": "5"
-             },
-             {
-                 "sku": "abcdef123458",
-                 "name": "test_name_3",
-                 "price": "79.99",
-                 "stockLevel": "10"
-             }
-         ]
-     }
- }
- ```
- 
-* **Error Response:**
-    
-  * **Code:** 500 Server Error <br />
-  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-  
-  
+-   **Success Response:**
+
+    -   **Code:** 200 
+
+        **Content:** 
+
+```json
+{
+    "success": true,
+    "message": "All products returned",
+    "data": {
+        "products": [
+            {
+                "sku": "abcdef123456",
+                "name": "test_name_1",
+                "price": "99.99",
+                "stockLevel": "1"
+            },
+            {
+                "sku": "abcdef123457",
+                "name": "test_name_2",
+                "price": "89.99",
+                "stockLevel": "5"
+            },
+            {
+                "sku": "abcdef123458",
+                "name": "test_name_3",
+                "price": "79.99",
+                "stockLevel": "10"
+            }
+        ]
+    }
+}
+```
+
+-   **Error Response:**
+
+    -   **Code:** 500 Server Error 
+
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+
+
+
+
 ## Delete a product
 
   Delete an existing product.
 
-* **URL**
+-   **URL**
 
-  /products/{sku}
+    /products/{sku}
 
-* **Method:**
+-   **Method:**
 
-   `DELETE`
+     `DELETE`
 
-* **Success Response:**
- 
-  * **Code:** 200 <br />
-  **Content:** `{ success : true, message: "Product successfully deleted", data: [] }`
- 
-* **Error Response:**
+-   **Success Response:**
 
-  * **Code:** 400 UNAUTHORIZED <br />
- 	**Content:** `{ success : false, message: "Product does not exist", data: [] }`
- 
- 	or
-    
-  * **Code:** 500 Server Error <br />
-  	**Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+    -   **Code:** 200 
+
+        **Content:** `{ success : true, message: "Product successfully deleted", data: [] }`
+
+-   **Error Response:**
+
+    -   **Code:** 400 UNAUTHORIZED 
+
+        			**Content:** `{ success : false, message: "Product does not exist", data: [] }`
+
+            		or
+
+    -   **Code:** 500 Server Error 
+
+        		**Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+
+
 
 
 ## Get specified product
 
   Get a product in the database.
 
-* **URL**
+-   **URL**
 
-  /products/{sku}
+    /products/{sku}
 
-* **Method:**
+-   **Method:**
 
-   `GET`
+     `GET`
 
-* **Success Response:**
- 
-  * **Code:** 200 <br />
-  **Content:** `{ success : false, message: "Specified product returned", data: {product: {sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}}}`
+-   **Success Response:**
 
-* **Error Response:**
-    
-  * **Code:** 500 Server Error <br />
-  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-  
- 
+    -   **Code:** 200 
+
+        **Content:** `{ success : false, message: "Specified product returned", data: {product: {sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}}}`
+
+-   **Error Response:**
+
+    -   **Code:** 500 Server Error 
+
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+
+
+
+
 ## Edit stock level
 
   Edit a specified product's stock level.
 
-* **URL**
+-   **URL**
 
-  /products/stock/{sku}
+    /products/stock/{sku}
 
-* **Method:**
+-   **Method:**
 
-   `PUT`
-   
-* **Request Body**
+     `PUT`
+     
+
+-   **Request Body**
 
 ```json
 {
@@ -234,70 +267,84 @@ A warehouse house built by Mayden Academy students that would help employees kee
 }
 ```
 
-* **Success Response:**
- 
-  * **Code:** 200 <br />
-  **Content:** `{ success : true, message: "Stock level successfully updated", data: [] }`
+-   **Success Response:**
 
- 
-* **Error Response:**
+    -   **Code:** 200 
 
-  * **Code:** 400 UNAUTHORIZED <br />
-  **Content:** `{ success : false, message: "Invalid Stock Level", data: [] }`
-    
-    or 
-    
-  * **Code:** 500 Server Error <br />
-  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-  
+        **Content:** `{ success : true, message: "Stock level successfully updated", data: [] }`
+
+
+-   **Error Response:**
+
+    -   **Code:** 400 UNAUTHORIZED 
+
+        **Content:** `{ success : false, message: "Invalid Stock Level", data: [] }`
+          or 
+          
+    -   **Code:** 500 Server Error 
+
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+
+
+
+
 ## Reinstate a deleted product
 
   Undo a delete on a previously deleted product
 
-* **URL**
+-   **URL**
 
-  /products/undodelete{sku}
+    /products/undodelete{sku}
 
-* **Method:**
+-   **Method:**
 
-   `PUT`
-    
-* **Success Response:**
- 
-  * **Code:** 200 <br />
- **Content:** `{ success : true, message: "Product is no longer deleted", data: [] }`
- 
-* **Error Response:**
+     `PUT`
+      
 
-  * **Code:** 400 UNAUTHORIZED <br />
-    **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
-     <br /> or <br />
-    **Content:** `{ success : false, message: "Product SKU does not exist in DB ", data: []` 
-    
-    or 
-    
-  * **Code:** 500 Server Error <br />
-    **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+-   **Success Response:**
+
+    -   **Code:** 200 
+
+        **Content:** `{ success : true, message: "Product is no longer deleted", data: [] }`
+
+-   **Error Response:**
+
+    -   **Code:** 400 UNAUTHORIZED 
+
+        **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
+         
+ or 
+
+        **Content:** `{ success : false, message: "Product SKU does not exist in DB ", data: []` 
+
+        or 
+
+    -   **Code:** 500 Server Error 
+
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
 
- ***
- 
- # Orders
- 
- 
- ## Add an order
+
+
+
+* * *
+
+# Orders
+
+## Add an order
 
     Add an order to the database.
-  
- * **URL**
-  
-    /orders
-  
- * **Method:**
-   
-     `POST`
-   
- * **Request Body**
+
+-   **URL**
+
+     /orders
+
+-   **Method:**
+
+      `POST`
+
+-   **Request Body**
 
 ```json
 {
@@ -322,51 +369,60 @@ A warehouse house built by Mayden Academy students that would help employees kee
     }
 }
 ```
-        
- * **Success Response:**
-   
-    * **Code:** 200 <br />
-   **Content:** `{ success : true, message: "Order successfully added", data: [] }`
-   
- * **Error Response:**
-  
-    * **Code:** 400 User Error <br />
-        **Content:** `{ success : false, message: "Invalid Order Information", data: [] }`
-        <br /> or <br />
-         **Content:** `{ success : false, message: "Order Number already exists ", data: []` 
-    
-    or
-    * **Code:** 500 Internal Server Error <br />
-        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-    
-   
-  
+
+-   **Success Response:**
+
+    -   **Code:** 200 
+
+        **Content:** `{ success : true, message: "Order successfully added", data: [] }`
+
+-   **Error Response:**
+
+    -   **Code:** 400 User Error 
+
+          **Content:** `{ success : false, message: "Invalid Order Information", data: [] }`
+          
+ or 
+
+           **Content:** `{ success : false, message: "Order Number already exists ", data: []` 
+
+     or
+
+    -   **Code:** 500 Internal Server Error 
+
+          **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+
+
+ 
+
 ## Get all orders
 
-
     Gets all orders that are in the database.
-  
-* **URL**
-  
-    /orders
-  
-* **Method:**
-   
-     `GET`
 
-*  **URL Params**
+-   **URL**
 
-    0, If you would like to see active orders.
-    1, If you would like to see completed orders.
-    
-   **Optional:**
- 
-   `completed=[0 or 1]` 
-        
-* **Success Response:**
-   
-    * **Code:** 200 <br />
-   **Content:**  
+      /orders
+
+-   **Method:**
+
+       `GET`
+
+-   **URL Params**
+
+     0, If you would like to see active orders.
+     1, If you would like to see completed orders.
+
+    **Optional:**
+
+    `completed=[0 or 1]` 
+         
+
+-   **Success Response:**
+    -   **Code:** 200 
+
+        **Content:**  
+
 ```json
 {
     "succcess": true,
@@ -416,73 +472,86 @@ A warehouse house built by Mayden Academy students that would help employees kee
         ]
     }
 }
- ```
-   
-* **Error Response:**
+```
 
-    * **Code:** 400 User Error <br />
-        **Content:** `{ success : false, message: "Invalid query parameter value please set completed to only a 1 or 0.", data: [] }`
-      
-      or
- 
-    * **Code:** 500 Internal Server Error <br />
-        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-   
-   
- ## Cancel an order
+-   **Error Response:**
 
-    
+    -   **Code:** 400 User Error 
+
+          **Content:** `{ success : false, message: "Invalid query parameter value please set completed to only a 1 or 0.", data: [] }`
+
+        or
+
+    -   **Code:** 500 Internal Server Error 
+
+          **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+
+
+
+
+## Cancel an order
+
   Cancel an order from the database
       
- * **URL**
-      
-     /orders/{orderNumber}
-      
- * **Method:**
-       
-      `DELETE`
-       
-            
-* **Success Response:**
-       
-    * **Code:** 200 <br />
-       **Content:** `{ success : true, message: "Order successfully cancelled", data: []}`
-       
-* **Error Response:**
-   * **Code:** 400 User Error <br />
-        **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
-      
-      or
-     
-   * **Code:** 500 Internal Server Error <br />
-    **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-    
-    
- ## Mark an order complete
 
-    
+-   **URL**
+      /orders/{orderNumber}
+       
+-   **Method:**
+    \
+       `DELETE`
+    \
+             
+-   **Success Response:**
+         
+    -   **Code:** 200 
+
+         **Content:** `{ success : true, message: "Order successfully cancelled", data: []}`
+         
+-   **Error Response:**
+    -   **Code:** 400 User Error 
+
+           **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
+
+         or
+
+    -   **Code:** 500 Internal Server Error 
+
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+
+
+
+
+
+## Mark an order complete
+
   Complete an active order from the database
       
- * **URL**
-      
-     /orders/complete/{orderNumber}
-      
- * **Method:**
+
+-   **URL**
+      /orders/complete/{orderNumber}
        
-      `PUT`
-       
+-   **Method:**
+    \
+       `PUT`
+    \
+             
+-   **Success Response:**
+         
+    -   **Code:** 200 
+
+         **Content:** `{ success : true, message: "Order successfully marked completed", data: []}`
+         
+-   **Error Response:**
+    -   **Code:** 400 User Error 
+
+           **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
+
+         or
+
+    -   **Code:** 500 Internal Server Error 
+
+        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+        \
             
-* **Success Response:**
-       
-    * **Code:** 200 <br />
-       **Content:** `{ success : true, message: "Order successfully marked completed", data: []}`
-       
-* **Error Response:**
-   * **Code:** 400 User Error <br />
-        **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
-      
-      or
-     
-   * **Code:** 500 Internal Server Error <br />
-    **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-        
