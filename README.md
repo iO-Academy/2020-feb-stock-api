@@ -339,7 +339,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 # Get all orders
 ----
 
-    Get all orders that are in the database.
+    Gets all orders that are in the database.
   
 * **URL**
   
@@ -348,7 +348,15 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Method:**
    
      `GET`
-   
+
+*  **URL Params**
+
+    0, If you would like to see active orders.
+    1, If you would like to see completed orders.
+    
+   **Optional:**
+ 
+   `completed=[0 or 1]` 
         
 * **Success Response:**
    
@@ -368,6 +376,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
                 "shippingCity": "Bath",
                 "shippingPostcode": "BA91LO",
                 "shippingCountry": "UK",
+                "completed": 1,
                 "products": [
                     {
                         "sku": "UGG-BB-PNR-98",
@@ -387,6 +396,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
                 "shippingCity": "Bristol",
                 "shippingPostcode": "BR56LM",
                 "shippingCountry": "UK",
+                "completed": 0,
                 "products": [
                     {
                         "sku": "BJL-44-NMR-78",
@@ -404,6 +414,11 @@ A warehouse house built by Mayden Academy students that would help employees kee
  ```
    
 * **Error Response:**
+
+    * **Code:** 400 User Error <br />
+        **Content:** `{ success : false, message: "Invalid query parameter value please set completed to only a 1 or 0.", data: [] }`
+      
+      or
  
     * **Code:** 500 Internal Server Error <br />
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
