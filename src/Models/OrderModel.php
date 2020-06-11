@@ -83,6 +83,8 @@ class OrderModel implements OrderModelInterface
             return false;
         }
 
+        $linkTableSql = [];
+
         foreach ($orderedProducts as $product) {
             $linkTableSql[] = '("' . $order['orderNumber'] . '", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
             $productQuery = $this->db->prepare("UPDATE `products` 
@@ -133,6 +135,11 @@ class OrderModel implements OrderModelInterface
         }
 
         $productsOrdered = $this->getOrderedProductsByOrderNumber($orderNumber);
+
+        if (!$productsOrdered) {
+            $this->db->rollback();
+            return false;
+        }
 
         foreach($productsOrdered as $product) {
             $restorePreviousProductStockLevelQuery = $this->db->prepare("UPDATE `products`

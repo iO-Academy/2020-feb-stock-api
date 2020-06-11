@@ -30,7 +30,6 @@ class CancelOrderController extends Controller
 
         try {
             $orderNumber = OrderNumberValidator::validateOrderNumber($args['orderNumber']);
-            $orderNumber = $args['orderNumber'];
         } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();
 
@@ -40,35 +39,35 @@ class CancelOrderController extends Controller
         try {
             $exists = $this->orderModel->checkOrderExists($orderNumber);
 
-            if ($exists) {
-
-                if ($exists['deleted'] === "0") {
-
-                    if ($exists['completed'] === "0") {
-                        $cancelOrderSuccess = $this->orderModel->cancelOrder($orderNumber);
-
-                        if ($cancelOrderSuccess) {
-                            $responseData['success'] = true;
-                            $responseData['message'] = 'Order cancelled successfully.';
-
-                            return $this->respondWithJson($response, $responseData, 200);
-                        }
-                        $responseData['message'] = 'Could not cancel order. Please try again.';
-
-                        return $this->respondWithJson($response, $responseData, 500);
-                    }
-                    $responseData['message'] = 'Order has already been completed. Cannot cancel.';
-
-                    return $this->respondWithJson($response, $responseData, 400);
-                }
-                $responseData['message'] = 'Order has already been cancelled.';
+            if (!$exists) {
+                $responseData['message'] =
+                    "Order doesn't exist, therefore couldn't be deleted, please try again";
 
                 return $this->respondWithJson($response, $responseData, 400);
             }
-            $responseData['message'] =
-                "Order doesn't exist, therefore couldn't be deleted, please try again";
 
-            return $this->respondWithJson($response, $responseData, 400);
+            if ($exists['deleted'] === "1") {
+                $responseData['message'] = 'Order has already been cancelled.';
+
+                return $this->respondWithJson($response, $responseData, 400);
+
+            } elseif ($exists['completed'] === "1") {
+                $responseData['message'] = 'Order has already been completed. Cannot cancel.';
+
+                return $this->respondWithJson($response, $responseData, 400);
+            }
+
+            $cancelOrderSuccess = $this->orderModel->cancelOrder($orderNumber);
+
+            if ($cancelOrderSuccess) {
+                $responseData['success'] = true;
+                $responseData['message'] = 'Order cancelled successfully.';
+
+                return $this->respondWithJson($response, $responseData, 200);
+            }
+            $responseData['message'] = 'Could not cancel order. Please try again.';
+
+            return $this->respondWithJson($response, $responseData, 500);
 
         } catch (\Throwable $e) {
             $responseData['message'] = 'Oops! Something went wrong; please try again.';
