@@ -15,7 +15,7 @@ abstract class StringValidator
      */
     protected static function validateExistsAndLength(string $validateData, int $maxCharacterLength, string $errorMsg)
     {
-        if (!empty($validateData) == true && strlen($validateData) <= $maxCharacterLength) {
+        if (strlen($validateData) > 0 && strlen($validateData) <= $maxCharacterLength) {
             return $validateData;
         } else {
             throw new \Exception($errorMsg);
@@ -25,5 +25,15 @@ abstract class StringValidator
     protected static function sanitiseString($validateData)
     {
         return trim(filter_var($validateData, FILTER_SANITIZE_STRING));
+    }
+
+    protected static function validateNoSpecialCharacters($string, int $minChar, int $maxChar, string $message = 'Input must not have special characters')
+    {
+        $regex = '/^[a-z0-9A-Z]{' . $minChar . ',' .  $maxChar . '}$/';
+        if (preg_match($regex, $string)) {
+            return $string;
+        } else {
+            throw new \Exception($message);
+        }
     }
 }

@@ -138,4 +138,20 @@ class ProductModel implements ProductModelInterface
 
         return $query->fetch();
     }
+
+    /**
+     * Gets all stock levels for the SKUs provided in the parameter.
+     * @param array $productSKUs
+     * @return array containing the product SKUs and their stockLevels
+     */
+    public function getMultipleStockLevelsBySKUs(array $productSKUs): array
+    {
+        $skusList = '("' . implode('", "', $productSKUs) . '")';
+        $query = $this->db->prepare("SELECT `sku`, `name`, `price`, `stockLevel` 
+                                                FROM `products` 
+                                                WHERE `deleted` = 0 AND `sku` IN " . $skusList);
+        $query->execute();
+
+        return $query->fetchAll();
+    }
 }
