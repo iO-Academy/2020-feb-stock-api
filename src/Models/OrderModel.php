@@ -95,6 +95,7 @@ class OrderModel implements OrderModelInterface
 
     /**
      * returns an array of all the orders in the DB with the products ordered as well or false if it fails.
+     * @param int $completed returns active or completed order depending on whether $completed is 1 or 0.
      * @return array|false
      */
     public function getAllOrders(int $completed)
