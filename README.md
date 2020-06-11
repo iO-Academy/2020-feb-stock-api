@@ -4,7 +4,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 [For information on how to set up this API for development click here!](setup.md)
 
-**Requests:**
+## Requests:
 
 * [***Products***](#products)
   * [Add a product](#add-a-product)
@@ -69,6 +69,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
   * **Code:** 500 Internal Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
+  <br/><br/>
 
 ## Edit a product
 
@@ -109,6 +110,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
   * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
+<br/><br/>
   
 ## Get all products
 
@@ -160,7 +162,8 @@ A warehouse house built by Mayden Academy students that would help employees kee
   * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
-  
+<br/><br/>
+ 
 ## Delete a product
 
   Delete an existing product.
@@ -188,6 +191,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
   * **Code:** 500 Server Error <br />
   	**Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
+<br/><br/>
 
 ## Get specified product
 
@@ -211,6 +215,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
   * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
+<br/><br/>
  
 ## Edit stock level
 
@@ -250,6 +255,8 @@ A warehouse house built by Mayden Academy students that would help employees kee
   * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
+<br/><br/>
+  
 ## Reinstate a deleted product
 
   Undo a delete on a previously deleted product
@@ -279,6 +286,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
   * **Code:** 500 Server Error <br />
     **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
+<br/><br/>
 
  ***
  
@@ -339,7 +347,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
     * **Code:** 500 Internal Server Error <br />
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
     
-   
+<br/><br/> 
   
 ## Get all orders
 
@@ -428,7 +436,8 @@ A warehouse house built by Mayden Academy students that would help employees kee
     * **Code:** 500 Internal Server Error <br />
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
    
-   
+<br/><br/>
+ 
  ## Cancel an order
 
     
@@ -457,7 +466,8 @@ A warehouse house built by Mayden Academy students that would help employees kee
    * **Code:** 500 Internal Server Error <br />
     **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
     
-    
+<br/><br/>
+ 
  ## Mark an order complete
 
     
