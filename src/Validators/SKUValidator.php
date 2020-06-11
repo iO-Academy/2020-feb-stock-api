@@ -4,7 +4,9 @@ namespace App\Validators;
 
 class SkuValidator extends StringValidator
 {
-    private const SKU_REGEX = '/^[a-z0-9A-Z]{10,20}$/';
+    private const MIN_CHAR = 10;
+    private const MAX_CHAR = 20;
+    private const ERROR_MSG = 'SKU must not have special characters and be between 10 and 20 characters';
 
     /**
      * Make sure the SKU is valid 
@@ -15,10 +17,6 @@ class SkuValidator extends StringValidator
      */
     public static function validateSku(string $sku)
     {
-        if (preg_match(self::SKU_REGEX, $sku)) {
-            return $sku;
-        } else {
-            throw new \Exception('Invalid SKU');
-        } 
+        return self::validateNoSpecialCharacters($sku, self::MIN_CHAR, self::MAX_CHAR, self::ERROR_MSG);
     }
 }
