@@ -17,9 +17,18 @@ A warehouse house built by Mayden Academy students that would help employees kee
  
    `POST`
  
-* **Data Params**
+* **Request Body**
 
-   **product** `{sku: "UGG-BB-PUR-06",name: "Harry Potter 15",price: "15.99", stockLevel: "15"}`
+```json
+{
+    "product": {
+    	"sku" : "UGG-BB-PNR-98",
+        "name": "Harry Potter 16",
+        "price": "99.99",
+        "stockLevel": "100"
+    }
+}
+```
 
 * **Success Response:**
  
@@ -50,9 +59,17 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
    `PUT`
     
-* **Data Params**
+* **Request Body**
 
-   **product** `{sku: "UGG-BB-PNR-98",name: "Harry Potter 28",price: "14.99", stockLevel: "8"}`
+```json
+{
+    "product": {
+        "name": "Harry Potter 99",
+        "price": "15",
+        "stockLevel": "5"
+    }
+}
+```
 
 * **Success Response:**
  
@@ -184,10 +201,15 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
    `PUT`
    
-    
-* **Data Params**
+* **Request Body**
 
-   **product** `{sku: "UGG-BB-PNR-98", stockLevel: "8"}`
+```json
+{
+    "product": {
+        "stockLevel": "28"
+    }
+}
+```
 
 * **Success Response:**
  
@@ -251,28 +273,29 @@ A warehouse house built by Mayden Academy students that would help employees kee
    
      `POST`
    
- * **Data Params**
-  
-     **order** 
+ * **Request Body**
+
 ```json
 {
-     "orderNumber": "K3FK57MN",
-     "customerEmail": "example@mail.com",
-     "shippingAddress1": "New Street 15",
-     "shippingAddress2": "optional",
-     "shippingCity": "Bath",
-     "shippingPostcode": "BA91LO",
-     "shippingCountry": "UK",
-     "products": [
-         {
-             "sku": "UGG-BB-PNR-98",
-             "volumeOrdered": 5
-         },
-         {
-             "sku": "BNH-LR-DSR-54",
-             "volumeOrdered": 9
-         }
-     ]
+    "order": {
+        "orderNumber": "K3FFDGJUDFP",
+        "customerEmail": "example@mail.com",
+        "shippingAddress1": "New Street 15",
+		"shippingAddress2": "",
+        "shippingCity": "Bath",
+        "shippingPostcode": "BA91LO",
+        "shippingCountry": "UK",
+        "products": [
+            {
+                "sku": "abcdef123456",
+                "volumeOrdered": 1
+            },
+            {
+                "sku": "abcdef123457",
+                "volumeOrdered": 2
+            }
+        ]
+    }
 }
 ```
         
