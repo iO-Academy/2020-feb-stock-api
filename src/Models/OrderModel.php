@@ -65,8 +65,8 @@ class OrderModel implements OrderModelInterface
             return false;
         }
 
-        foreach($orderedProducts as $product) {
-            $linkTableSql[] = '("' . $order['orderNumber'] .'", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
+        foreach ($orderedProducts as $product) {
+            $linkTableSql[] = '("' . $order['orderNumber'] . '", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
             $productQuery = $this->db->prepare("UPDATE `products` 
                                                     SET `stockLevel` = ?
                                                     WHERE `sku` = ?");
@@ -80,7 +80,7 @@ class OrderModel implements OrderModelInterface
         }
         $linkTableQuery = $this->db->prepare("INSERT INTO `orderedProducts`
                                                   (`orderNumber`, `sku`, `volumeOrdered`) 
-                                                  VALUES ". implode(",", $linkTableSql));
+                                                  VALUES " . implode(",", $linkTableSql));
 
         $linkTableQueryResult = $linkTableQuery->execute();
 
@@ -111,17 +111,17 @@ class OrderModel implements OrderModelInterface
                                 FROM `orders`
                                 WHERE `deleted` = 0 AND `completed` = ?');
         $ordersQueryCheck = $ordersQuery->execute([$completed]);
-        if(!$ordersQueryCheck){
+        if (!$ordersQueryCheck) {
             $this->db->rollback();
             return false;
         }
 
         $orders = $ordersQuery->fetchAll();
 
-        foreach ($orders as $i=>$order) {
+        foreach ($orders as $i => $order) {
             $return = $this->getOrderedProductsByOrderNumber($order['orderNumber']);
 
-            if ($return === false){
+            if ($return === false) {
                 $this->db->rollback();
                 return false;
             }
@@ -139,13 +139,14 @@ class OrderModel implements OrderModelInterface
      * @param string $orderNumber
      * @return array|false array of products ordered with their SKU and volumeOrdered or false if query failed.
      */
-    private function getOrderedProductsByOrderNumber(string $orderNumber){
+    private function getOrderedProductsByOrderNumber(string $orderNumber)
+    {
         $query = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
                                         FROM `orderedProducts` 
-                                        WHERE `orderNumber` = ? ;');
+                                        WHERE `orderNumber` = ?;');
         $queryResult = $query->execute([$orderNumber]);
 
-        if ($queryResult){
+        if ($queryResult) {
             return $query->fetchAll();
         }
 
