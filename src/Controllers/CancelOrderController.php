@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Abstracts\Controller;
+use App\Interfaces\OrderModelInterface;
 use App\Validators\OrderNumberValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -15,7 +16,7 @@ class CancelOrderController extends Controller
      * CancelOrderController constructor.
      * @param $orderModel
      */
-    public function __construct($orderModel)
+    public function __construct(OrderModelInterface $orderModel)
     {
         $this->orderModel = $orderModel;
     }

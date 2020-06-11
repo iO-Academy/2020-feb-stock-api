@@ -136,7 +136,7 @@ class OrderModel implements OrderModelInterface
 
         $productsOrdered = $this->getOrderedProductsByOrderNumber($orderNumber);
 
-        if (!$productsOrdered) {
+        if ($productsOrdered === false) {
             $this->db->rollback();
             return false;
         }
