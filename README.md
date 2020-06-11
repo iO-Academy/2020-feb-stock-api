@@ -1,6 +1,6 @@
 # Warehouse API
 
-A warehouse house built by Mayden Academy students that would help employees keep tracking and maintain their stock.
+A warehouse house built by Mayden Academy students that would help employees keep track of and maintain their stock.
 
 [For information on how to set up this API for development click here!](setup.md)
 
@@ -30,7 +30,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 ## Add a product
 
-  Add a product to in order to keep track of it.
+  Add a product to the DB in order to keep track of it.
 
 * **URL**
 
@@ -181,12 +181,12 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Error Response:**
 
   * **Code:** 400 UNAUTHORIZED <br />
- **Content:** `{ success : false, message: "Product does not exist", data: [] }`
+ 	**Content:** `{ success : false, message: "Product does not exist", data: [] }`
  
- or
+ 	or
     
   * **Code:** 500 Server Error <br />
-  **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
+  	**Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
 
 ## Get specified product
@@ -247,7 +247,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
     
     or 
     
-  **Code:** 500 Server Error <br />
+  * **Code:** 500 Server Error <br />
   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
   
 ## Reinstate a deleted product
