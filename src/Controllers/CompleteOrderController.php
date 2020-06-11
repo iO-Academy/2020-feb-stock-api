@@ -51,23 +51,23 @@ class CompleteOrderController extends Controller
 
                 return $this->respondWithJson($response, $responseData, 400);
             }
-            
+
             $cancelOrderSuccess = $this->orderModel->completeOrder($orderNumber);
-
-            if ($cancelOrderSuccess) {
-                $responseData['success'] = true;
-                $responseData['message'] = 'Order successfully marked as complete.';
-
-                return $this->respondWithJson($response, $responseData, 200);
-            }
-            $responseData['message'] = 'Could not mark order as complete. Please try again.';
-
-            return $this->respondWithJson($response, $responseData, 500);
 
         } catch (\Throwable $e) {
             $responseData['message'] = 'Oops! Something went wrong; please try again.';
 
             return $this->respondWithJson($response, $responseData, 500);
         }
+
+        if ($cancelOrderSuccess) {
+            $responseData['success'] = true;
+            $responseData['message'] = 'Order successfully marked as complete.';
+
+            return $this->respondWithJson($response, $responseData, 200);
+        }
+        $responseData['message'] = 'Could not mark order as complete. Please try again.';
+
+        return $this->respondWithJson($response, $responseData, 500);
     }
 }
