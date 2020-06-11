@@ -37,6 +37,7 @@ class OrderModel implements OrderModelInterface
             'shippingPostcode' => $orderEntity->getShippingPostcode(),
             'shippingCountry' => $orderEntity->getShippingCountry()
         ];
+
         $orderedProducts = $orderEntity->getProducts();
 
         $this->db->beginTransaction();
