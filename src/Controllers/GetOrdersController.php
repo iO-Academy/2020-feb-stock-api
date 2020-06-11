@@ -22,12 +22,14 @@ class GetOrdersController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
+        $queryParams = $request->getQueryParams();
+        $completed = $queryParams['completed'] === '1' ? 1 : 0;
         $responseData = ['success' => false,
             'message' => 'Something went wrong, please try again later',
             'data' => []];
 
         try {
-            $orders = $this->orderModel->getAllOrders();
+            $orders = $this->orderModel->getAllOrders($completed);
         } catch (\Throwable $e){
             return $this->respondWithJson($response, $responseData, 500);
         }

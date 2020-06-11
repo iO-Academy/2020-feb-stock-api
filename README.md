@@ -339,7 +339,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 # Get all orders
 ----
 
-    Get all orders that are in the database.
+    By default, gets all active orders that are in the database.
   
 * **URL**
   
@@ -348,7 +348,14 @@ A warehouse house built by Mayden Academy students that would help employees kee
 * **Method:**
    
      `GET`
-   
+
+*  **URL Params**
+
+    If you would like to see completed orders.
+    
+   **Optional:**
+ 
+   `completed=1` 
         
 * **Success Response:**
    

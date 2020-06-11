@@ -97,7 +97,7 @@ class OrderModel implements OrderModelInterface
      * returns an array of all the orders in the DB with the products ordered as well or false if it fails.
      * @return array|false
      */
-    public function getAllOrders()
+    public function getAllOrders(int $completed)
     {
         $this->db->beginTransaction();
 
@@ -109,8 +109,8 @@ class OrderModel implements OrderModelInterface
                                     `shippingPostcode`,
                                     `shippingCountry` 
                                 FROM `orders`
-                                WHERE `deleted` = 0 AND `completed` = 0');
-        $ordersQueryCheck = $ordersQuery->execute();
+                                WHERE `deleted` = 0 AND `completed` = ?');
+        $ordersQueryCheck = $ordersQuery->execute([$completed]);
         if(!$ordersQueryCheck){
             $this->db->rollback();
             return false;
