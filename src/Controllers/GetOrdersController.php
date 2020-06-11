@@ -26,17 +26,22 @@ class GetOrdersController extends Controller
             'message' => 'Something went wrong, please try again later',
             'data' => []];
 
-        $completedParam = $request->getQueryParams()['completed'];
-        $isCompleted =  0;
+        $completedParam = $request->getQueryParams()['completed'] ?? null;
+        $isCompleted = '';
 
-        if (isset($completedParam)){
-            if ($completedParam !== '1'){
-                $responseData['message'] = 'Invalid query parameter value please set completed to 1 or remove';
+        if (isset($completedParam)) {
+            switch ($completedParam) {
+                case '0':
+                    $isCompleted = 0;
+                    break;
+                case '1':
+                    $isCompleted = 1;
+                    break;
+                default:
+                    $responseData['message'] = 'Invalid query parameter value please set completed to only a 1 or 0.';
 
-                return $this->respondWithJson($response, $responseData, 400);
+                    return $this->respondWithJson($response, $responseData, 400);
             }
-
-            $isCompleted = 1;
         }
 
         try {

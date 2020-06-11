@@ -94,24 +94,35 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
-     * returns an array of all the orders in the DB with the products ordered as well or false if it fails.
-     * @param int $completed returns active or completed order depending on whether $completed is 1 or 0.
+     * returns the following based on $completed:
+     * $completed = 0 -> all active orders
+     * $completed = 1 -> all completed orders
+     * $default = All orders
+     * @param $completed
      * @return array|false
      */
-    public function getAllOrders(int $completed)
+    public function getAllOrders($completed)
     {
         $this->db->beginTransaction();
 
-        $ordersQuery = $this->db->prepare('SELECT `orderNumber` ,
+        $stmt = 'SELECT `orderNumber` ,
                                     `customerEmail`,
                                     `shippingAddress1`,
                                     `shippingAddress2`,
                                     `shippingCity`,
                                     `shippingPostcode`,
-                                    `shippingCountry` 
+                                    `shippingCountry`,
+                                    `completed`
                                 FROM `orders`
-                                WHERE `deleted` = 0 AND `completed` = ?');
-        $ordersQueryCheck = $ordersQuery->execute([$completed]);
+                                WHERE `deleted` = 0';
+
+        if ($completed === 0 || $completed === 1){
+            $stmt .= " AND `completed` = $completed";
+        }
+
+        $ordersQuery = $this->db->prepare($stmt);
+        $ordersQueryCheck = $ordersQuery->execute();
+
         if (!$ordersQueryCheck) {
             $this->db->rollback();
             return false;
