@@ -83,7 +83,35 @@ class SufficientStockValidatorTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $this->expectExceptionMessage("Volume ordered for product with SKU: abcdef123457 is higher than current stock");
+        $this->expectExceptionMessage("Volume ordered for product with SKU (abcdef123457) is higher than current stock");
+        SufficientStockValidator::checkSufficientStock($orderedProducts, $productStockLevels);
+    }
+
+    public function testCheckSufficientStockVolumeOrderedZero()
+    {
+        $orderedProducts = [
+            [
+                "sku" => "abcdef123456",
+                "volumeOrdered" => 1
+            ],
+            [
+                "sku" => "abcdef123457",
+                "volumeOrdered" => 0
+            ]
+        ];
+
+        $productStockLevels = [
+            [
+                "sku" => "abcdef123456",
+                "stockLevel" => 5
+            ],
+            [
+                "sku" => "abcdef123457",
+                "stockLevel" => 4
+            ]
+        ];
+
+        $this->expectExceptionMessage("Volume ordered for product with SKU (abcdef123457) must be larger than 0");
         SufficientStockValidator::checkSufficientStock($orderedProducts, $productStockLevels);
     }
 }
