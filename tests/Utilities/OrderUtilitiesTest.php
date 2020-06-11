@@ -46,6 +46,7 @@ class OrderUtilitiesTest extends \PHPUnit\Framework\TestCase
         $actual = OrderUtilities::calcAdjustedStockLevels($orderedProducts, $productStockLevels);
         $this->assertEquals($expected, $actual);
     }
+
     public function testCalcAdjustedStockLevelMalformed()
     {
         $orderedProducts = '4321';
