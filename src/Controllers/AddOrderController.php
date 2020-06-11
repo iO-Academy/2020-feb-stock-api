@@ -85,7 +85,16 @@ class AddOrderController extends Controller
         }
 
         try {
+            $exists = $this->orderModel->checkOrderExists($newOrder->getOrderNumber());
+
+            if ($exists) {
+                $responseData['message'] =
+                    "Order already exists, therefore couldn't be added, please try again with a different order number.";
+
+                return $this->respondWithJson($response, $responseData, 400);
+            }
             $query_success = $this->orderModel->addOrder($newOrder);
+
         } catch (\Throwable $e) {
             $responseData['message'] = 'An error occurred, could not add order, please try again later.';
 

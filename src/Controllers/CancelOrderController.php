@@ -39,8 +39,6 @@ class CancelOrderController extends Controller
         try {
             $exists = $this->orderModel->checkOrderExists($orderNumber);
 
-            var_dump($exists);
-
             if ($exists) {
 
                 if ($exists['deleted'] === "0") {
