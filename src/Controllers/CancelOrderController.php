@@ -57,7 +57,7 @@ class CancelOrderController extends Controller
 
                         return $this->respondWithJson($response, $responseData, 500);
                     }
-                    $responseData['message'] = 'Order has already been completed. Cannot cancel. Please delete instead.';
+                    $responseData['message'] = 'Order has already been completed. Cannot cancel.';
 
                     return $this->respondWithJson($response, $responseData, 400);
                 }
