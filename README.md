@@ -351,8 +351,8 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 *  **URL Params**
 
-    0 If you would like to see active orders (Default)
-    1 If you would like to see completed orders.
+    0, If you would like to see active orders.
+    1, If you would like to see completed orders.
     
    **Optional:**
  
