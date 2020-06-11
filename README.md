@@ -15,7 +15,6 @@ A warehouse house built by Mayden Academy students that would help employees kee
     -   [Get specified product](#get-specified-product)
     -   [Edit stock level](#edit-stock-level)
     -   [Reinstate a deleted product](#reinstate-a-deleted-product)
-        
 
 
 -   [***Orders***](#orders)
@@ -64,20 +63,18 @@ A warehouse house built by Mayden Academy students that would help employees kee
     -   **Code:** 400 User Error 
 
         **Content:** `{ success : false, message: "Invalid Product Information", data: [] }`
-            
- or 
+		
+		or
+          
+        **Content:** `{ success : false, message: "Product SKU has previously been added ", data: {product: {sku: "UGG-BB-PUR-06", deleted: 1 or 0}} }` 
 
-         **Content:** `{ success : false, message: "Product SKU has previously been added ", data: {product: {sku: "UGG-BB-PUR-06", deleted: 1 or 0}} }` 
+       or
 
-    or
+	-   **Code:** 500 Internal Server Error 
+	
+	   **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-    -   **Code:** 500 Internal Server Error 
-
-        **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-
-    
-
-
+<br/><br/>
 
 ## Edit a product
 
@@ -91,6 +88,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
      `PUT`
       
+
 
 -   **Request Body**
 
@@ -115,15 +113,14 @@ A warehouse house built by Mayden Academy students that would help employees kee
     -   **Code:** 400 User Error 
 
         **Content:** `{ success : false, message: "Invalid request", data: [] }`
+	
            or 
            
     -   **Code:** 500 Server Error 
 
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-
-
-
+<br/><br/>
 
 ## Get all products
 
@@ -178,9 +175,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-
-
-
+<br/><br/>
 
 ## Delete a product
 
@@ -204,17 +199,15 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
     -   **Code:** 400 User Error 
 
-        			**Content:** `{ success : false, message: "Product does not exist", data: [] }`
-
-            		or
+	**Content:** `{ success : false, message: "Product does not exist", data: [] }`
+	
+	or
 
     -   **Code:** 500 Server Error 
+    
+    	**Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-        		**Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
-
-
-
-
+<br/><br/>
 
 ## Get specified product
 
@@ -240,9 +233,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-
-
-
+<br/><br/>
 
 ## Edit stock level
 
@@ -256,6 +247,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
      `PUT`
      
+
 
 -   **Request Body**
 
@@ -281,13 +273,12 @@ A warehouse house built by Mayden Academy students that would help employees kee
         **Content:** `{ success : false, message: "Invalid Stock Level", data: [] }`
           or 
           
+
     -   **Code:** 500 Server Error 
 
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-
-
-
+<br/><br/>
 
 ## Reinstate a deleted product
 
@@ -302,6 +293,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
      `PUT`
       
 
+
 -   **Success Response:**
 
     -   **Code:** 200 
@@ -313,10 +305,6 @@ A warehouse house built by Mayden Academy students that would help employees kee
     -   **Code:** 400 User Error 
 
         **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
-         
- or 
-
-        **Content:** `{ success : false, message: "Product SKU does not exist in DB ", data: []` 
 
         or 
 
@@ -324,9 +312,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-
-
-
+<br/><br/>
 
 * * *
 
@@ -382,9 +368,9 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
           **Content:** `{ success : false, message: "Invalid Order Information", data: [] }`
           
- or 
+ 		or 
 
-           **Content:** `{ success : false, message: "Order Number already exists ", data: []` 
+          **Content:** `{ success : false, message: "Order Number already exists ", data: []` 
 
      or
 
@@ -392,9 +378,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
           **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-
-
- 
+<br/><br/>
 
 ## Get all orders
 
@@ -418,7 +402,9 @@ A warehouse house built by Mayden Academy students that would help employees kee
     `completed=[0 or 1]` 
          
 
+
 -   **Success Response:**
+
     -   **Code:** 200 
 
         **Content:**  
@@ -478,7 +464,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
     -   **Code:** 400 User Error 
 
-          **Content:** `{ success : false, message: "Invalid query parameter value please set completed to only a 1 or 0.", data: [] }`
+        **Content:** `{ success : false, message: "Invalid query parameter value please set completed to only a 1 or 0.", data: [] }`
 
         or
 
@@ -486,9 +472,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
           **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-
-
-
+<br/><br/>
 
 ## Cancel an order
 
@@ -505,14 +489,17 @@ A warehouse house built by Mayden Academy students that would help employees kee
              
 -   **Success Response:**
          
+
     -   **Code:** 200 
 
          **Content:** `{ success : true, message: "Order successfully cancelled", data: []}`
          
+
 -   **Error Response:**
+
     -   **Code:** 400 User Error 
 
-           **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
+        **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
 
          or
 
@@ -520,9 +507,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
 
-
-
-
+<br/><br/>
 
 ## Mark an order complete
 
@@ -539,14 +524,17 @@ A warehouse house built by Mayden Academy students that would help employees kee
              
 -   **Success Response:**
          
+
     -   **Code:** 200 
 
          **Content:** `{ success : true, message: "Order successfully marked completed", data: []}`
          
+
 -   **Error Response:**
+
     -   **Code:** 400 User Error 
 
-           **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
+         **Content:** `{ success : false, message: "No order exists with provided order number", data: [] }`
 
          or
 
