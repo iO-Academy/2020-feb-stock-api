@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Abstracts\Controller;
+use App\Validators\OrderNumberValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -28,8 +29,7 @@ class CompleteOrderController extends Controller
         ];
 
         try {
-//            $orderNumber = OrderNumberValidator::validateOrderNumber($args['orderNumber']);
-            $orderNumber = $args['orderNumber'];
+            $orderNumber = OrderNumberValidator::validateOrderNumber($args['orderNumber']);
         } catch (\Throwable $e) {
             $responseData['message'] = $e->getMessage();
 
