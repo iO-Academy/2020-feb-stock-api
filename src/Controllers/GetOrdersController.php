@@ -22,14 +22,25 @@ class GetOrdersController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $queryParams = $request->getQueryParams();
-        $completed = $queryParams['completed'] === '1' ? 1 : 0;
         $responseData = ['success' => false,
             'message' => 'Something went wrong, please try again later',
             'data' => []];
 
+        $completedParam = $request->getQueryParams()['completed'];
+        $isCompleted =  0;
+
+        if (isset($completedParam)){
+            if ($completedParam !== '1'){
+                $responseData['message'] = 'Invalid query parameter value please set completed to 1 or remove';
+
+                return $this->respondWithJson($response, $responseData, 400);
+            }
+
+            $isCompleted = 1;
+        }
+
         try {
-            $orders = $this->orderModel->getAllOrders($completed);
+            $orders = $this->orderModel->getAllOrders($isCompleted);
         } catch (\Throwable $e){
             return $this->respondWithJson($response, $responseData, 500);
         }

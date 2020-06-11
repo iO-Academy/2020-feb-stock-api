@@ -411,6 +411,11 @@ A warehouse house built by Mayden Academy students that would help employees kee
  ```
    
 * **Error Response:**
+
+    * **Code:** 400 User Error <br />
+        **Content:** `{ success : false, message: "Invalid query parameter value please set completed to 1 or remove", data: [] }`
+      
+      or
  
     * **Code:** 500 Internal Server Error <br />
         **Content:** `{ success : false, message: "Something went wrong, please try again later", data: [] }`
