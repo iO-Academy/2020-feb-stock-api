@@ -33,10 +33,10 @@ class UpdateProductController extends Controller
 
         try {
             $product = new ProductEntity(
-                $args['sku'],
-                $productData['name'],
-                $productData['price'],
-                $productData['stockLevel']
+                $args['sku'] ?? '',
+                $productData['name'] ?? '',
+                $productData['price'] ?? '',
+                $productData['stockLevel'] ?? ''
             );
 
         } catch(\Throwable $e) {

@@ -23,8 +23,8 @@ class UpdateProductStockController extends Controller
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $stockLevel = $request->getParsedBody()['product']['stockLevel'];
-        $sku = $args['sku'];
+        $stockLevel = $request->getParsedBody()['product']['stockLevel'] ?? '';
+        $sku = $args['sku'] ?? '';
 
         $responseData = [
             'success' => false,
