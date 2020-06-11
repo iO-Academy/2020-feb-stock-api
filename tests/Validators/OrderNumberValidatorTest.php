@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tests\Validators;
-
 
 use App\Validators\OrderNumberValidator;
 use App\Validators\SkuValidator;
