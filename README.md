@@ -112,7 +112,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 -   **Error Response:**
 
-    -   **Code:** 400 UNAUTHORIZED 
+    -   **Code:** 400 User Error 
 
         **Content:** `{ success : false, message: "Invalid request", data: [] }`
            or 
@@ -202,7 +202,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 -   **Error Response:**
 
-    -   **Code:** 400 UNAUTHORIZED 
+    -   **Code:** 400 User Error 
 
         			**Content:** `{ success : false, message: "Product does not exist", data: [] }`
 
@@ -276,7 +276,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 -   **Error Response:**
 
-    -   **Code:** 400 UNAUTHORIZED 
+    -   **Code:** 400 User Error
 
         **Content:** `{ success : false, message: "Invalid Stock Level", data: [] }`
           or 
@@ -310,7 +310,7 @@ A warehouse house built by Mayden Academy students that would help employees kee
 
 -   **Error Response:**
 
-    -   **Code:** 400 UNAUTHORIZED 
+    -   **Code:** 400 User Error 
 
         **Content:** `{ success : false, message: "Invalid SKU", data: [] }`
          
