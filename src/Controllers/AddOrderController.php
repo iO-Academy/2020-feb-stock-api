@@ -37,8 +37,14 @@ class AddOrderController extends Controller
             'data' => []
         ];
 
-        $newOrderData = $request->getParsedBody()['order'];
-        $orderedProducts = $newOrderData['products'];
+        $newOrderData = $request->getParsedBody()['order'] ?? null;
+        $orderedProducts = $newOrderData['products'] ?? null;
+
+        if (!$orderedProducts){
+            $responseData['message'] = "Order must contain products to be ordered";
+
+            return $this->respondWithJson($response, $responseData, 400);
+        }
 
         $productSKUs = [];
         try {
@@ -68,13 +74,13 @@ class AddOrderController extends Controller
                 $productsForOrderEntity = OrderUtilities::calcAdjustedStockLevels($orderedProducts, $productStockLevels);
 
                 $newOrder = new OrderEntity(
-                    $newOrderData['orderNumber'],
-                    $newOrderData['customerEmail'],
-                    $newOrderData['shippingAddress1'],
-                    $newOrderData['shippingAddress2'],
-                    $newOrderData['shippingCity'],
-                    $newOrderData['shippingPostcode'],
-                    $newOrderData['shippingCountry'],
+                    $newOrderData['orderNumber'] ?? '',
+                    $newOrderData['customerEmail'] ?? '',
+                    $newOrderData['shippingAddress1'] ?? '',
+                    $newOrderData['shippingAddress2'] ?? '',
+                    $newOrderData['shippingCity'] ?? '',
+                    $newOrderData['shippingPostcode'] ?? '',
+                    $newOrderData['shippingCountry'] ?? '',
                     $productsForOrderEntity
                 );
             }
@@ -85,7 +91,16 @@ class AddOrderController extends Controller
         }
 
         try {
+            $exists = $this->orderModel->checkOrderExists($newOrder->getOrderNumber());
+
+            if ($exists) {
+                $responseData['message'] =
+                    "Order already exists, therefore couldn't be added, please try again with a different order number.";
+
+                return $this->respondWithJson($response, $responseData, 400);
+            }
             $query_success = $this->orderModel->addOrder($newOrder);
+
         } catch (\Throwable $e) {
             $responseData['message'] = 'An error occurred, could not add order, please try again later.';
 

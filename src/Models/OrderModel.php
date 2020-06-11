@@ -11,6 +11,7 @@ class OrderModel implements OrderModelInterface
 
     /**
      * OrderModel constructor.
+     * 
      * @param $db
      */
     public function __construct(\PDO $db)
@@ -19,10 +20,27 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
-     * * Adds an order to the Database which does the following in a transaction:
+     * Checks if order exists in Database
+     *
+     * @param string $orderNumber
+     * @return array containing the existing order's orderNumber and deleted status.
+     * @return false if order doesn't exist
+     */
+    public function checkOrderExists(string $orderNumber)
+    {
+        $query = $this->db->prepare("SELECT `orderNumber`, `deleted`, `completed` 
+                                        FROM `orders` 
+                                        WHERE `orderNumber` = ?");
+        $query->execute([$orderNumber]);
+        return $query->fetch();
+    }
+
+    /**
+     * Adds an order to the Database which does the following in a transaction:
      *  - adds order into the orders table
      *  - adds products ordered into the productsOrdered linking table
      *  - updates products' stockLevels with newStockLevels after order volume is taken into account.
+     *
      * @param OrderEntityInterface $orderEntity
      * @return bool depending on whether the transaction was successful or not.
      */
@@ -65,6 +83,8 @@ class OrderModel implements OrderModelInterface
             return false;
         }
 
+        $linkTableSql = [];
+
         foreach ($orderedProducts as $product) {
             $linkTableSql[] = '("' . $order['orderNumber'] . '", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
             $productQuery = $this->db->prepare("UPDATE `products` 
@@ -94,10 +114,56 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
+     * Cancels an order in the Database through the following transaction:
+     *  - soft deletes order in the orders table
+     *  - updates products' stockLevels with old stockLevel plus the relevant volumeOrdered from order.
+     *
+     * @param string $orderNumber
+     * @return bool depending on whether the transaction was successful or not.
+     */
+    public function cancelOrder(string $orderNumber) {
+        $this->db->beginTransaction();
+
+        $cancelOrderQuery = $this->db->prepare("UPDATE `orders`
+                                                    SET `deleted` = 1
+                                                    WHERE `orderNumber` = ?");
+        $cancelOrderQueryResult = $cancelOrderQuery->execute([$orderNumber]);
+
+        if (!$cancelOrderQueryResult) {
+            $this->db->rollback();
+            return false;
+        }
+
+        $productsOrdered = $this->getOrderedProductsByOrderNumber($orderNumber);
+
+        if ($productsOrdered === false) {
+            $this->db->rollback();
+            return false;
+        }
+
+        foreach($productsOrdered as $product) {
+            $restorePreviousProductStockLevelQuery = $this->db->prepare("UPDATE `products`
+                                                                            SET `stockLevel` = `stockLevel` + ?
+                                                                            WHERE `sku` = ?");
+            $restorePreviousProductStockLevelQueryResult =
+                $restorePreviousProductStockLevelQuery->execute([$product['volumeOrdered'], $product['sku']]);
+
+            if (!$restorePreviousProductStockLevelQueryResult) {
+                $this->db->rollback();
+                return false;
+            }
+        }
+        $this->db->commit();
+
+        return true;
+    }
+
+    /**
      * returns the following based on $completed:
      * $completed = 0 -> all active orders
      * $completed = 1 -> all completed orders
      * $default = All orders
+     *
      * @param $completed
      * @return array|false
      */
@@ -127,7 +193,6 @@ class OrderModel implements OrderModelInterface
             $this->db->rollback();
             return false;
         }
-
         $orders = $ordersQuery->fetchAll();
 
         foreach ($orders as $i => $order) {

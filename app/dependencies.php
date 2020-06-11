@@ -40,12 +40,13 @@ return function (ContainerBuilder $containerBuilder) {
     $container['OrderModel'] = DI\factory('App\Factories\OrderModelFactory');
 
     $container['AddProductController'] = DI\factory('App\Factories\AddProductControllerFactory');
-    $container['UpdateProductStockController'] = DI\factory('App\Factories\UpdateProductStockControllerFactory');
-    $container['UpdateProductController'] = DI\factory('\App\Factories\UpdateProductControllerFactory');
     $container['GetProductsController'] = DI\factory('App\Factories\GetProductsControllerFactory');
+    $container['GetProductBySKUController'] = DI\factory('App\Factories\GetProductBySKUControllerFactory');
+    $container['UpdateProductController'] = DI\factory('\App\Factories\UpdateProductControllerFactory');
+    $container['UpdateProductStockController'] = DI\factory('App\Factories\UpdateProductStockControllerFactory');
     $container['ReinstateProductController'] = DI\factory('App\Factories\ReinstateProductControllerFactory');
     $container['DeleteProductController'] = DI\factory('App\Factories\DeleteProductControllerFactory');
-    $container['GetProductBySKUController'] = DI\factory('App\Factories\GetProductBySKUControllerFactory');
+    $container['CancelOrderController'] = DI\factory('App\Factories\CancelOrderControllerFactory');
 
     $container['AddOrderController'] = DI\factory('App\Factories\AddOrderControllerFactory');   
     $container['GetOrdersController'] = DI\factory('App\Factories\GetOrdersControllerFactory');
