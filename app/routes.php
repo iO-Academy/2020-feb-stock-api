@@ -28,4 +28,5 @@ return function (App $app) {
     $app->get('/orders', 'GetOrdersController');
 
     $app->delete('/orders/{orderNumber}', 'CancelOrderController');
+    $app->put('/orders/complete/{orderNumber}', 'CompleteOrderController');
 };
