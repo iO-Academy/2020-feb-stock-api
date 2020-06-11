@@ -48,7 +48,7 @@ class AddOrderController extends Controller
                 $productSKUs[] = $sku;
             }
         } catch (\Throwable $e) {
-            $responseData['message'] = $e->getMessage();
+            $responseData['message'] = "Error with product SKU " .  $orderedProduct['sku'] .  ": " . $e->getMessage();
 
             return $this->respondWithJson($response, $responseData, 400);
         }
