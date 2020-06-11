@@ -55,6 +55,7 @@ class OrderModel implements OrderModelInterface
             'shippingPostcode' => $orderEntity->getShippingPostcode(),
             'shippingCountry' => $orderEntity->getShippingCountry()
         ];
+
         $orderedProducts = $orderEntity->getProducts();
 
         $this->db->beginTransaction();
@@ -82,8 +83,10 @@ class OrderModel implements OrderModelInterface
             return false;
         }
 
-        foreach($orderedProducts as $product) {
-            $linkTableSql[] = '("' . $order['orderNumber'] .'", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
+        $linkTableSql = [];
+
+        foreach ($orderedProducts as $product) {
+            $linkTableSql[] = '("' . $order['orderNumber'] . '", "' . $product['sku'] . '", ' . $product['volumeOrdered'] . ')';
             $productQuery = $this->db->prepare("UPDATE `products` 
                                                     SET `stockLevel` = ?
                                                     WHERE `sku` = ?");
@@ -97,7 +100,7 @@ class OrderModel implements OrderModelInterface
         }
         $linkTableQuery = $this->db->prepare("INSERT INTO `orderedProducts`
                                                   (`orderNumber`, `sku`, `volumeOrdered`) 
-                                                  VALUES ". implode(",", $linkTableSql));
+                                                  VALUES " . implode(",", $linkTableSql));
 
         $linkTableQueryResult = $linkTableQuery->execute();
 
@@ -133,6 +136,11 @@ class OrderModel implements OrderModelInterface
 
         $productsOrdered = $this->getOrderedProductsByOrderNumber($orderNumber);
 
+        if ($productsOrdered === false) {
+            $this->db->rollback();
+            return false;
+        }
+
         foreach($productsOrdered as $product) {
             $restorePreviousProductStockLevelQuery = $this->db->prepare("UPDATE `products`
                                                                             SET `stockLevel` = `stockLevel` + ?
@@ -165,33 +173,46 @@ class OrderModel implements OrderModelInterface
 
     /**
      * returns an array of all the orders in the DB with the products ordered as well or false if it fails.
+     * returns the following based on $completed:
+     * $completed = 0 -> all active orders
+     * $completed = 1 -> all completed orders
+     * $default = All orders
      *
+     * @param $completed
      * @return array|false
      */
-    public function getAllOrders()
+    public function getAllOrders($completed)
     {
         $this->db->beginTransaction();
 
-        $ordersQuery = $this->db->prepare('SELECT `orderNumber` ,
+        $stmt = 'SELECT `orderNumber` ,
                                     `customerEmail`,
                                     `shippingAddress1`,
                                     `shippingAddress2`,
                                     `shippingCity`,
                                     `shippingPostcode`,
-                                    `shippingCountry` 
+                                    `shippingCountry`,
+                                    `completed`
                                 FROM `orders`
-                                WHERE (`deleted` = 0 && `completed` = 0)');
+                                WHERE `deleted` = 0';
+
+        if ($completed === 0 || $completed === 1){
+            $stmt .= " AND `completed` = $completed";
+        }
+
+        $ordersQuery = $this->db->prepare($stmt);
         $ordersQueryCheck = $ordersQuery->execute();
-        if(!$ordersQueryCheck){
+
+        if (!$ordersQueryCheck) {
             $this->db->rollback();
             return false;
         }
         $orders = $ordersQuery->fetchAll();
 
-        foreach ($orders as $i=>$order) {
+        foreach ($orders as $i => $order) {
             $return = $this->getOrderedProductsByOrderNumber($order['orderNumber']);
 
-            if ($return === false){
+            if ($return === false) {
                 $this->db->rollback();
                 return false;
             }
@@ -209,13 +230,14 @@ class OrderModel implements OrderModelInterface
      * @param string $orderNumber
      * @return array|false array of products ordered with their SKU and volumeOrdered or false if query failed.
      */
-    private function getOrderedProductsByOrderNumber(string $orderNumber){
+    private function getOrderedProductsByOrderNumber(string $orderNumber)
+    {
         $query = $this->db->prepare('SELECT `sku`, `volumeOrdered` 
                                         FROM `orderedProducts` 
-                                        WHERE `orderNumber` = ? ;');
+                                        WHERE `orderNumber` = ?;');
         $queryResult = $query->execute([$orderNumber]);
 
-        if ($queryResult){
+        if ($queryResult) {
             return $query->fetchAll();
         }
 

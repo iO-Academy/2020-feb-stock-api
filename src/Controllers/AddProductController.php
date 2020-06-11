@@ -32,10 +32,10 @@ class AddProductController extends Controller
 
         try {
             $newProduct = new ProductEntity(
-                $newProductData['sku'],
-                $newProductData['name'],
-                $newProductData['price'],
-                $newProductData['stockLevel']);
+                $newProductData['sku'] ?? '',
+                $newProductData['name'] ?? '',
+                $newProductData['price'] ?? '',
+                $newProductData['stockLevel'] ?? '');
 
         } catch (\Throwable $e) {
             $responseData['message']= $e->getMessage();
