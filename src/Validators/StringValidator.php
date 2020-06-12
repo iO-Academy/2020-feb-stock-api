@@ -29,7 +29,7 @@ abstract class StringValidator
 
     protected static function validateNoSpecialCharacters($string, int $minChar, int $maxChar, string $message = 'Input must not have special characters')
     {
-        $regex = '/^[a-z0-9A-Z]{' . $minChar . ',' .  $maxChar . '}$/';
+        $regex = '/^[a-z0-9A-Z-]{' . $minChar . ',' .  $maxChar . '}$/';
         if (preg_match($regex, $string)) {
             return $string;
         } else {
